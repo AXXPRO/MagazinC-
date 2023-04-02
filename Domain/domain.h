@@ -35,6 +35,7 @@ public:
 
     bool operator ==(const Produs& o);
 
+    friend std:: ostream& operator<<(std::ostream& os, const Produs& produs);
 private:
     std::string nume;
     std::string tip;

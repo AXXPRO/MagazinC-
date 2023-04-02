@@ -45,3 +45,9 @@ bool Produs::operator ==(const Produs& o)
         ok = false;
     return ok;
 }
+
+std:: ostream& operator<<(std::ostream& os, const Produs& produs)
+{
+    os <<"Nume: "<<produs.nume <<" Producator: "<<produs.producator<<" Tip: "<<produs.tip<<" Pret: "<<produs.pret;
+    return os;
+}

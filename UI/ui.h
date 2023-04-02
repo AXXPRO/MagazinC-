@@ -23,6 +23,9 @@ public:
     ///Function that runs the aplication
     void run_ui();
 
+    ///Va afisa elementele
+    void print_all_ui();
+
 
 
 };

@@ -8,6 +8,7 @@ void UI::show_ui() const{
 
     std::cout<<"Alegeti optiunea dumeavoastra:\n";
     std::cout<<"1.Adaugare de produs\n";
+    std::cout<<"4.Afisare de produse\n";
 }
 
 void UI::run_ui(){
@@ -32,6 +33,9 @@ void UI::run_ui(){
             case 1:
                 add_produs_ui();
                 break;
+            case 4:
+                print_all_ui();
+                break;
             default:
                 std::cout<<"Varianta inexsitetna!\n";
                 getchar();
@@ -42,7 +46,15 @@ void UI::run_ui(){
 
 }
 
+void UI::print_all_ui()
+{
+  std::vector<Produs> l = SERVICE.afisare_produse_service();
+  for(auto el:l)
+  {
+      std::cout<<el<<std::endl;
+  }
 
+}
 void UI::add_produs_ui() {
     std::string nume;
     std::cout<<" Dati numele: ";

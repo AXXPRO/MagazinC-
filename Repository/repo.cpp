@@ -43,3 +43,10 @@ void Repo::modifica_element(const std::string nume, const Produs& other)
     throw std::exception();
 
 }
+std::vector<Produs> Repo::get_all() {
+    std::vector<Produs> lista_returnat;
+    for (auto el: lista) {
+        lista_returnat.push_back(el);
+    }
+    return lista_returnat;
+}

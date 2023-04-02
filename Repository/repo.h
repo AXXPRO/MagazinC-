@@ -27,6 +27,10 @@ public:
     /// Modifies the object's attributes(identified by its name) to the ones of the "other" parameter
     ///Trows exception if no object with said name
     void modifica_element(const std::string nume, const Produs& other);
+
+    ///Functia returneaza un vector cu toate elementele din aplicatie
+    std::vector<Produs> get_all();
+
 };
 
 #endif //MAGAZINC___REPO_H

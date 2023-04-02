@@ -7,6 +7,10 @@
 #include <iostream>
 #include <assert.h>
 
+///For testing operator<<
+#include <sstream>
+#include <cstring>
+
 #define epsilon 0.00001
 
 void run_all_tests()
@@ -47,11 +51,35 @@ void teste_repo(){
     produs_cautat = REPO.cauta_element("a");
     assert(produs_cautat == produs_modifica);
 
+
+    std::vector<Produs> lista_copie;
+    lista_copie = REPO.get_all();
+
+    assert(lista_copie[0]== Produs("a","modificat","modificat",20));
+
+    lista_copie[0] = Produs("q","modificat","modificat",20);
+
+    try{
+        produs_cautat = REPO.cauta_element("q");
+        assert(false);
+    }
+    catch (std::exception){}
+
+
+
+
 }
 
 void teste_domain()
 { Produs produs_test{"Carte", "Copii", "ABC", 50.5};
 
+    std::ostringstream out;
+    out<<produs_test;
+    std::string nume_string = out.str();
+    const char * nume_test = nume_string.c_str();
+
+
+    assert(strcmp(nume_test, "Nume: Carte Producator: ABC Tip: Copii Pret: 50.5")==0);
     assert(produs_test.getTip()== "Copii");
     assert(produs_test.getNume()== "Carte");
     assert(produs_test.getProducator()== "ABC");

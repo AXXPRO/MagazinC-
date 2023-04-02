@@ -13,3 +13,9 @@ void Service::adaugare_produs_service(std::string nume, std::string tip, std::st
     REPO.adaugare_produs(produs);
 
 }
+
+std::vector<Produs> Service::afisare_produse_service()
+{
+    std::vector<Produs> lista_returnat = REPO.get_all();
+    return lista_returnat;
+}
