@@ -33,6 +33,8 @@ public:
     ///sets the price of the produs
     void setPret(float);
 
+    bool operator ==(const Produs& o);
+
 private:
     std::string nume;
     std::string tip;

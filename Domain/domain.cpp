@@ -31,3 +31,17 @@ void Produs::setTip(std::string tip_nou) {
 void Produs::setPret(float pret_nou) {
     this->pret = pret_nou;
 }
+
+bool Produs::operator ==(const Produs& o)
+{
+    bool ok = true;
+    if(this->nume != o.nume)
+        ok = false;
+    if(this->producator != o.producator)
+        ok = false;
+    if(this->pret != o.pret)
+        ok = false;
+    if(this->tip != o.tip)
+        ok = false;
+    return ok;
+}

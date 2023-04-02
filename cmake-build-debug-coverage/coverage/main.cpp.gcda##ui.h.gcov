@@ -1,0 +1,37 @@
+        -:    0:Source:C:/Users/Gabi/Desktop/MagazinC-/UI/ui.h
+        -:    0:Graph:C:\Users\Gabi\Desktop\MagazinC-\cmake-build-debug-coverage\CMakeFiles\MagazinC__.dir\main.cpp.gcno
+        -:    0:Data:C:\Users\Gabi\Desktop\MagazinC-\cmake-build-debug-coverage\CMakeFiles\MagazinC__.dir\main.cpp.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by Gabi on 02.04.2023.
+        -:    3://
+        -:    4:
+        -:    5:#ifndef MAGAZINC___UI_H
+        -:    6:#define MAGAZINC___UI_H
+        -:    7:#include "../Service/service.h"
+        -:    8:
+        -:    9:
+        -:   10:class UI{
+        -:   11:private:
+        -:   12:
+        -:   13:    Service SERVICE;
+        -:   14:    //Prints a UI interface
+        -:   15:    void show_ui() const;
+        -:   16:    ///Function for adding a Produs to the aplication
+        -:   17:    void add_produs_ui();
+        -:   18:
+        -:   19:
+        -:   20:
+        -:   21:public:
+function _ZN2UIC1E7Service called 1 returned 100% blocks executed 100%
+        1:   22:    UI(Service SERVICE): SERVICE{SERVICE}{};
+        1:   22-block  0
+call    0 returned 1
+        -:   23:    ///Function that runs the aplication
+        -:   24:    void run_ui();
+        -:   25:
+        -:   26:
+        -:   27:
+        -:   28:};
+        -:   29:
+        -:   30:#endif //MAGAZINC___UI_H

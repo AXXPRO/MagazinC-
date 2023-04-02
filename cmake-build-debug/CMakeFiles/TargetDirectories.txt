@@ -1,3 +1,3 @@
-C:/Users/Gabi/Desktop/MagazinC++/cmake-build-debug/CMakeFiles/MagazinC__.dir
-C:/Users/Gabi/Desktop/MagazinC++/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/Gabi/Desktop/MagazinC++/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/Gabi/Desktop/MagazinC-/cmake-build-debug/CMakeFiles/MagazinC__.dir
+C:/Users/Gabi/Desktop/MagazinC-/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Gabi/Desktop/MagazinC-/cmake-build-debug/CMakeFiles/rebuild_cache.dir

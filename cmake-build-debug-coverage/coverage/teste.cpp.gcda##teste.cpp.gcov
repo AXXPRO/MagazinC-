@@ -1,0 +1,667 @@
+        -:    0:Source:C:/Users/Gabi/Desktop/MagazinC-/Teste/teste.cpp
+        -:    0:Graph:C:\Users\Gabi\Desktop\MagazinC-\cmake-build-debug-coverage\CMakeFiles\MagazinC__.dir\Teste\teste.cpp.gcno
+        -:    0:Data:C:\Users\Gabi\Desktop\MagazinC-\cmake-build-debug-coverage\CMakeFiles\MagazinC__.dir\Teste\teste.cpp.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by Gabi on 30.03.2023.
+        -:    3://
+        -:    4:#include "../Domain/domain.h"
+        -:    5:#include "teste.h"
+        -:    6:#include "../Repository/repo.h"
+        -:    7:#include <iostream>
+        -:    8:#include <assert.h>
+        -:    9:
+        -:   10:#define epsilon 0.00001
+        -:   11:
+function _Z13run_all_testsv called 1 returned 100% blocks executed 100%
+        1:   12:void run_all_tests()
+        -:   13:{
+        1:   14:    teste_domain();
+        1:   14-block  0
+call    0 returned 1
+        1:   15:    std::cout<<"Teste domain trecute!\n";
+call    0 returned 1
+        1:   16:    teste_repo();
+call    0 returned 1
+        1:   17:    std::cout<<"Teste repo trecute!\n";
+call    0 returned 1
+        -:   18:
+        1:   19:}
+        -:   20:
+function _Z10teste_repov called 1 returned 100% blocks executed 52%
+        1:   21:void teste_repo(){
+        -:   22:
+        1:   23:    Repo REPO;
+        1:   23-block  0
+call    0 returned 1
+       1*:   24:    assert(REPO.numar_elemente() ==0);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   24-block  0
+branch  3 taken 0 (fallthrough)
+branch  4 taken 1
+    %%%%%:   24-block  1
+call    5 never executed
+branch  6 never executed
+branch  7 never executed
+        1:   24-block  2
+    %%%%%:   24-block  3
+        2:   25:    Produs produs1("a","b","b",12.5);
+        1:   25-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   25-block  1
+call    4 returned 1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+        1:   25-block  2
+call    8 returned 1
+call    9 returned 1
+branch 10 taken 1 (fallthrough)
+branch 11 taken 0 (throw)
+        1:   25-block  3
+call   12 returned 1
+branch 13 taken 1 (fallthrough)
+branch 14 taken 0 (throw)
+call   15 returned 1
+call   16 returned 1
+call   17 returned 1
+call   18 returned 1
+call   19 returned 1
+    $$$$$:   25-block  4
+    $$$$$:   25-block  5
+    $$$$$:   25-block  6
+    $$$$$:   25-block  7
+    $$$$$:   25-block  8
+    $$$$$:   25-block  9
+        1:   26:    REPO.adaugare_produs(produs1);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+       1*:   27:    assert(REPO.numar_elemente()==1);
+        1:   27-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   27-block  1
+branch  3 taken 0 (fallthrough)
+branch  4 taken 1
+    %%%%%:   27-block  2
+call    5 never executed
+branch  6 never executed
+branch  7 never executed
+        1:   27-block  3
+    %%%%%:   27-block  4
+        2:   28:    Produs produs2("b","c","d",30);
+        1:   28-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   28-block  1
+call    4 returned 1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+        1:   28-block  2
+call    8 returned 1
+call    9 returned 1
+branch 10 taken 1 (fallthrough)
+branch 11 taken 0 (throw)
+        1:   28-block  3
+call   12 returned 1
+branch 13 taken 1 (fallthrough)
+branch 14 taken 0 (throw)
+call   15 returned 1
+call   16 returned 1
+call   17 returned 1
+call   18 returned 1
+call   19 returned 1
+    $$$$$:   28-block  4
+    $$$$$:   28-block  5
+    $$$$$:   28-block  6
+    $$$$$:   28-block  7
+    $$$$$:   28-block  8
+    $$$$$:   28-block  9
+        1:   29:    REPO.adaugare_produs(produs2);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        2:   30:    Produs produs_cautat = REPO.cauta_element("b");
+        1:   30-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   30-block  1
+call    4 returned 1
+branch  5 taken 1 (fallthrough)
+branch  6 taken 0 (throw)
+call    7 returned 1
+    $$$$$:   30-block  2
+    $$$$$:   30-block  3
+       1*:   31:    assert(produs_cautat == produs2);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   31-block  0
+branch  3 taken 0 (fallthrough)
+branch  4 taken 1
+    %%%%%:   31-block  1
+call    5 never executed
+branch  6 never executed
+branch  7 never executed
+        1:   31-block  2
+    %%%%%:   31-block  3
+        -:   32:
+        -:   33:    try{
+       3*:   34:        produs_cautat = REPO.cauta_element("c");
+        1:   34-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   34-block  1
+call    4 returned 1
+branch  5 taken 0 (fallthrough)
+branch  6 taken 1 (throw)
+    %%%%%:   34-block  2
+call    7 never executed
+call    8 never executed
+call    9 never executed
+call   10 never executed
+        1:   34-block  3
+call   11 returned 1
+        1:   34-block  4
+        1:   34-block  5
+call   12 returned 1
+        1:   34-block  6
+    #####:   35:        assert(false);
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   36:    }
+        1:   37:    catch (std::exception){}
+        1:   37-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+        1:   37-block  1
+call    2 returned 1
+call    3 returned 1
+call    4 returned 1
+call    5 returned 1
+        -:   38:
+        2:   39:    Produs produs_modifica("a","modificat","modificat",20);
+        1:   39-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   39-block  1
+call    4 returned 1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+        1:   39-block  2
+call    8 returned 1
+call    9 returned 1
+branch 10 taken 1 (fallthrough)
+branch 11 taken 0 (throw)
+        1:   39-block  3
+call   12 returned 1
+branch 13 taken 1 (fallthrough)
+branch 14 taken 0 (throw)
+call   15 returned 1
+call   16 returned 1
+call   17 returned 1
+call   18 returned 1
+call   19 returned 1
+    $$$$$:   39-block  4
+    $$$$$:   39-block  5
+    $$$$$:   39-block  6
+    $$$$$:   39-block  7
+    $$$$$:   39-block  8
+    $$$$$:   39-block  9
+        -:   40:    try{
+       3*:   41:        REPO.modifica_element("z", produs_modifica);
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   41-block  0
+call    4 returned 1
+branch  5 taken 0 (fallthrough)
+branch  6 taken 1 (throw)
+    %%%%%:   41-block  1
+call    7 never executed
+call    8 never executed
+        1:   41-block  2
+call    9 returned 1
+        1:   41-block  3
+        1:   41-block  4
+call   10 returned 1
+        1:   41-block  5
+    #####:   42:        assert(false);
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   43:    }
+        1:   44:    catch (std::exception){}
+        1:   44-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+        1:   44-block  1
+call    2 returned 1
+call    3 returned 1
+call    4 returned 1
+call    5 returned 1
+        -:   45:
+        1:   46:    REPO.modifica_element("a", produs_modifica);
+        1:   46-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   46-block  1
+call    4 returned 1
+branch  5 taken 1 (fallthrough)
+branch  6 taken 0 (throw)
+        1:   46-block  2
+call    7 returned 1
+call    8 returned 1
+    $$$$$:   46-block  3
+call    9 never executed
+    $$$$$:   46-block  4
+    $$$$$:   46-block  5
+call   10 never executed
+    $$$$$:   46-block  6
+        1:   47:    produs_cautat = REPO.cauta_element("a");
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   47-block  0
+call    4 returned 1
+branch  5 taken 1 (fallthrough)
+branch  6 taken 0 (throw)
+        1:   47-block  1
+call    7 returned 1
+call    8 returned 1
+call    9 returned 1
+call   10 returned 1
+    $$$$$:   47-block  2
+call   11 never executed
+    $$$$$:   47-block  3
+    $$$$$:   47-block  4
+call   12 never executed
+    $$$$$:   47-block  5
+       1*:   48:    assert(produs_cautat == produs_modifica);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   48-block  0
+branch  3 taken 0 (fallthrough)
+branch  4 taken 1
+    %%%%%:   48-block  1
+call    5 never executed
+branch  6 never executed
+branch  7 never executed
+        1:   48-block  2
+    %%%%%:   48-block  3
+        -:   49:
+        1:   50:}
+        1:   50-block  0
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+call    3 returned 1
+call    4 returned 1
+    $$$$$:   50-block  1
+call    5 never executed
+    $$$$$:   50-block  2
+call    6 never executed
+    $$$$$:   50-block  3
+call    7 never executed
+    $$$$$:   50-block  4
+call    8 never executed
+    $$$$$:   50-block  5
+call    9 never executed
+        -:   51:
+function _Z12teste_domainv called 1 returned 100% blocks executed 48%
+        1:   52:void teste_domain()
+        2:   53:{ Produs produs_test{"Carte", "Copii", "ABC", 50.5};
+        1:   53-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   53-block  1
+call    4 returned 1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+        1:   53-block  2
+call    8 returned 1
+call    9 returned 1
+branch 10 taken 1 (fallthrough)
+branch 11 taken 0 (throw)
+        1:   53-block  3
+call   12 returned 1
+branch 13 taken 1 (fallthrough)
+branch 14 taken 0 (throw)
+call   15 returned 1
+call   16 returned 1
+call   17 returned 1
+call   18 returned 1
+call   19 returned 1
+    $$$$$:   53-block  4
+    $$$$$:   53-block  5
+    $$$$$:   53-block  6
+    $$$$$:   53-block  7
+    $$$$$:   53-block  8
+    $$$$$:   53-block  9
+        -:   54:
+       1*:   55:    assert(produs_test.getTip()== "Copii");
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   55-block  0
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:   55-block  1
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+        1:   55-block  2
+    %%%%%:   55-block  3
+        1:   55-block  4
+branch  9 taken 1 (fallthrough)
+branch 10 taken 0
+        1:   55-block  5
+call   11 returned 1
+    $$$$$:   55-block  6
+branch 12 never executed
+branch 13 never executed
+    $$$$$:   55-block  7
+call   14 never executed
+    $$$$$:   55-block  8
+       1*:   56:    assert(produs_test.getNume()== "Carte");
+        1:   56-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   56-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:   56-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+        1:   56-block  3
+    %%%%%:   56-block  4
+        1:   56-block  5
+branch  9 taken 1 (fallthrough)
+branch 10 taken 0
+        1:   56-block  6
+call   11 returned 1
+    $$$$$:   56-block  7
+branch 12 never executed
+branch 13 never executed
+    $$$$$:   56-block  8
+call   14 never executed
+    $$$$$:   56-block  9
+       1*:   57:    assert(produs_test.getProducator()== "ABC");
+        1:   57-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   57-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:   57-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+        1:   57-block  3
+    %%%%%:   57-block  4
+        1:   57-block  5
+branch  9 taken 1 (fallthrough)
+branch 10 taken 0
+        1:   57-block  6
+call   11 returned 1
+    $$$$$:   57-block  7
+branch 12 never executed
+branch 13 never executed
+    $$$$$:   57-block  8
+call   14 never executed
+    $$$$$:   57-block  9
+       1*:   58:    assert(abs(produs_test.getPret() - 50.5) < epsilon);
+        1:   58-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   58-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:   58-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+        1:   58-block  3
+    %%%%%:   58-block  4
+        -:   59:
+        1:   60:    produs_test.setNume("Jucarie");
+        1:   60-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   60-block  1
+call    4 returned 1
+branch  5 taken 1 (fallthrough)
+branch  6 taken 0 (throw)
+        1:   60-block  2
+call    7 returned 1
+call    8 returned 1
+    $$$$$:   60-block  3
+call    9 never executed
+    $$$$$:   60-block  4
+    $$$$$:   60-block  5
+call   10 never executed
+    $$$$$:   60-block  6
+        1:   61:    produs_test.setPret(99.9);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   62:    produs_test.setProducator("Noriel");
+        1:   62-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   62-block  1
+call    4 returned 1
+branch  5 taken 1 (fallthrough)
+branch  6 taken 0 (throw)
+        1:   62-block  2
+call    7 returned 1
+call    8 returned 1
+    $$$$$:   62-block  3
+call    9 never executed
+    $$$$$:   62-block  4
+    $$$$$:   62-block  5
+call   10 never executed
+    $$$$$:   62-block  6
+        1:   63:    produs_test.setTip("Adulti");
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   63-block  0
+call    4 returned 1
+branch  5 taken 1 (fallthrough)
+branch  6 taken 0 (throw)
+        1:   63-block  1
+call    7 returned 1
+call    8 returned 1
+    $$$$$:   63-block  2
+call    9 never executed
+    $$$$$:   63-block  3
+    $$$$$:   63-block  4
+call   10 never executed
+    $$$$$:   63-block  5
+        -:   64:
+       1*:   65:    assert(produs_test.getTip()== "Adulti");
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   65-block  0
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:   65-block  1
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+        1:   65-block  2
+    %%%%%:   65-block  3
+        1:   65-block  4
+branch  9 taken 1 (fallthrough)
+branch 10 taken 0
+        1:   65-block  5
+call   11 returned 1
+    $$$$$:   65-block  6
+branch 12 never executed
+branch 13 never executed
+    $$$$$:   65-block  7
+call   14 never executed
+    $$$$$:   65-block  8
+       1*:   66:    assert(produs_test.getNume()== "Jucarie");
+        1:   66-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   66-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:   66-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+        1:   66-block  3
+    %%%%%:   66-block  4
+        1:   66-block  5
+branch  9 taken 1 (fallthrough)
+branch 10 taken 0
+        1:   66-block  6
+call   11 returned 1
+    $$$$$:   66-block  7
+branch 12 never executed
+branch 13 never executed
+    $$$$$:   66-block  8
+call   14 never executed
+    $$$$$:   66-block  9
+       1*:   67:    assert(produs_test.getProducator()== "Noriel");
+        1:   67-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   67-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:   67-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+        1:   67-block  3
+    %%%%%:   67-block  4
+        1:   67-block  5
+branch  9 taken 1 (fallthrough)
+branch 10 taken 0
+        1:   67-block  6
+call   11 returned 1
+    $$$$$:   67-block  7
+branch 12 never executed
+branch 13 never executed
+    $$$$$:   67-block  8
+call   14 never executed
+    $$$$$:   67-block  9
+       1*:   68:    assert(abs(produs_test.getPret() - 99.9) < epsilon);
+        1:   68-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   68-block  1
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+    %%%%%:   68-block  2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+        1:   68-block  3
+    %%%%%:   68-block  4
+        -:   69:
+        2:   70:    Produs produs_test_diferit("a","a", "aa",-23);
+        1:   70-block  0
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+        1:   70-block  1
+call    4 returned 1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+        1:   70-block  2
+call    8 returned 1
+call    9 returned 1
+branch 10 taken 1 (fallthrough)
+branch 11 taken 0 (throw)
+        1:   70-block  3
+call   12 returned 1
+branch 13 taken 1 (fallthrough)
+branch 14 taken 0 (throw)
+call   15 returned 1
+call   16 returned 1
+call   17 returned 1
+call   18 returned 1
+call   19 returned 1
+    $$$$$:   70-block  4
+    $$$$$:   70-block  5
+    $$$$$:   70-block  6
+    $$$$$:   70-block  7
+    $$$$$:   70-block  8
+    $$$$$:   70-block  9
+       1*:   71:    assert((produs_test == produs_test_diferit)==false);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   71-block  0
+branch  3 taken 0 (fallthrough)
+branch  4 taken 1
+    %%%%%:   71-block  1
+call    5 never executed
+branch  6 never executed
+branch  7 never executed
+        1:   71-block  2
+    %%%%%:   71-block  3
+        -:   72:
+        1:   73:}
+        1:   73-block  0
+call    0 returned 1
+call    1 returned 1
+    $$$$$:   73-block  1
+call    2 never executed
+    $$$$$:   73-block  2
+call    3 never executed

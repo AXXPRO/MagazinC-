@@ -1,0 +1,46 @@
+        -:    0:Source:C:/Users/Gabi/Desktop/MagazinC-/main.cpp
+        -:    0:Graph:C:\Users\Gabi\Desktop\MagazinC-\cmake-build-debug-coverage\CMakeFiles\MagazinC__.dir\main.cpp.gcno
+        -:    0:Data:C:\Users\Gabi\Desktop\MagazinC-\cmake-build-debug-coverage\CMakeFiles\MagazinC__.dir\main.cpp.gcda
+        -:    0:Runs:1
+        -:    1:#include <iostream>
+        -:    2:#include "Teste/teste.h"
+        -:    3:
+        -:    4:#include "Domain/domain.h"
+        -:    5:#include "UI/ui.h"
+        -:    6:#include "Service/service.h"
+        -:    7:#include "Repository/repo.h"
+function main called 1 returned 100% blocks executed 63%
+        1:    8:int main() {
+        -:    9:
+        1:   10:    run_all_tests();
+        1:   10-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   11:    Repo repo;
+        1:   11-block  0
+call    0 returned 1
+        1:   12:    Service service(repo);
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   13:    UI aplicatie(service);
+        1:   13-block  0
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+        1:   13-block  1
+call    3 returned 1
+branch  4 taken 1 (fallthrough)
+branch  5 taken 0 (throw)
+    $$$$$:   13-block  2
+        -:   14:   // aplicatie.run_ui();
+        1:   15:    return 0;
+        1:   16:}
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+    $$$$$:   16-block  0
+call    3 never executed
+    $$$$$:   16-block  1
+call    4 never executed

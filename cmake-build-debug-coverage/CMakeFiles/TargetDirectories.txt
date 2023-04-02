@@ -1,0 +1,3 @@
+C:/Users/Gabi/Desktop/MagazinC-/cmake-build-debug-coverage/CMakeFiles/MagazinC__.dir
+C:/Users/Gabi/Desktop/MagazinC-/cmake-build-debug-coverage/CMakeFiles/edit_cache.dir
+C:/Users/Gabi/Desktop/MagazinC-/cmake-build-debug-coverage/CMakeFiles/rebuild_cache.dir
