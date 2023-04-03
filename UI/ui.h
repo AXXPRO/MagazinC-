@@ -24,8 +24,13 @@ public:
     void run_ui();
 
     ///Va afisa elementele
-    void print_all_ui();
+    void print_all_ui() const;
 
+    ///Va sterge un element
+    void delete_ui();
+
+    ///Va cauta si afisa elementul daca exista
+    void cauta_ui();
 
 
 };

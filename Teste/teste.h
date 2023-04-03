@@ -9,5 +9,6 @@
 void run_all_tests();
 void teste_domain();
 void teste_repo();
+void teste_service();
 
 #endif //MAGAZINC___TESTE_H

@@ -7,20 +7,28 @@
 #include "../Repository/repo.h"
 #include <iostream>
 
+using std::string;
 class Service{
 
 
 
 private:
 
-    Repo REPO;
+    Repo& REPO;
 public:
     Service(Repo& REPO):REPO{REPO} {};
-    void adaugare_produs_service(std::string nume, std::string tip, std::string producator, float pret);
+    void adaugare_produs_service(const std::string& nume, const std::string& tip, const std::string& producator, const float& pret);
 
     ///Returneaza un vector cu produsele
-    std::vector<Produs> afisare_produse_service();
+    std::vector<Produs> afisare_produse_service () const;
 
+    ///Functia sterge produsul cu numele dat prin parametru, sau arunca exceptie
+    void delete_service(const string&);
+    ///Functia cauta produsul cu numele dat prin parametru, returneaza referinta la el, sau arunca exceptie
+     Produs cauta_service(const string&);
 };
+
+
+
 
 #endif //MAGAZINC___SERVICE_H
