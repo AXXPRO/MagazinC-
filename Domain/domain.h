@@ -10,7 +10,7 @@ public:
     Produs(const std::string& nume, const std::string& tip, const std::string& producator, const float& pret): nume{nume}, tip{tip}, producator{producator}, pret{pret}
     {
     }
-    Produs(const Produs& o):nume{o.nume},tip{o.tip}, producator{o.producator}, pret{o.pret}{}
+    Produs(const Produs& o)=default;
     ///
     /// \return the name of the product
     std::string getNume() const;

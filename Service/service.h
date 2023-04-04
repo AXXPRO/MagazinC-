@@ -16,7 +16,7 @@ private:
 
     Repo& REPO;
 public:
-    Service(Repo& REPO):REPO{REPO} {};
+    Service(Repo& REPO):REPO{REPO}{};
     void adaugare_produs_service(const std::string& nume, const std::string& tip, const std::string& producator, const float& pret);
 
     ///Returneaza un vector cu produsele

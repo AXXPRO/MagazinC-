@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Teste/teste.h"
 
 #include "Domain/domain.h"
