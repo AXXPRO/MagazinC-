@@ -3,6 +3,10 @@
 //
 
 #include "repo.h"
+using std::string;
+using std::vector;
+
+
 void Repo::adaugare_produs(const Produs &element) {
 
     lista.push_back(element);
@@ -12,7 +16,7 @@ int Repo::numar_elemente() const
     return lista.size();
 }
 
-Produs Repo::cauta_element(const std::string nume)const{
+ Produs Repo::cauta_element(const string& nume)const{
 
 
     for(auto el:lista)
@@ -24,8 +28,22 @@ Produs Repo::cauta_element(const std::string nume)const{
     throw std::exception();
 
 }
+void Repo::delete_element(const string &nume){
 
-void Repo::modifica_element(const std::string nume, const Produs& other)
+    for(int i=0; i<lista.size(); i++)
+    {
+        if(lista[i].getNume() == nume)
+        {
+           lista.erase(lista.begin()+i);
+            return;
+        }
+
+    }
+    throw std::exception();
+}
+
+
+void Repo::modifica_element(const string& nume, const Produs& other)
 {
 
     for(int i=0; i<lista.size(); i++)
@@ -43,9 +61,9 @@ void Repo::modifica_element(const std::string nume, const Produs& other)
     throw std::exception();
 
 }
-std::vector<Produs> Repo::get_all() {
+vector<Produs> Repo::get_all()  const{
     std::vector<Produs> lista_returnat;
-    for (auto el: lista) {
+    for (const auto& el: lista) {
         lista_returnat.push_back(el);
     }
     return lista_returnat;

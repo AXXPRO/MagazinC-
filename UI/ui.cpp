@@ -3,12 +3,16 @@
 //
 #include <iostream>
 #include "ui.h"
+using std::cout;
+using std::endl;
 
 void UI::show_ui() const{
 
-    std::cout<<"Alegeti optiunea dumeavoastra:\n";
-    std::cout<<"1.Adaugare de produs\n";
-    std::cout<<"4.Afisare de produse\n";
+    cout<<"Alegeti optiunea dumeavoastra:\n";
+    cout<<"1.Adaugare de produs\n";
+    cout<<"2.Sterge produs dupa nume\n";
+    cout<<"3.Cauta produs dupa nume\n";
+    cout<<"4.Afisare de produse\n";
 }
 
 void UI::run_ui(){
@@ -29,24 +33,53 @@ void UI::run_ui(){
 
 
         ///Try
-        switch (choice) {
-            case 1:
-                add_produs_ui();
-                break;
-            case 4:
-                print_all_ui();
-                break;
-            default:
-                std::cout<<"Varianta inexsitetna!\n";
-                getchar();
+        try {
+            switch (choice) {
+                case 1:
+                    add_produs_ui();
+                    break;
+                case 2:
+                    delete_ui();
+                    break;
+                case 3:
+                    cauta_ui();
+                    break;
+                case 4:
+                    print_all_ui();
+                    break;
+                default:
+                    std::cout<<"Varianta inexsitetna!\n";
+                    getchar();
 
+            }
         }
+        catch (...){cout<<"Eroare!\n";}
+
     }
 
 
 }
 
-void UI::print_all_ui()
+void UI::cauta_ui()
+{
+    string  nume_de_cautat;
+    cout<<" Dati numele: ";
+    std::getline(std::cin, nume_de_cautat);
+
+    Produs cautat = SERVICE.cauta_service(nume_de_cautat);
+
+    cout<<cautat<<endl;
+
+}
+void UI::delete_ui() {
+
+    string  nume_de_sters;
+    cout<<" Dati numele: ";
+    std::getline(std::cin, nume_de_sters);
+    SERVICE.delete_service(nume_de_sters);
+}
+
+void UI::print_all_ui() const
 {
   std::vector<Produs> l = SERVICE.afisare_produse_service();
   for(auto el:l)

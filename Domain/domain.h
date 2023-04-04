@@ -7,10 +7,10 @@
 
 class Produs{
 public:
-    Produs(std::string nume, std::string tip, std::string producator, float pret): nume{nume}, tip{tip}, producator{producator}, pret{pret}
+    Produs(const std::string& nume, const std::string& tip, const std::string& producator, const float& pret): nume{nume}, tip{tip}, producator{producator}, pret{pret}
     {
-
     }
+    Produs(const Produs& o):nume{o.nume},tip{o.tip}, producator{o.producator}, pret{o.pret}{}
     ///
     /// \return the name of the product
     std::string getNume() const;
@@ -25,13 +25,13 @@ public:
     float getPret() const;
 
     ///sets the name of the produs
-    void setNume(std::string);
+    void setNume(const std::string&);
     ///sets the producator of the produs
-    void setProducator(std::string);
+    void setProducator(const std::string&);
     ///sets the type of the produs
-    void setTip(std::string);
+    void setTip(const std::string&);
     ///sets the price of the produs
-    void setPret(float);
+    void setPret(const float&);
 
     bool operator ==(const Produs& o);
 

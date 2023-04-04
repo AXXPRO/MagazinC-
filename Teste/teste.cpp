@@ -4,6 +4,7 @@
 #include "../Domain/domain.h"
 #include "teste.h"
 #include "../Repository/repo.h"
+#include "../Service/service.h"
 #include <iostream>
 #include <assert.h>
 
@@ -19,6 +20,26 @@ void run_all_tests()
     std::cout<<"Teste domain trecute!\n";
     teste_repo();
     std::cout<<"Teste repo trecute!\n";
+    teste_service();
+    std::cout<<"Teste service trecute!\n";
+
+}
+
+void teste_service()
+{
+    Repo REPO;
+    Service SERVICE(REPO);
+
+    assert(REPO.numar_elemente() == 0);
+    SERVICE.adaugare_produs_service("a", "a", "a", 7);
+    assert(REPO.numar_elemente() == 1);
+    Produs produs_cautat = SERVICE.cauta_service("a");
+    assert(produs_cautat == Produs("a","a","a",7));
+
+    std::vector<Produs> list = SERVICE.afisare_produse_service();
+    assert(list[0] == Produs("a","a","a",7));
+    SERVICE.delete_service("a");
+    assert(REPO.numar_elemente() == 0);
 
 }
 
@@ -64,6 +85,16 @@ void teste_repo(){
         assert(false);
     }
     catch (std::exception){}
+
+    REPO.delete_element("a");
+    assert(REPO.numar_elemente() ==1);
+
+
+    try{
+         REPO.delete_element("q");
+        assert(false);
+    }
+    catch (std::exception){};
 
 
 

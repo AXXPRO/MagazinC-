@@ -17,18 +17,18 @@ float Produs::getPret() const{
     return this->pret;
 }
 
-void Produs::setNume(std::string nume_nou) {
+void Produs::setNume(const std::string& nume_nou) {
     this->nume = nume_nou;
 }
-void Produs::setProducator(std::string producator_nou) {
+void Produs::setProducator(const std::string& producator_nou) {
     this->producator = producator_nou;
 
 }
-void Produs::setTip(std::string tip_nou) {
+void Produs::setTip(const std::string& tip_nou) {
     this->tip = tip_nou;
 }
 
-void Produs::setPret(float pret_nou) {
+void Produs::setPret(const float& pret_nou) {
     this->pret = pret_nou;
 }
 
