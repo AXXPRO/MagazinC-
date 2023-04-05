@@ -13,13 +13,13 @@ void Repo::adaugare_produs(const Produs &element) {
 }
 int Repo::numar_elemente() const
 {
-    return lista.size();
+    return (int)lista.size();
 }
 
  Produs Repo::cauta_element(const string& nume)const{
 
 
-    for(auto el:lista)
+    for(const auto& el:lista)
     {
         if(el.getNume() == nume)
             return el;

@@ -6,7 +6,7 @@
 #include "../Repository/repo.h"
 #include "../Service/service.h"
 #include <iostream>
-#include <assert.h>
+#include <cassert>
 
 ///For testing operator<<
 #include <sstream>
@@ -38,6 +38,10 @@ void teste_service()
 
     std::vector<Produs> list = SERVICE.afisare_produse_service();
     assert(list[0] == Produs("a","a","a",7));
+
+    SERVICE.modifica_service("a", "b", "b", 0);
+    produs_cautat = SERVICE.cauta_service("a");
+    assert(produs_cautat == Produs("a","b","b",0));
     SERVICE.delete_service("a");
     assert(REPO.numar_elemente() == 0);
 
@@ -56,17 +60,18 @@ void teste_repo(){
     assert(produs_cautat == produs2);
 
     try{
-        produs_cautat = REPO.cauta_element("c");
+
+        REPO.cauta_element("c");
         assert(false);
     }
-    catch (std::exception){}
+    catch (std::exception&){}
 
     Produs produs_modifica("a","modificat","modificat",20);
     try{
         REPO.modifica_element("z", produs_modifica);
         assert(false);
     }
-    catch (std::exception){}
+    catch (std::exception&){}
 
     REPO.modifica_element("a", produs_modifica);
     produs_cautat = REPO.cauta_element("a");
@@ -81,10 +86,10 @@ void teste_repo(){
     lista_copie[0] = Produs("q","modificat","modificat",20);
 
     try{
-        produs_cautat = REPO.cauta_element("q");
+        REPO.cauta_element("q");
         assert(false);
     }
-    catch (std::exception){}
+    catch (std::exception&){}
 
     REPO.delete_element("a");
     assert(REPO.numar_elemente() ==1);
@@ -94,7 +99,7 @@ void teste_repo(){
          REPO.delete_element("q");
         assert(false);
     }
-    catch (std::exception){};
+    catch (std::exception&){};
 
 
 
