@@ -61,17 +61,17 @@ void teste_repo(){
 
     try{
 
-        produs_cautat = REPO.cauta_element("c");
+        REPO.cauta_element("c");
         assert(false);
     }
-    catch (std::exception){}
+    catch (std::exception&){}
 
     Produs produs_modifica("a","modificat","modificat",20);
     try{
         REPO.modifica_element("z", produs_modifica);
         assert(false);
     }
-    catch (std::exception){}
+    catch (std::exception&){}
 
     REPO.modifica_element("a", produs_modifica);
     produs_cautat = REPO.cauta_element("a");
@@ -86,10 +86,10 @@ void teste_repo(){
     lista_copie[0] = Produs("q","modificat","modificat",20);
 
     try{
-        produs_cautat = REPO.cauta_element("q");
+        REPO.cauta_element("q");
         assert(false);
     }
-    catch (std::exception){}
+    catch (std::exception&){}
 
     REPO.delete_element("a");
     assert(REPO.numar_elemente() ==1);
@@ -99,7 +99,7 @@ void teste_repo(){
          REPO.delete_element("q");
         assert(false);
     }
-    catch (std::exception){};
+    catch (std::exception&){};
 
 
 
