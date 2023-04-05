@@ -20,6 +20,12 @@ std::vector<Produs> Service::afisare_produse_service() const
     return lista_returnat;
 }
 
+void Service::modifica_service(const string &nume,const std::string& tip, const std::string& producator, const float& pret) {
+
+    Produs produs = Produs(nume, tip,producator,pret);
+    REPO.modifica_element(nume, produs);
+}
+
 void Service::delete_service(const string& nume) {
 
 REPO.delete_element(nume);

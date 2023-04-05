@@ -6,13 +6,15 @@
 using std::cout;
 using std::endl;
 
-void UI::show_ui() const{
+void UI::show_ui() {
 
     cout<<"Alegeti optiunea dumeavoastra:\n";
     cout<<"1.Adaugare de produs\n";
     cout<<"2.Sterge produs dupa nume\n";
     cout<<"3.Cauta produs dupa nume\n";
-    cout<<"4.Afisare de produse\n";
+    cout<<"4.Modifica produs dupa nume\n";
+    cout<<"5.Afisare de produse\n";
+    cout<<"0.Inchidere\n";
 }
 
 void UI::run_ui(){
@@ -35,6 +37,9 @@ void UI::run_ui(){
         ///Try
         try {
             switch (choice) {
+                case 0:
+                    running = false;
+                    break;
                 case 1:
                     add_produs_ui();
                     break;
@@ -45,6 +50,10 @@ void UI::run_ui(){
                     cauta_ui();
                     break;
                 case 4:
+                    modifica_ui();
+                    break;
+
+                case 5:
                     print_all_ui();
                     break;
                 default:
@@ -56,6 +65,30 @@ void UI::run_ui(){
         catch (...){cout<<"Eroare!\n";}
 
     }
+
+
+}
+void UI::modifica_ui() {
+
+    string  nume_de_modificat;
+    cout<<" Dati numele: ";
+    std::getline(std::cin, nume_de_modificat);
+
+    std::string tip;
+    std::cout<<"Dati tipul: ";
+    std::getline(std::cin, tip);
+
+    std::string producator;
+    std::cout<<"Dati producatorul: ";
+    std::getline(std::cin, producator);
+
+    std::string pret_string;
+    float pret;
+    std::cout<<"Dati pretrul: ";
+    std::getline(std::cin, pret_string);
+    pret = std::stof(pret_string);
+
+    SERVICE.modifica_service(nume_de_modificat,tip,producator,pret);
 
 
 }
@@ -82,7 +115,7 @@ void UI::delete_ui() {
 void UI::print_all_ui() const
 {
   std::vector<Produs> l = SERVICE.afisare_produse_service();
-  for(auto el:l)
+  for(const auto& el:l)
   {
       std::cout<<el<<std::endl;
   }

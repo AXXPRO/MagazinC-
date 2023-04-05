@@ -26,6 +26,8 @@ public:
     void delete_service(const string&);
     ///Functia cauta produsul cu numele dat prin parametru, returneaza referinta la el, sau arunca exceptie
      Produs cauta_service(const string&);
+     ///Functia modifica produsul dat prin nume, sau arunca exceptie
+     void modifica_service(const std::string& nume, const std::string& tip, const std::string& producator, const float& pret);
 };
 
 
