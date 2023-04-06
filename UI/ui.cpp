@@ -62,7 +62,7 @@ void UI::run_ui(){
 
             }
         }
-        catch (...){cout<<"Eroare!\n";}
+        catch (RepoError& err){cout<<err;}
 
     }
 
@@ -115,6 +115,12 @@ void UI::delete_ui() {
 void UI::print_all_ui() const
 {
   Iterator<Produs> l = SERVICE.afisare_produse_service();
+
+    while (l.valid())
+    {
+        cout<<l.element()<<endl;
+        l.urmator();
+    }
  // for(const auto& el:l)
   //{
     //  std::cout<<el<<std::endl;

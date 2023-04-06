@@ -4,7 +4,7 @@
 
 #ifndef MAGAZINC___LISTA_H
 #define MAGAZINC___LISTA_H
-
+#include "../Erori/errors.h"
 #include <iostream>
 #include "iterator.h"
 using std::string;
@@ -116,7 +116,7 @@ template <typename T>
 void ListaRepo<T>::modify(const string &nume, const T &other) {
     if(cap == NULL)
     {
-        //Throw error
+        throw RepoError("Lista goala!\n");
     }
     celula<T>* curent;
     curent = cap;
@@ -141,7 +141,7 @@ void ListaRepo<T>::modify(const string &nume, const T &other) {
 
     }
 
-    ///Throw error
+    throw RepoError("Valoarea nu a fost gasita!\n");
 
 }
 
@@ -151,7 +151,7 @@ template <typename T>
 const T& ListaRepo<T>::search(const string& nume)const{
     if(cap == NULL)
     {
-        //Throw error
+        throw RepoError("Lista goala!\n");
     }
     celula<T>* curent;
     curent = cap;
@@ -169,7 +169,7 @@ const T& ListaRepo<T>::search(const string& nume)const{
 
     }
 
-    ///Throw error
+    throw RepoError("Valaorea nu a fost gasita!\n");
 
 }
 
@@ -178,7 +178,7 @@ void ListaRepo<T> ::erase(const string &nume) {
 
     if(cap == NULL)
     {
-        //Throw error
+        throw RepoError("Lista goala!\n");
     }
     celula<T>* curent;
     curent = cap;
@@ -204,7 +204,7 @@ void ListaRepo<T> ::erase(const string &nume) {
 
     }
 
-    ///Throw exception
+    throw RepoError("Valaorea nu a fost gasita!\n");
 
 }
 
@@ -225,11 +225,16 @@ void ListaRepo<T>::append(const T &element) {
     }
     while(curent->urmator!=NULL)
     { if(curent->valoarea == element) {
-            ///Throw exception
+            throw RepoError("Produs deja existent!\n");
         }
         curent = curent->urmator;
 
     }
+
+    if(curent->valoarea.getNume() == element.getNume()) {
+        throw RepoError("Produs deja existent!\n");
+    }
+
     curent->urmator = nou;
     numar_elemente++;
 
