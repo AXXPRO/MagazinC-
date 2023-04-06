@@ -7,7 +7,7 @@
 int main() {
 
     run_all_tests();
-    Repo repo;
+    Repo<Produs> repo;
     Service service(repo);
     UI aplicatie(service);
     aplicatie.run_ui();

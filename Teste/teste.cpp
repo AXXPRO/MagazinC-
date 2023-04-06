@@ -29,7 +29,7 @@ void run_all_tests()
 
 void teste_service()
 {
-    Repo REPO;
+    Repo<Produs> REPO;
     Service SERVICE(REPO);
 
     assert(REPO.numar_elemente() == 0);
@@ -53,7 +53,7 @@ void teste_service()
 
 void teste_repo(){
 
-    Repo REPO;
+    Repo<Produs> REPO;
     assert(REPO.numar_elemente() ==0);
     Produs produs1("a","b","b",12.5);
 
@@ -69,7 +69,7 @@ void teste_repo(){
     cout<<"!\n";
     try{
 
-        REPO.cauta_element("c");
+       REPO.cauta_element("c");
         assert(false);
     }
     catch (std::exception&){}
