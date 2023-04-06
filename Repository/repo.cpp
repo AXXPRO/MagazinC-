@@ -7,7 +7,7 @@ using std::string;
 using std::vector;
 
 
-void Repo::adaugare_produs(const Produs &element) {
+void Repo::adaugare_produs(const Produs& element) {
 
     lista.push_back(element);
 }
@@ -16,7 +16,7 @@ int Repo::numar_elemente() const
     return (int)lista.size();
 }
 
- Produs Repo::cauta_element(const string& nume)const{
+const Produs& Repo::cauta_element(const string& nume)const{
 
 
     for(const auto& el:lista)
@@ -45,14 +45,14 @@ void Repo::delete_element(const string &nume){
 
 void Repo::modifica_element(const string& nume, const Produs& other)
 {
-
-    for(int i=0; i<lista.size(); i++)
+    for (auto& el: lista)
+    //for(int i=0; i<lista.size(); i++)
     {
-        if(lista[i].getNume() == nume)
+        if(el.getNume() == nume)
         {
-            lista[i].setProducator(other.getProducator());
-            lista[i].setTip(other.getTip());
-            lista[i].setPret(other.getPret());
+            el.setProducator(other.getProducator());
+            el.setTip(other.getTip());
+            el.setPret(other.getPret());
 
             return;
         }
@@ -61,10 +61,13 @@ void Repo::modifica_element(const string& nume, const Produs& other)
     throw std::exception();
 
 }
-vector<Produs> Repo::get_all()  const{
-    std::vector<Produs> lista_returnat;
+const vector<Produs>& Repo::get_all()  const{
+
+    return lista;
+
+    /* std::vector<Produs> lista_returnat;
     for (const auto& el: lista) {
         lista_returnat.push_back(el);
     }
     return lista_returnat;
-}
+*/}

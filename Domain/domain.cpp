@@ -4,6 +4,28 @@
 
 #include "domain.h"
 
+Produs::Produs(const std::string& nume, const std::string& tip, const std::string& producator, const float& pret) {
+    this->nume = nume;
+    this->tip = tip;
+    this->producator = producator;
+    this->pret = pret;
+    std::cout<<"Produs creat prin valori\n";
+}
+
+Produs::Produs(const Produs& o){
+
+    this->nume = o.nume;
+    this->tip = o.tip;
+    this->producator = o.producator;
+    this->pret = o.pret;
+    std::cout<<"Produs creat prin alt produs\n";
+}
+
+Produs::~Produs() {
+
+    std::cout<<"Produs distrus!\n";
+
+}
 std::string Produs::getNume() const{
     return this->nume;
 }
@@ -50,4 +72,18 @@ std:: ostream& operator<<(std::ostream& os, const Produs& produs)
 {
     os <<"Nume: "<<produs.nume <<" Producator: "<<produs.producator<<" Tip: "<<produs.tip<<" Pret: "<<produs.pret;
     return os;
+}
+
+bool operator ==(const Produs&o, const Produs&t)
+{
+    bool ok = true;
+    if(t.nume != o.nume)
+        ok = false;
+    if(t.producator != o.producator)
+        ok = false;
+    if(t.pret != o.pret)
+        ok = false;
+    if(t.tip != o.tip)
+        ok = false;
+    return ok;
 }

@@ -20,12 +20,12 @@ public:
     void adaugare_produs_service(const std::string& nume, const std::string& tip, const std::string& producator, const float& pret);
 
     ///Returneaza un vector cu produsele
-    std::vector<Produs> afisare_produse_service () const;
+    const std::vector<Produs>& afisare_produse_service () const;
 
     ///Functia sterge produsul cu numele dat prin parametru, sau arunca exceptie
     void delete_service(const string&);
     ///Functia cauta produsul cu numele dat prin parametru, returneaza referinta la el, sau arunca exceptie
-     Produs cauta_service(const string&);
+    const Produs& cauta_service(const string&);
      ///Functia modifica produsul dat prin nume, sau arunca exceptie
      void modifica_service(const std::string& nume, const std::string& tip, const std::string& producator, const float& pret);
 };

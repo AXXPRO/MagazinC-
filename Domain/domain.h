@@ -7,10 +7,10 @@
 
 class Produs{
 public:
-    Produs(const std::string& nume, const std::string& tip, const std::string& producator, const float& pret): nume{nume}, tip{tip}, producator{producator}, pret{pret}
-    {
-    }
-    Produs(const Produs& o)=default;
+    Produs(const std::string& nume, const std::string& tip, const std::string& producator, const float& pret);
+
+    Produs(const Produs& o);
+    ~Produs();
     ///
     /// \return the name of the product
     std::string getNume() const;
@@ -36,6 +36,7 @@ public:
     bool operator ==(const Produs& o);
 
     friend std:: ostream& operator<<(std::ostream& os, const Produs& produs);
+    friend bool operator ==(const Produs&o, const Produs&t);
 private:
     std::string nume;
     std::string tip;

@@ -14,6 +14,8 @@
 
 #define epsilon 0.00001
 
+using std::cout;
+using std::endl;
 void run_all_tests()
 {
     teste_domain();
@@ -33,18 +35,20 @@ void teste_service()
     assert(REPO.numar_elemente() == 0);
     SERVICE.adaugare_produs_service("a", "a", "a", 7);
     assert(REPO.numar_elemente() == 1);
-    Produs produs_cautat = SERVICE.cauta_service("a");
-    assert(produs_cautat == Produs("a","a","a",7));
-
+     const Produs& produs_cautat = SERVICE.cauta_service("a");
+    assert(produs_cautat ==  Produs("a", "a", "a", 7));
+  cout<<"!\n";
     std::vector<Produs> list = SERVICE.afisare_produse_service();
+    cout<<"!\n";
     assert(list[0] == Produs("a","a","a",7));
 
     SERVICE.modifica_service("a", "b", "b", 0);
-    produs_cautat = SERVICE.cauta_service("a");
-    assert(produs_cautat == Produs("a","b","b",0));
+   const Produs& produs_cautat2 = SERVICE.cauta_service("a");
+    assert(produs_cautat2 == Produs("a","b","b",0));
     SERVICE.delete_service("a");
     assert(REPO.numar_elemente() == 0);
 
+    std::cout<<std::endl;
 }
 
 void teste_repo(){
@@ -52,19 +56,24 @@ void teste_repo(){
     Repo REPO;
     assert(REPO.numar_elemente() ==0);
     Produs produs1("a","b","b",12.5);
+
+
+    cout<<"!\n";
     REPO.adaugare_produs(produs1);
+    cout<<"!\n";
     assert(REPO.numar_elemente()==1);
     Produs produs2("b","c","d",30);
     REPO.adaugare_produs(produs2);
     Produs produs_cautat = REPO.cauta_element("b");
     assert(produs_cautat == produs2);
-
+    cout<<"!\n";
     try{
 
         REPO.cauta_element("c");
         assert(false);
     }
     catch (std::exception&){}
+    cout<<"!\n";
 
     Produs produs_modifica("a","modificat","modificat",20);
     try{
@@ -78,32 +87,23 @@ void teste_repo(){
     assert(produs_cautat == produs_modifica);
 
 
-    std::vector<Produs> lista_copie;
-    lista_copie = REPO.get_all();
+   const std::vector<Produs>& lista_copie = REPO.get_all();
 
     assert(lista_copie[0]== Produs("a","modificat","modificat",20));
 
-    lista_copie[0] = Produs("q","modificat","modificat",20);
-
-    try{
-        REPO.cauta_element("q");
-        assert(false);
-    }
-    catch (std::exception&){}
 
     REPO.delete_element("a");
     assert(REPO.numar_elemente() ==1);
-
 
     try{
          REPO.delete_element("q");
         assert(false);
     }
-    catch (std::exception&){};
+    catch (std::exception&){}
 
 
 
-
+    std::cout<<std::endl;
 }
 
 void teste_domain()
@@ -133,5 +133,11 @@ void teste_domain()
 
     Produs produs_test_diferit("a","a", "aa",-23);
     assert((produs_test == produs_test_diferit)==false);
+
+    const Produs produs_constant("z","z","z", 0);
+    assert((produs_constant == produs_test_diferit)==false);
+
+
+    std::cout<<std::endl;
 
 }
