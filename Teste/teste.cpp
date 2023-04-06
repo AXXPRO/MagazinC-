@@ -5,6 +5,7 @@
 #include "teste.h"
 #include "../Repository/repo.h"
 #include "../Service/service.h"
+#include "../Lista/lista.h"
 #include <iostream>
 #include <cassert>
 
@@ -29,30 +30,90 @@ void run_all_tests()
 
 void teste_service()
 {
-    Repo<Produs> REPO;
+    ListaRepo<Produs> REPO;
     Service SERVICE(REPO);
 
-    assert(REPO.numar_elemente() == 0);
+    assert(REPO.len() == 0);
     SERVICE.adaugare_produs_service("a", "a", "a", 7);
-    assert(REPO.numar_elemente() == 1);
+    assert(REPO.len() == 1);
      const Produs& produs_cautat = SERVICE.cauta_service("a");
     assert(produs_cautat ==  Produs("a", "a", "a", 7));
-  cout<<"!\n";
-    std::vector<Produs> list = SERVICE.afisare_produse_service();
-    cout<<"!\n";
-    assert(list[0] == Produs("a","a","a",7));
+
+  Iterator<Produs> itr = SERVICE.afisare_produse_service();
+
+  assert(itr.element() ==Produs("a","a","a",7) );
+
+
 
     SERVICE.modifica_service("a", "b", "b", 0);
    const Produs& produs_cautat2 = SERVICE.cauta_service("a");
     assert(produs_cautat2 == Produs("a","b","b",0));
     SERVICE.delete_service("a");
-    assert(REPO.numar_elemente() == 0);
+    assert(REPO.len() == 0);
 
     std::cout<<std::endl;
 }
 
 void teste_repo(){
+    Produs Produs1("a","a","a",20);
+    Produs Produs2("b","b","b",90);
+    Produs Produs3("c","c","c",0);
+    Produs Produs4("d","d","d",231);
 
+    ListaRepo<Produs> lista;
+    assert(lista.len()==0);
+    lista.append(Produs1);
+    Produs Produs_Cautat1 = lista.search("a");
+    assert(Produs_Cautat1 == Produs1);
+    assert(lista.len()==1);
+
+    Produs ProdusModifica1("a","a","a",60);
+    Produs ProdusModifica2("b","b","b",0);
+
+    lista.modify("a", ProdusModifica1);
+    Produs Produs_Cautat_Modificat1 = lista.search("a");
+    assert(Produs_Cautat_Modificat1 == ProdusModifica1);
+
+
+    lista.append(Produs2);
+    assert(lista.len()==2);
+    Produs Produs_Cautat2 = lista.search("b");
+    assert(Produs_Cautat2 == Produs2);
+
+    lista.modify("b", ProdusModifica2);
+    Produs Produs_Cautat_Modificat2 = lista.search("b");
+    assert(Produs_Cautat_Modificat2 == ProdusModifica2);
+
+
+
+    lista.append(Produs3);
+    assert(lista.len()==3);
+    Iterator<Produs> itr = lista.get_all();
+
+    assert(itr.valid() == true);
+    assert(itr.element() == ProdusModifica1);
+    itr.urmator();
+    assert(itr.element() == ProdusModifica2);
+    itr.urmator();
+    assert(itr.element() == Produs3);
+    itr.urmator();
+    assert(itr.valid() == false);
+
+    lista.erase("a");
+    assert(lista.len()==2);
+
+    lista.erase("c");
+    assert(lista.len()==1);
+    lista.append(Produs4);
+    assert(lista.len()==2);
+
+
+
+
+
+
+
+    /*
     Repo<Produs> REPO;
     assert(REPO.numar_elemente() ==0);
     Produs produs1("a","b","b",12.5);
@@ -104,6 +165,7 @@ void teste_repo(){
 
 
     std::cout<<std::endl;
+    */
 }
 
 void teste_domain()

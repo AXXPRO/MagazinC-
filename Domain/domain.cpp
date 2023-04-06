@@ -9,7 +9,7 @@ Produs::Produs(const std::string& nume, const std::string& tip, const std::strin
     this->tip = tip;
     this->producator = producator;
     this->pret = pret;
-    std::cout<<"Produs creat prin valori\n";
+    //std::cout<<"Produs creat prin valori\n";
 }
 
 Produs::Produs(const Produs& o){
@@ -18,12 +18,12 @@ Produs::Produs(const Produs& o){
     this->tip = o.tip;
     this->producator = o.producator;
     this->pret = o.pret;
-    std::cout<<"Produs creat prin alt produs\n";
+   // std::cout<<"Produs creat prin alt produs\n";
 }
 
 Produs::~Produs() {
 
-    std::cout<<"Produs distrus!\n";
+   // std::cout<<"Produs distrus!\n";
 
 }
 std::string Produs::getNume() const{

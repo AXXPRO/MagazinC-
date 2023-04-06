@@ -5,6 +5,7 @@
 #ifndef MAGAZINC___SERVICE_H
 #define MAGAZINC___SERVICE_H
 #include "../Repository/repo.h"
+#include "../Lista/lista.h"
 #include <iostream>
 
 using std::string;
@@ -14,13 +15,13 @@ class Service{
 
 private:
 
-    Repo<Produs>& REPO;
+    ListaRepo<Produs>& REPO;
 public:
-    Service(Repo<Produs>& REPO):REPO{REPO}{};
+    Service(ListaRepo<Produs>& REPO):REPO{REPO}{};
     void adaugare_produs_service(const std::string& nume, const std::string& tip, const std::string& producator, const float& pret);
 
     ///Returneaza un vector cu produsele
-    const std::vector<Produs>& afisare_produse_service () const;
+    Iterator<Produs> afisare_produse_service () const;
 
     ///Functia sterge produsul cu numele dat prin parametru, sau arunca exceptie
     void delete_service(const string&);

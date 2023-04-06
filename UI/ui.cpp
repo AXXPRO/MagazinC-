@@ -114,11 +114,11 @@ void UI::delete_ui() {
 
 void UI::print_all_ui() const
 {
-  const std::vector<Produs>& l = SERVICE.afisare_produse_service();
-  for(const auto& el:l)
-  {
-      std::cout<<el<<std::endl;
-  }
+  Iterator<Produs> l = SERVICE.afisare_produse_service();
+ // for(const auto& el:l)
+  //{
+    //  std::cout<<el<<std::endl;
+ // }
 
 }
 void UI::add_produs_ui() {
