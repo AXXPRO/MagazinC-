@@ -40,11 +40,7 @@ string Service::getValue(const Produs& prod, int camp_sortare){
         case 2:
             return std::to_string(prod.getPret());
             case 3:
-            return prod.getNume() + prod.getTip();
-
-
-    }
-}
+            return prod.getNume() + prod.getTip();}}
 
 Iterator<Produs>Service::sortare_service(ListaRepo<Produs>& lista_returnat, int camp_sortare)
 {
@@ -96,8 +92,6 @@ Iterator<Produs>Service::sortare_service(ListaRepo<Produs>& lista_returnat, int 
             it.urmator();
         }
         smallest_possible = current_element;
-
-
     }
 
     return lista_returnat.get_all();

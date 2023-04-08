@@ -30,6 +30,8 @@ void run_all_tests()
 
 void teste_service()
 {
+
+
     ListaRepo<Produs> REPO;
     Service SERVICE(REPO);
 
@@ -51,7 +53,60 @@ void teste_service()
     SERVICE.delete_service("a");
     assert(REPO.len() == 0);
 
-    std::cout<<std::endl;
+    SERVICE.adaugare_produs_service("a", "b", "c", 7);
+    SERVICE.adaugare_produs_service("b", "z", "e", 1);
+    SERVICE.adaugare_produs_service("c", "z", "c", 9);
+    ListaRepo<Produs> lista_filtrare;
+    SERVICE.filtrare_service(lista_filtrare, 1, "7");
+    Iterator<Produs>itr_filtrare_pret = lista_filtrare.get_all();
+    assert(itr_filtrare_pret.element() == Produs("a", "b", "c", 7));
+
+
+    ListaRepo<Produs> lista_filtrare2;
+    SERVICE.filtrare_service(lista_filtrare2, 2, "a");
+    Iterator<Produs>itr_filtrare_nume = lista_filtrare2.get_all();
+    assert(itr_filtrare_nume.element() == Produs("a", "b", "c", 7));
+
+    ListaRepo<Produs> lista_filtrare3;
+    SERVICE.filtrare_service(lista_filtrare3, 3, "c");
+    Iterator<Produs>itr_filtrare_producator= lista_filtrare3.get_all();
+    assert(itr_filtrare_producator.element() == Produs("a", "b", "c", 7));
+    itr_filtrare_producator.urmator();
+    assert(itr_filtrare_producator.element() == Produs("c", "z", "c", 9));
+
+    try {
+        SERVICE.filtrare_service(lista_filtrare3, 6, "c");
+    }
+    catch (ValidatorError& ) {};
+
+    ListaRepo<Produs> lista_sortata_nume;
+    SERVICE.sortare_service(lista_sortata_nume,1);
+    Iterator<Produs> iterator_sortat_nume = lista_sortata_nume.get_all();
+    assert(iterator_sortat_nume.element() == Produs("a", "b", "c", 7));
+    iterator_sortat_nume.urmator();
+    assert(iterator_sortat_nume.element() == Produs("b", "z", "e", 1));
+    iterator_sortat_nume.urmator();
+    assert(iterator_sortat_nume.element() == Produs("c", "z", "c", 9));
+
+    ListaRepo<Produs> lista_sortata_pret;
+    SERVICE.sortare_service(lista_sortata_pret,2);
+    Iterator<Produs> iterator_sortat_pret = lista_sortata_pret.get_all();
+    assert(iterator_sortat_pret.element() == Produs("b", "z", "e", 1));
+    iterator_sortat_pret.urmator();
+    assert(iterator_sortat_pret.element() == Produs("a", "b", "c", 7));
+    iterator_sortat_pret.urmator();
+    assert(iterator_sortat_pret.element() == Produs("c", "z", "c", 9));
+
+    ListaRepo<Produs> lista_sortata_nume_tip;
+    SERVICE.sortare_service(lista_sortata_nume_tip,3);
+    Iterator<Produs> iterator_sortat_nume_tip = lista_sortata_nume_tip.get_all();
+    assert(iterator_sortat_nume_tip.element() == Produs("a", "b", "c", 7));
+    iterator_sortat_nume_tip.urmator();
+    assert(iterator_sortat_nume_tip.element() == Produs("b", "z", "e", 1));
+    iterator_sortat_nume_tip.urmator();
+    assert(iterator_sortat_nume_tip.element() == Produs("c", "z", "c", 9));
+
+
 }
 
 void teste_repo(){
