@@ -22,6 +22,10 @@ public:
     UI(Service& SERVICE): SERVICE{SERVICE}{};
     ///Function that runs the aplication
     void run_ui();
+    ///Va afisa anumite elemente dupa un criteriu
+    void filtrare_ui();
+    ///Va afisa elementele sortate dupa un criteriu
+    void sortare_ui();
 
     ///Va afisa elementele
     void print_all_ui() const;

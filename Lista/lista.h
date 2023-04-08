@@ -6,7 +6,7 @@
 #define MAGAZINC___LISTA_H
 #include "../Erori/errors.h"
 #include <iostream>
-#include "iterator.h"
+
 using std::string;
 
 template <typename T>
@@ -35,10 +35,16 @@ public:
     bool valid() const;
     void urmator();
     const U& element();
-
+    void prim();
 
 
 };
+
+template <typename T>
+void Iterator<T>::prim()
+{
+    curent = lista.cap;
+}
 
 template <typename T>
 Iterator<T>::Iterator(const ListaRepo<T>& lis): lista(lis){

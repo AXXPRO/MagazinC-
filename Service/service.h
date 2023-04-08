@@ -14,7 +14,11 @@ class Service{
 
 
 private:
+    ///Return true if a product respects a set of rules
 
+
+
+    string getValue(const Produs&, int);
     ListaRepo<Produs>& REPO;
 public:
     Service(ListaRepo<Produs>& REPO):REPO{REPO}{};
@@ -22,6 +26,11 @@ public:
 
     ///Returneaza un vector cu produsele
     Iterator<Produs> afisare_produse_service () const;
+
+
+    Iterator<Produs> filtrare_service(ListaRepo<Produs>& lista_returnat, int camp_filtrat, string filtru);
+
+    Iterator<Produs> sortare_service(ListaRepo<Produs>& lista_returnat,int camp_sortare);
 
     ///Functia sterge produsul cu numele dat prin parametru, sau arunca exceptie
     void delete_service(const string&);

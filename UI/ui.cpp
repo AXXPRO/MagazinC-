@@ -4,6 +4,7 @@
 #include <iostream>
 #include "ui.h"
 using std::cout;
+using std::cin;
 using std::endl;
 
 void UI::show_ui() {
@@ -14,6 +15,8 @@ void UI::show_ui() {
     cout<<"3.Cauta produs dupa nume\n";
     cout<<"4.Modifica produs dupa nume\n";
     cout<<"5.Afisare de produse\n";
+    cout<<"6.Filtrare dupa un criteriu\n";
+    cout<<"7.Sortare dupa un criteriu\n";
     cout<<"0.Inchidere\n";
 }
 
@@ -56,6 +59,12 @@ void UI::run_ui(){
                 case 5:
                     print_all_ui();
                     break;
+                case 6:
+                    filtrare_ui();
+                    break;
+                case 7:
+                    sortare_ui();
+                    break;
                 default:
                     std::cout<<"Varianta inexsitetna!\n";
                     getchar();
@@ -63,6 +72,7 @@ void UI::run_ui(){
             }
         }
         catch (RepoError& err){cout<<err;}
+        catch (std::invalid_argument&) {cout<<"Date de intrare invalide!\n";}
 
     }
 
@@ -125,6 +135,59 @@ void UI::print_all_ui() const
   //{
     //  std::cout<<el<<std::endl;
  // }
+
+}
+
+void UI::filtrare_ui()
+{
+    string camp_filtrat_string;
+    int camp_filtrat;
+    string filtru;
+    cout<<"Dupa ce criteriu doriti sa filtrati?\n1.Pret\n2.Nume\n3.Producator\n";
+
+    std::getline(std::cin, camp_filtrat_string);
+    camp_filtrat = std::stof(camp_filtrat_string);
+
+    cout<<"Dati criteriul pe care trebuie sa il indeplineasca(cu ce valoare sa fie egal campul ales)\n";
+    std::getline(std::cin, filtru);
+
+
+    ListaRepo<Produs> l_temp;
+    SERVICE.filtrare_service(l_temp, camp_filtrat, filtru);
+    Iterator<Produs> l =   l_temp.get_all();
+
+    while (l.valid())
+    {
+        cout<<l.element()<<endl;
+        l.urmator();
+    }
+
+
+
+}
+
+void UI::sortare_ui()
+{
+
+
+    string camp_sortare_string;
+    int camp_sortat;
+
+    cout<<"Dupa ce criteriu doriti sa sortati?\n1.Nume\n2.Pret\n3.Nume + Tip\n";
+
+    std::getline(std::cin, camp_sortare_string);
+    camp_sortat = std::stof(camp_sortare_string);
+
+   ListaRepo<Produs> l_temp;
+   SERVICE.sortare_service(l_temp, camp_sortat);
+    Iterator<Produs> l =   l_temp.get_all();
+
+    while (l.valid())
+    {
+        cout<<l.element()<<endl;
+        l.urmator();
+    }
+
 
 }
 void UI::add_produs_ui() {

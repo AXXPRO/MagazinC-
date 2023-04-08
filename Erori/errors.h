@@ -20,5 +20,18 @@ inline ostream& operator<<(ostream& out, const RepoError& error)
     return out;
 }
 
+class ValidatorError{
+    string mesaj;
+public:
+    ValidatorError(string err):mesaj{err} {}
+    friend ostream& operator<<(ostream& out, const ValidatorError& msj);
+};
+
+inline ostream& operator<<(ostream& out, const ValidatorError& error)
+{
+    out << error.mesaj;
+    return out;
+}
+
 
 #endif //MAGAZINC___ERRORS_H

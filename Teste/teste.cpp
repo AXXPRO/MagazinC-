@@ -45,9 +45,9 @@ void teste_service()
 
 
 
-    SERVICE.modifica_service("a", "b", "b", 0);
+    SERVICE.modifica_service("a", "b", "b", 1);
    const Produs& produs_cautat2 = SERVICE.cauta_service("a");
-    assert(produs_cautat2 == Produs("a","b","b",0));
+    assert(produs_cautat2 == Produs("a","b","b",1));
     SERVICE.delete_service("a");
     assert(REPO.len() == 0);
 
