@@ -6,7 +6,9 @@
 #include "../Repository/repo.h"
 #include "../Service/service.h"
 #include "../Lista/lista.h"
+#include "../Validator/validator.h"
 #include <iostream>
+#include <string>
 #include <cassert>
 
 ///For testing operator<<
@@ -25,9 +27,27 @@ void run_all_tests()
     std::cout<<"Teste repo trecute!\n";
     teste_service();
     std::cout<<"Teste service trecute!\n";
+    teste_validator();
+    std::cout<<"Teste valdiator trecute!\n";
 
 }
+void teste_validator()
+{
+    Produs valid = Produs("a","b","c",2);
+    ValidatorProdus validare;
+    validare.isValid(valid);
+    Produs invalid = Produs("","","",-22);
+    std::ostringstream out;
+    try{
+        validare.isValid(invalid);
+        assert(false);
+    }catch (ValidatorError& c){ out<<c;
+        std::string nume_string = out.str();
+        const char * nume_test = nume_string.c_str();
 
+        assert(strcmp(nume_test, "Nume invalid!\nTip invalid!\nProducator invalid!\nPret invalid!\n")==0);}
+
+}
 void teste_service()
 {
 
@@ -116,11 +136,58 @@ void teste_repo(){
     Produs Produs4("d","d","d",231);
 
     ListaRepo<Produs> lista;
+    std::ostringstream out;
     assert(lista.len()==0);
+    try{
+        lista.modify("sa", Produs("a","a","c",23));
+        assert(false);
+    }catch (RepoError& c) {
+        out<<c;
+        std::string nume_string = out.str();
+        const char * nume_test = nume_string.c_str();
+
+        assert(strcmp(nume_test, "Lista goala!\n")==0);
+
+    }
+
+    try{
+        lista.search("dsa");
+        assert(false);
+    }catch (RepoError& c) {
+    }
+    try{
+        lista.erase("DAS");
+        assert(false);
+    }catch (RepoError& c) {
+    }
     lista.append(Produs1);
     Produs Produs_Cautat1 = lista.search("a");
     assert(Produs_Cautat1 == Produs1);
     assert(lista.len()==1);
+
+    try{
+        lista.modify("sa", Produs("a","a","c",23));
+        assert(false);
+    }catch (RepoError& c) {
+    }
+
+    try{
+        lista.search("dsa");
+        assert(false);
+    }catch (RepoError& c) {
+    }
+    try{
+        lista.erase("DAS");
+        assert(false);
+    }catch (RepoError& c) {
+    }
+    try{
+        lista.append(Produs("a","b","c",2));
+        assert(false);
+    }catch (RepoError& c) {
+    }
+
+
 
     Produs ProdusModifica1("a","a","a",60);
     Produs ProdusModifica2("b","b","b",0);
@@ -132,6 +199,14 @@ void teste_repo(){
 
     lista.append(Produs2);
     assert(lista.len()==2);
+
+    try{
+        lista.append(Produs("a","b","c",2));
+        assert(false);
+    }catch (RepoError& c) {
+    }
+
+
     Produs Produs_Cautat2 = lista.search("b");
     assert(Produs_Cautat2 == Produs2);
 

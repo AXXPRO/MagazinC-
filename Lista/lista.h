@@ -230,7 +230,7 @@ void ListaRepo<T>::append(const T &element) {
         return;
     }
     while(curent->urmator!=NULL)
-    { if(curent->valoarea == element) {
+    { if(curent->valoarea.getNume() == element.getNume()) {
             throw RepoError("Produs deja existent!\n");
         }
         curent = curent->urmator;
