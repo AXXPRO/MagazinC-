@@ -36,9 +36,33 @@ public:
     void urmator();
     const U& element();
     void prim();
+    Iterator<U> begin();
 
+    bool operator!=(const Iterator<U>&);
+    void operator++();
+    const  U& operator*();
 
 };
+template <typename T>
+const T& Iterator<T>::operator*()
+{
+    return this->element();
+
+}
+
+
+template <typename T>
+bool Iterator<T>::operator!=(const Iterator<T>& o)
+{
+    return this->curent == o.curent;
+
+}
+template <typename T>
+void Iterator<T>::operator++()
+{
+   this->urmator();
+
+}
 
 template <typename T>
 void Iterator<T>::prim()
@@ -87,8 +111,8 @@ public:
     ListaRepo();
 
     ///copy constructor
-
-    ListaRepo(ListaRepo<T>& o);
+     ListaRepo(ListaRepo<T>& o);
+    ListaRepo(ListaRepo<T>&& o);
     ~ListaRepo();
 
     //Iterator<T> iterator();
@@ -99,10 +123,76 @@ public:
     void append(const T& element);
     void erase(const string& nume);
     void modify(const string& nume, const T& other);
+    void operator=(const ListaRepo<T>& o);
+
+    Iterator<T> begin();
+    Iterator<T> end();
+
 
 
 
 };
+template<typename T>
+Iterator<T> ListaRepo<T>::begin() {
+
+        Iterator<T> itr(*this);
+        return itr;
+}
+
+template<typename T>
+Iterator<T> ListaRepo<T>::end() {
+
+    Iterator<T> itr(*this);
+    while(itr.valid())
+        itr.urmator();
+    return itr;
+}
+
+
+
+template <typename T>
+ListaRepo<T>::ListaRepo(ListaRepo<T>&& o)
+{   this->numar_elemente = o.numar_elemente;
+    this->cap = o.cap;
+
+    o.cap = NULL;
+    o.numar_elemente=0;
+
+
+}
+
+template <typename T>
+ListaRepo<T>::ListaRepo(ListaRepo<T>& o)
+{   cap =NULL;
+    numar_elemente = 0;
+    celula<T>* curent;
+    curent = o.cap;
+    while(curent != NULL)
+    {
+        this->append(curent->valoarea);
+        curent = curent->urmator;
+    }
+
+
+}
+template <typename T>
+void ListaRepo<T>::operator=(const ListaRepo<T> &o) {
+
+    cap =NULL;
+    numar_elemente = 0;
+    celula<T>* curent;
+    curent = o.cap;
+    while(curent != NULL)
+    {
+        this->append(curent->valoarea);
+        curent = curent->urmator;
+    }
+
+
+
+
+}
+
 template <typename T>
 Iterator<T> ListaRepo<T>::get_all() const{
     return Iterator(*this);
