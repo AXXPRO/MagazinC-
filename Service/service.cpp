@@ -4,6 +4,7 @@
 #include "../Domain/domain.h"
 #include "service.h"
 #include <iostream>
+#include <algorithm>
 #include "../Lista/lista.h"
 #include "../Validator/validator.h"
 void Service::adaugare_produs_service(const std::string& nume, const std::string& tip, const std::string& producator, const float& pret) {
@@ -13,11 +14,11 @@ void Service::adaugare_produs_service(const std::string& nume, const std::string
 
     ///VALDIARE
     ValidatorProdus::isValid(produs);
-    REPO.append(produs);
+    REPO.adaugare_produs(produs);
 
 }
 
-Iterator<Produs> Service::afisare_produse_service() const
+vector<Produs>&  Service::afisare_produse_service() const
 {
 
     return REPO.get_all();
@@ -27,132 +28,101 @@ void Service::modifica_service(const string &nume,const std::string& tip, const 
 
     Produs produs = Produs(nume, tip,producator,pret);
     ValidatorProdus::isValid(produs);
-    REPO.modify(nume, produs);
+    REPO.modifica_element(nume, produs);
 }
-
-
-string Service::getValue(const Produs& prod, int camp_sortare){
-
-    switch (camp_sortare) {
+bool Service::boolSortare(const Produs& p1 ,const Produs& p2, int& camp_sortat)
+{ string st1, st2;
+    switch (camp_sortat) {
         case 1:
-            return prod.getNume();
+            if(p1.getNume() <=p2.getNume())
+                return true;
+            return false;
 
         case 2:
-            return std::to_string(prod.getPret());
-            case 3:
-            return prod.getNume() + prod.getTip();}}
+            if(p1.getPret() -p2.getPret() <= 0.00001)
+                return true;
+            return false;
+        case 3:
 
-Iterator<Produs>Service::sortare_service(ListaRepo<Produs>& lista_returnat, int camp_sortare)
-{
+            st1+=p1.getNume();
+            st1+=p1.getTip();
+            st2+=p2.getNume();
+            st2+=p2.getTip();
+            if(st1<=st2)
+                return true;
+            return false;
+        default:
+            throw ValidatorError("Parametrii invalizi!\n");
 
-
-    Iterator<Produs> it = REPO.get_all();
-
-    string smallest_possible = "";
-    string current_element;
-    bool sorting = true;
-    while(sorting)
-    { it.prim();
-        sorting = false;
-
-        while(it.valid())
-        {
-            if(getValue(it.element(), camp_sortare) > smallest_possible)
-            {
-                sorting = true;
-                current_element = getValue(it.element(), camp_sortare);
-                break;
-            }
-            it.urmator();
-        }
-        if(!sorting)
-            break;
-        it.prim();
-
-        while(it.valid())
-        {
-
-            if( getValue(it.element(), camp_sortare) < current_element  &&  getValue(it.element(), camp_sortare) > smallest_possible)
-            {
-                current_element = getValue(it.element(), camp_sortare);
-            }
-
-            it.urmator();
-        }
-
-        it.prim();
-        while(it.valid())
-        {
-
-            if( getValue(it.element(), camp_sortare) == current_element)
-            {
-               lista_returnat.append(it.element());
-            }
-
-            it.urmator();
-        }
-        smallest_possible = current_element;
     }
-
-    return lista_returnat.get_all();
-
-
-
-
 
 }
 
-Iterator<Produs>Service::filtrare_service(ListaRepo<Produs>& lista_returnat,int camp_filtrat, string filtru)
+
+void Service::sortare_service(vector<Produs>& filtrat,int camp_sortare)
 {
-
-    Iterator<Produs> it = REPO.get_all();
-    string value;
-    float value_float;
-
-    while(it.valid())
-    {
-        switch (camp_filtrat) {
-            case 1:
-                value_float = it.element().getPret();
-                if(value_float == std::stof(filtru))
-                {lista_returnat.append(it.element());}
-                break;
-
-            case 2:
-                value = it.element().getNume();
-                if(value == filtru)
-                {lista_returnat.append(it.element());}
-                break;
-
-            case 3:
-                value = it.element().getProducator();
-                if(value == filtru)
-                {lista_returnat.append(it.element());}
-                break;
-            default:
-                throw ValidatorError("Parametrii incorecti!\n");
-
-        }
+   // 1.Nume
+   // 2.Pret
+   // 3.Nume + Tip
 
 
+    vector<Produs> originale = REPO.get_all();
+    filtrat = originale;
+  std::sort(filtrat.begin(), filtrat.end(),[&](Produs& p1, Produs& p2){
+      return boolSortare(p1, p2, camp_sortare);
+  });
+}
 
 
-        it.urmator();
+bool Service::boolFilter(const Produs& el ,const int& camp_filtrat,const string& filtru) const
+{
+    switch (camp_filtrat) {
+        case 1:
+            if(el.getPret() - stof(filtru) < 0.0001)
+                return true;
+            return false;
+
+        case 2:
+            if(el.getNume() == filtru)
+                return true;
+            return false;
+        case 3:
+            if(el.getProducator() == filtru)
+                return true;
+            return false;
+        default:
+            throw ValidatorError("Parametrii invalizi!\n");
+
     }
 
+}
+void Service::filtrare_service(vector<Produs>& filtrat,int camp_filtrat, string filtru)
+{
+   // 1.Pret
+   // 2.Nume
+   //3.Producator
 
-    return lista_returnat.get_all();
+   vector<Produs> originale = REPO.get_all();
+
+    std::copy_if(originale.begin(), originale.end(), std::back_inserter(filtrat), [&](Produs& el){
+        return boolFilter(el ,camp_filtrat, filtru);
+    });
+
+
+
+
+
 }
 
 
 void Service::delete_service(const string& nume) {
 
-REPO.erase(nume);
+REPO.delete_element(nume);
 
 }
 
  const Produs& Service::cauta_service(const string &nume) {
 
-    return REPO.search(nume);
+    return REPO.cauta_element(nume);
 
 }

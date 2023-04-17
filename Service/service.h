@@ -17,20 +17,20 @@ private:
     ///Return true if a product respects a set of rules
 
 
-
-    string getValue(const Produs&, int);
-    ListaRepo<Produs>& REPO;
+    bool boolSortare(const Produs& p1 ,const Produs& p2, int& camp_sortat);
+    bool boolFilter(const Produs&,const int&, const string&) const;
+    Repo<Produs>& REPO;
 public:
-    Service(ListaRepo<Produs>& REPO):REPO{REPO}{};
+    Service(Repo<Produs>& REPO):REPO{REPO}{};
     void adaugare_produs_service(const std::string& nume, const std::string& tip, const std::string& producator, const float& pret);
 
     ///Returneaza un vector cu produsele
-    Iterator<Produs> afisare_produse_service () const;
+    vector<Produs>& afisare_produse_service () const;
 
 
-    Iterator<Produs> filtrare_service(ListaRepo<Produs>& lista_returnat, int camp_filtrat, string filtru);
+    void filtrare_service(vector<Produs>& ,int camp_filtrat, string filtru);
 
-    Iterator<Produs> sortare_service(ListaRepo<Produs>& lista_returnat,int camp_sortare);
+    void sortare_service(vector<Produs>& , int camp_sortare);
 
     ///Functia sterge produsul cu numele dat prin parametru, sau arunca exceptie
     void delete_service(const string&);

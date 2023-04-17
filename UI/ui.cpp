@@ -57,7 +57,7 @@ void UI::run_ui(){
                     break;
 
                 case 5:
-                    print_all_ui();
+                    print_all_ui(SERVICE.afisare_produse_service());
                     break;
                 case 6:
                     filtrare_ui();
@@ -122,15 +122,12 @@ void UI::delete_ui() {
     SERVICE.delete_service(nume_de_sters);
 }
 
-void UI::print_all_ui() const
+void UI::print_all_ui(vector<Produs> v) const
 {
-  Iterator<Produs> l = SERVICE.afisare_produse_service();
+  //  vector<Produs> v{SERVICE.afisare_produse_service()};
 
-    while (l.valid())
-    {
-        cout<<l.element()<<endl;
-        l.urmator();
-    }
+    for(auto const& el : v)
+        cout<<el<<endl;
  // for(const auto& el:l)
   //{
     //  std::cout<<el<<std::endl;
@@ -151,16 +148,11 @@ void UI::filtrare_ui()
     cout<<"Dati criteriul pe care trebuie sa il indeplineasca(cu ce valoare sa fie egal campul ales)\n";
     std::getline(std::cin, filtru);
 
+    vector<Produs> filtrat;
+    SERVICE.filtrare_service(filtrat, camp_filtrat, filtru);
+    print_all_ui(filtrat);
 
-    ListaRepo<Produs> l_temp;
-    SERVICE.filtrare_service(l_temp, camp_filtrat, filtru);
-    Iterator<Produs> l =   l_temp.get_all();
 
-    while (l.valid())
-    {
-        cout<<l.element()<<endl;
-        l.urmator();
-    }
 
 
 
@@ -178,15 +170,11 @@ void UI::sortare_ui()
     std::getline(std::cin, camp_sortare_string);
     camp_sortat = std::stof(camp_sortare_string);
 
-   ListaRepo<Produs> l_temp;
-   SERVICE.sortare_service(l_temp, camp_sortat);
-    Iterator<Produs> l =   l_temp.get_all();
+    vector<Produs> sortat;
+    SERVICE.sortare_service(sortat, camp_sortat);
 
-    while (l.valid())
-    {
-        cout<<l.element()<<endl;
-        l.urmator();
-    }
+    print_all_ui(sortat);
+
 
 
 }

@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include "../Domain/domain.h"
 
 using std::string;
@@ -16,7 +17,7 @@ template <typename T>
 class Repo{
 
 private:
-    std::vector<T> lista;
+    vector<T> lista;
 
 public:
     ///
@@ -33,7 +34,8 @@ public:
     void modifica_element(const string& nume, const T& other);
 
     ///Functia returneaza un vector cu toate elementele din aplicatie
-    const vector<T>& get_all() const;
+     vector<T>&  get_all();
+
 
     ///Functia va sterge elementul cu numele dat sau va arunca exceptie
     void delete_element(const string& nume);
@@ -70,40 +72,61 @@ const T& Repo<T>::cauta_element(const string& nume)const{
 template <typename T>
 void Repo<T>::delete_element(const string &nume){
 
-    for(int i=0; i<lista.size(); i++)
-    {
-        if(lista[i].getNume() == nume)
-        {
-            lista.erase(lista.begin()+i);
-            return;
-        }
+
+    auto iter = std::find_if(lista.begin(), lista.end(), [&](Produs& p){
+        return (p.getNume() == nume);
+    });
+
+    if (iter == lista.end())
+    {   throw std::exception();
 
     }
-    throw std::exception();
+    lista.erase(iter);
+//    for(int i=0; i<lista.size(); i++)
+//    {
+//        if(lista[i].getNume() == nume)
+//        {
+//            lista.erase(lista.begin()+i);
+//            return;
+//        }
+//
+//    }
+//    throw std::exception();
 }
 
 template <typename T>
 void Repo<T>::modifica_element(const string& nume, const T& other)
 {
 
-    for(int i=0; i<lista.size(); i++)
-    {
-        if(lista[i].getNume() == nume)
-        {
-            lista[i].setProducator(other.getProducator());
-            lista[i].setTip(other.getTip());
-            lista[i].setPret(other.getPret());
+    auto iter = std::find_if(lista.begin(), lista.end(), [&](Produs& p){
+        return (p.getNume() == nume);
+    });
 
-            return;
-        }
+    if (iter == lista.end())
+    {   throw std::exception();
 
     }
-    throw std::exception();
+    (*iter).setProducator(other.getProducator());
+    (*iter).setTip(other.getTip());
+    (*iter).setPret(other.getPret());
+//    for(int i=0; i<lista.size(); i++)
+//    {
+//        if(lista[i].getNume() == nume)
+//        {
+//            lista[i].setProducator(other.getProducator());
+//            lista[i].setTip(other.getTip());
+//            lista[i].setPret(other.getPret());
+//
+//            return;
+//        }
+//
+//    }
+//  throw std::exception();
 
 }
 
 template <typename T>
-const vector<T>& Repo<T>::get_all()  const{
+vector<T>& Repo<T>::get_all(){
 
     return lista;
 }

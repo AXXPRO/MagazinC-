@@ -28,7 +28,7 @@ public:
     void sortare_ui();
 
     ///Va afisa elementele
-    void print_all_ui() const;
+    void print_all_ui(vector<Produs> v) const;
 
     ///Va sterge un element
     void delete_ui();
