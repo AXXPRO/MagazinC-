@@ -9,6 +9,7 @@
 #include <vector>
 #include <algorithm>
 #include "../Domain/domain.h"
+#include "../Erori/errors.h"
 
 using std::string;
 using std::vector;
@@ -46,6 +47,14 @@ public:
 template <typename T>
 void Repo<T>::adaugare_produs(const T &element) {
 
+    auto iter = std::find_if(lista.begin(), lista.end(), [&](Produs &p){
+       return p.getNume() == element.getNume();
+    });
+
+    if (iter != lista.end())
+    {
+        throw RepoError("Element deja existent!\n");
+    }
     lista.push_back(element);
 }
 
@@ -65,7 +74,7 @@ const T& Repo<T>::cauta_element(const string& nume)const{
             return el;
 
     }
-    throw std::exception();
+    throw RepoError("Element inexistent!\n");
 
 }
 
@@ -76,9 +85,12 @@ void Repo<T>::delete_element(const string &nume){
     auto iter = std::find_if(lista.begin(), lista.end(), [&](Produs& p){
         return (p.getNume() == nume);
     });
-
+    if(numar_elemente() ==0 )
+    {
+        throw RepoError("Lista goala!\n");
+    }
     if (iter == lista.end())
-    {   throw std::exception();
+    {     throw RepoError("Element inexistent!\n");
 
     }
     lista.erase(iter);
@@ -98,12 +110,17 @@ template <typename T>
 void Repo<T>::modifica_element(const string& nume, const T& other)
 {
 
+    if(numar_elemente() ==0 )
+    {
+        throw RepoError("Lista goala!\n");
+    }
+
     auto iter = std::find_if(lista.begin(), lista.end(), [&](Produs& p){
         return (p.getNume() == nume);
     });
 
     if (iter == lista.end())
-    {   throw std::exception();
+    {   throw RepoError("Element inexistent!\n");
 
     }
     (*iter).setProducator(other.getProducator());

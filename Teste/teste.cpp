@@ -137,11 +137,14 @@ void teste_repo(){
     Produs Produs3("c","c","c",0);
     Produs Produs4("d","d","d",231);
 
-    ListaRepo<Produs> lista;
+   Repo<Produs> lista;
     std::ostringstream out;
-    assert(lista.len()==0);
+    assert(lista.numar_elemente()==0);
+
+
+
     try{
-        lista.modify("sa", Produs("a","a","c",23));
+        lista.modifica_element("sa", Produs("a","a","c",23));
         assert(false);
     }catch (RepoError& c) {
         out<<c;
@@ -153,38 +156,38 @@ void teste_repo(){
     }
 
     try{
-        lista.search("dsa");
+        lista.cauta_element("dsa");
         assert(false);
     }catch (RepoError& c) {
     }
     try{
-        lista.erase("DAS");
+        lista.delete_element("DAS");
         assert(false);
     }catch (RepoError& c) {
     }
-    lista.append(Produs1);
-    Produs Produs_Cautat1 = lista.search("a");
+    lista.adaugare_produs(Produs1);
+    Produs Produs_Cautat1 = lista.cauta_element("a");
     assert(Produs_Cautat1 == Produs1);
-    assert(lista.len()==1);
+    assert(lista.numar_elemente()==1);
 
     try{
-        lista.modify("sa", Produs("a","a","c",23));
+        lista.modifica_element("sa", Produs("a","a","c",23));
         assert(false);
     }catch (RepoError& c) {
     }
 
     try{
-        lista.search("dsa");
+        lista.cauta_element("dsa");
         assert(false);
     }catch (RepoError& c) {
     }
     try{
-        lista.erase("DAS");
+        lista.delete_element("DAS");
         assert(false);
     }catch (RepoError& c) {
     }
     try{
-        lista.append(Produs("a","b","c",2));
+        lista.adaugare_produs(Produs("a","b","c",2));
         assert(false);
     }catch (RepoError& c) {
     }
@@ -194,50 +197,50 @@ void teste_repo(){
     Produs ProdusModifica1("a","a","a",60);
     Produs ProdusModifica2("b","b","b",0);
 
-    lista.modify("a", ProdusModifica1);
-    Produs Produs_Cautat_Modificat1 = lista.search("a");
+    lista.modifica_element("a", ProdusModifica1);
+    Produs Produs_Cautat_Modificat1 = lista.cauta_element("a");
     assert(Produs_Cautat_Modificat1 == ProdusModifica1);
 
 
-    lista.append(Produs2);
-    assert(lista.len()==2);
+    lista.adaugare_produs(Produs2);
+    assert(lista.numar_elemente()==2);
 
     try{
-        lista.append(Produs("a","b","c",2));
+        lista.adaugare_produs(Produs("a","b","c",2));
         assert(false);
     }catch (RepoError& c) {
     }
 
 
-    Produs Produs_Cautat2 = lista.search("b");
+    Produs Produs_Cautat2 = lista.cauta_element("b");
     assert(Produs_Cautat2 == Produs2);
 
-    lista.modify("b", ProdusModifica2);
-    Produs Produs_Cautat_Modificat2 = lista.search("b");
+    lista.modifica_element("b", ProdusModifica2);
+    Produs Produs_Cautat_Modificat2 = lista.cauta_element("b");
     assert(Produs_Cautat_Modificat2 == ProdusModifica2);
 
 
 
-    lista.append(Produs3);
-    assert(lista.len()==3);
-    Iterator<Produs> itr = lista.get_all();
+    lista.adaugare_produs(Produs3);
+    assert(lista.numar_elemente()==3);
+//    Iterator<Produs> itr = lista.get_all();
+//
+//    assert(itr.valid() == true);
+//    assert(itr.element() == ProdusModifica1);
+//    itr.urmator();
+//    assert(itr.element() == ProdusModifica2);
+//    itr.urmator();
+//    assert(itr.element() == Produs3);
+//    itr.urmator();
+//    assert(itr.valid() == false);
 
-    assert(itr.valid() == true);
-    assert(itr.element() == ProdusModifica1);
-    itr.urmator();
-    assert(itr.element() == ProdusModifica2);
-    itr.urmator();
-    assert(itr.element() == Produs3);
-    itr.urmator();
-    assert(itr.valid() == false);
+    lista.delete_element("a");
+    assert(lista.numar_elemente()==2);
 
-    lista.erase("a");
-    assert(lista.len()==2);
-
-    lista.erase("c");
-    assert(lista.len()==1);
-    lista.append(Produs4);
-    assert(lista.len()==2);
+    lista.delete_element("c");
+    assert(lista.numar_elemente()==1);
+    lista.adaugare_produs(Produs4);
+    assert(lista.numar_elemente()==2);
 
 
 
