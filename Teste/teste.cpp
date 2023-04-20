@@ -29,6 +29,8 @@ void run_all_tests()
     std::cout<<"Teste service trecute!\n";
     teste_validator();
     std::cout<<"Teste valdiator trecute!\n";
+    teste_cos_service();
+    std::cout<<"Teste cos trecute!\n";
 
 }
 void teste_validator()
@@ -60,10 +62,10 @@ void teste_service()
     assert(REPO.numar_elemente() == 1);
      const Produs& produs_cautat = SERVICE.cauta_service("a");
     assert(produs_cautat ==  Produs("a", "a", "a", 7));
-//
-//  Iterator<Produs> itr = SERVICE.afisare_produse_service();
-//
-//  assert(itr.element() ==Produs("a","a","a",7) );
+
+vector<Produs> itr = SERVICE.afisare_produse_service();
+    assert(itr[0]==Produs("a","a","a",7) );
+
 
 
 
@@ -78,59 +80,100 @@ void teste_service()
     SERVICE.adaugare_produs_service("c", "z", "c", 9);
 
 
-//    ListaRepo<Produs> lista_filtrare;
-//    SERVICE.filtrare_service(lista_filtrare, 1, "7");
-//    Iterator<Produs>itr_filtrare_pret = lista_filtrare.get_all();
-//    assert(itr_filtrare_pret.element() == Produs("a", "b", "c", 7));
-//
-//
-//    ListaRepo<Produs> lista_filtrare2;
-//    SERVICE.filtrare_service(lista_filtrare2, 2, "a");
-//    Iterator<Produs>itr_filtrare_nume = lista_filtrare2.get_all();
-//    assert(itr_filtrare_nume.element() == Produs("a", "b", "c", 7));
-//
-//    ListaRepo<Produs> lista_filtrare3;
-//    SERVICE.filtrare_service(lista_filtrare3, 3, "c");
-//    Iterator<Produs>itr_filtrare_producator= lista_filtrare3.get_all();
-//    assert(itr_filtrare_producator.element() == Produs("a", "b", "c", 7));
-//    itr_filtrare_producator.urmator();
-//    assert(itr_filtrare_producator.element() == Produs("c", "z", "c", 9));
-//
-//    try {
-//        SERVICE.filtrare_service(lista_filtrare3, 6, "c");
-//    }
-//    catch (ValidatorError& ) {};
-//
-//    ListaRepo<Produs> lista_sortata_nume;
-//    SERVICE.sortare_service(lista_sortata_nume,1);
-//    Iterator<Produs> iterator_sortat_nume = lista_sortata_nume.get_all();
-//    assert(iterator_sortat_nume.element() == Produs("a", "b", "c", 7));
-//    iterator_sortat_nume.urmator();
-//    assert(iterator_sortat_nume.element() == Produs("b", "z", "e", 1));
-//    iterator_sortat_nume.urmator();
-//    assert(iterator_sortat_nume.element() == Produs("c", "z", "c", 9));
-//
-//    ListaRepo<Produs> lista_sortata_pret;
-//    SERVICE.sortare_service(lista_sortata_pret,2);
-//    Iterator<Produs> iterator_sortat_pret = lista_sortata_pret.get_all();
-//    assert(iterator_sortat_pret.element() == Produs("b", "z", "e", 1));
-//    iterator_sortat_pret.urmator();
-//    assert(iterator_sortat_pret.element() == Produs("a", "b", "c", 7));
-//    iterator_sortat_pret.urmator();
-//    assert(iterator_sortat_pret.element() == Produs("c", "z", "c", 9));
-//
-//    ListaRepo<Produs> lista_sortata_nume_tip;
-//    SERVICE.sortare_service(lista_sortata_nume_tip,3);
-//    Iterator<Produs> iterator_sortat_nume_tip = lista_sortata_nume_tip.get_all();
-//    assert(iterator_sortat_nume_tip.element() == Produs("a", "b", "c", 7));
-//    iterator_sortat_nume_tip.urmator();
-//    assert(iterator_sortat_nume_tip.element() == Produs("b", "z", "e", 1));
-//    iterator_sortat_nume_tip.urmator();
-//    assert(iterator_sortat_nume_tip.element() == Produs("c", "z", "c", 9));
-//
+   vector<Produs> lista_filtrare;
+   SERVICE.filtrare_service(lista_filtrare, 1, "7");
+
+   assert(lista_filtrare[0] == Produs("a", "b", "c", 7));
+
+    vector<Produs> lista_filtrare2;
+    SERVICE.filtrare_service(lista_filtrare2, 2, "a");
+
+    assert(lista_filtrare2[0] == Produs("a", "b", "c", 7));
+
+   vector<Produs> lista_filtrare3;
+    SERVICE.filtrare_service(lista_filtrare3, 3, "c");
+
+   assert(lista_filtrare3[0] == Produs("a", "b", "c", 7));
+    assert(lista_filtrare3[1] == Produs("c", "z", "c", 9));
+
+
+    try {
+        SERVICE.filtrare_service(lista_filtrare3, 6, "c");
+    }
+    catch (ValidatorError& ) {};
+
+   vector<Produs> lista_sortata_nume;
+    SERVICE.sortare_service(lista_sortata_nume,1);
+
+    assert( lista_sortata_nume[0] == Produs("a", "b", "c", 7));
+
+    assert( lista_sortata_nume[1] == Produs("b", "z", "e", 1));
+
+    assert( lista_sortata_nume[2] == Produs("c", "z", "c", 9));
+
+    vector<Produs> lista_sortata_pret;
+    SERVICE.sortare_service(lista_sortata_pret,2);
+
+    assert(lista_sortata_pret[0] == Produs("b", "z", "e", 1));
+
+    assert(lista_sortata_pret[1] == Produs("a", "b", "c", 7));
+
+    assert(lista_sortata_pret[2] == Produs("c", "z", "c", 9));
+
+    vector<Produs> lista_sortata_nume_tip;
+    SERVICE.sortare_service(lista_sortata_nume_tip,3);
+
+    assert(lista_sortata_nume_tip[0] == Produs("a", "b", "c", 7));
+
+    assert(lista_sortata_nume_tip[1] == Produs("b", "z", "e", 1));
+
+    assert(lista_sortata_nume_tip[2] == Produs("c", "z", "c", 9));
+
+    try{
+        SERVICE.sortare_service(lista_sortata_nume_tip,4);
+        assert(false);
+    }
+    catch (ValidatorError& e){};
+
+    SERVICE.adaugare_produs_service("A", "z", "c", 9);
+    vector<Produs> lista_sortata_nume2;
+    SERVICE.sortare_service(lista_sortata_nume2,1);
+
+    assert( lista_sortata_nume2[0] == Produs("A", "z", "c", 9));
+    assert( lista_sortata_nume2[1] == Produs("a", "b", "c", 7));
+
+    vector<Produs> lista_sortata_nume_tip2;
+    SERVICE.sortare_service(lista_sortata_nume_tip2,3);
+
+    assert( lista_sortata_nume_tip2[0] == Produs("A", "z", "c", 9));
+    assert( lista_sortata_nume_tip2[1] == Produs("a", "b", "c", 7));
+
 
 }
 
+void teste_cos_service()
+{    Repo<Produs> REPO;
+    Service SERVICE(REPO);
+    Produs Produs1("a","a","a",20);
+    Produs Produs2("b","b","b",90);
+    Produs Produs3("c","c","c",1);
+    REPO.adaugare_produs(Produs1);
+    REPO.adaugare_produs(Produs2);
+    REPO.adaugare_produs(Produs3);
+
+    SERVICE.adaugare_cos_service("a");
+    assert(SERVICE.pret_cos_service() - 20 <= 0.00001);
+    SERVICE.adaugare_cos_service("a");
+    SERVICE.goleste_cos_servcie();
+    assert(SERVICE.pret_cos_service() - 0 <= 0.00001);
+
+    SERVICE.genereaza_cos_service(1);
+    assert(SERVICE.pret_cos_service() > 0);
+
+    SERVICE.genereaza_cos_service(6);
+    assert(SERVICE.pret_cos_service() - 222 <= 0.00001);
+
+}
 void teste_repo(){
     Produs Produs1("a","a","a",20);
     Produs Produs2("b","b","b",90);
@@ -223,7 +266,9 @@ void teste_repo(){
 
     lista.adaugare_produs(Produs3);
     assert(lista.numar_elemente()==3);
-//    Iterator<Produs> itr = lista.get_all();
+    vector<Produs> temp = lista.get_all();
+    assert(temp[2] == Produs3);
+
 //
 //    assert(itr.valid() == true);
 //    assert(itr.element() == ProdusModifica1);
@@ -242,6 +287,10 @@ void teste_repo(){
     lista.adaugare_produs(Produs4);
     assert(lista.numar_elemente()==2);
 
+    RepoCos<Produs> REPOCOS;
+    assert(REPOCOS.numar_elemente() == 0);
+    REPOCOS.adaugare_produs(Produs3);
+    assert(REPOCOS.numar_elemente() == 1);
 
 
 

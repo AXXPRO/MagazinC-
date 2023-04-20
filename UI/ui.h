@@ -16,7 +16,14 @@ private:
     ///Function for adding a Produs to the aplication
     void add_produs_ui();
 
+    ///Functie ui pentru a adauga in cos un element dupa nume
+   void adaugare_cos_ui();
+    ///Functie ui pentru a golii cosu
+   void goleste_cos_ui();
+   ///Functia de ui pentru a genera cosu
+   void genereaza_cos_ui();
 
+    void pret_cos_ui();
 
 public:
     UI(Service& SERVICE): SERVICE{SERVICE}{};

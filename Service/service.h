@@ -20,8 +20,9 @@ private:
     bool boolSortare(const Produs& p1 ,const Produs& p2, int& camp_sortat);
     bool boolFilter(const Produs&,const int&, const string&) const;
     Repo<Produs>& REPO;
+    RepoCos<Produs> RepoCos;
 public:
-    Service(Repo<Produs>& REPO):REPO{REPO}{};
+    Service(Repo<Produs>& REPO):REPO{REPO}/* , RepoCos{Repo<Produs>()} */{};
     void adaugare_produs_service(const std::string& nume, const std::string& tip, const std::string& producator, const float& pret);
 
     ///Returneaza un vector cu produsele
@@ -38,6 +39,18 @@ public:
     const Produs& cauta_service(const string&);
      ///Functia modifica produsul dat prin nume, sau arunca exceptie
      void modifica_service(const std::string& nume, const std::string& tip, const std::string& producator, const float& pret);
+
+
+    ///Functions for the the creation of a COS
+    void adaugare_cos_service(const string& nume);
+    ///Functie ce va golii cosul
+    void goleste_cos_servcie();
+    ///Functie ce va genera nr_elemente in cos
+    void genereaza_cos_service(int);
+    ///Functia va returna pretul actual al elementelor din cos
+    float pret_cos_service();
+
+
 };
 
 

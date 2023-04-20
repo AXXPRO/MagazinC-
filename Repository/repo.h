@@ -17,7 +17,7 @@ using std::vector;
 template <typename T>
 class Repo{
 
-private:
+protected:
     vector<T> lista;
 
 public:
@@ -47,7 +47,7 @@ public:
 template <typename T>
 void Repo<T>::adaugare_produs(const T &element) {
 
-    auto iter = std::find_if(lista.begin(), lista.end(), [&](Produs &p){
+    auto iter = std::find_if(lista.begin(), lista.end(), [&](T &p){
        return p.getNume() == element.getNume();
     });
 
@@ -82,7 +82,7 @@ template <typename T>
 void Repo<T>::delete_element(const string &nume){
 
 
-    auto iter = std::find_if(lista.begin(), lista.end(), [&](Produs& p){
+    auto iter = std::find_if(lista.begin(), lista.end(), [&](T& p){
         return (p.getNume() == nume);
     });
     if(numar_elemente() ==0 )
@@ -115,7 +115,7 @@ void Repo<T>::modifica_element(const string& nume, const T& other)
         throw RepoError("Lista goala!\n");
     }
 
-    auto iter = std::find_if(lista.begin(), lista.end(), [&](Produs& p){
+    auto iter = std::find_if(lista.begin(), lista.end(), [&](T& p){
         return (p.getNume() == nume);
     });
 
@@ -147,5 +147,27 @@ vector<T>& Repo<T>::get_all(){
 
     return lista;
 }
+
+
+template <typename T>
+class RepoCos:public Repo<T>{
+public:
+    void adaugare_produs(const T& element);
+};
+
+template <typename T>
+void RepoCos<T>::adaugare_produs(const T &element) {
+
+//    int nr_elemente = std::count_if(Repo<T>::lista.begin(),Repo<T>::lista.end(), [&](T& el){
+//        return el.getNume()==element.getNume();
+//    });
+//    if(nr_elemente == 2)
+//    {
+//        throw RepoError("Maxim 2 elemente cu acelasi nume!");
+//    }
+    Repo<T>::lista.push_back(element);
+}
+
+
 
 #endif //MAGAZINC___REPO_H

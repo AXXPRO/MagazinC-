@@ -17,6 +17,10 @@ void UI::show_ui() {
     cout<<"5.Afisare de produse\n";
     cout<<"6.Filtrare dupa un criteriu\n";
     cout<<"7.Sortare dupa un criteriu\n";
+    cout<<"\nUrmatoarele operatii sunt pentru gestionarea cosului de produse\n\n";
+    cout<<"8.Adaugare un produs dupa nume in cos\n";
+    cout<<"9.Golire cos\n";
+    cout<<"10.Genereaza cos\n";
     cout<<"0.Inchidere\n";
 }
 
@@ -65,19 +69,37 @@ void UI::run_ui(){
                 case 7:
                     sortare_ui();
                     break;
+                case 8:
+                   adaugare_cos_ui();
+                    break;
+                case 9:
+                   goleste_cos_ui();
+                    break;
+                case 10:
+                    genereaza_cos_ui();
+                    break;
                 default:
                     std::cout<<"Varianta inexsitetna!\n";
-                    getchar();
+                   // getchar();
 
             }
         }
         catch (RepoError& err){cout<<err;}
         catch (std::invalid_argument&) {cout<<"Date de intrare invalide!\n";}
+        pret_cos_ui();
+
 
     }
 
 
 }
+
+void UI::pret_cos_ui()
+{
+    float pret_cos = SERVICE.pret_cos_service();
+    cout<<"\nPretul actual al produselor din cos este "<<pret_cos<<endl;
+}
+
 void UI::modifica_ui() {
 
     string  nume_de_modificat;
@@ -199,6 +221,27 @@ void UI::add_produs_ui() {
 
     SERVICE.adaugare_produs_service(nume,tip,producator,pret);
 
+}
 
+void UI::adaugare_cos_ui() {
+    string  nume_de_adaugat;
+    cout<<" Dati numele: ";
+    std::getline(std::cin, nume_de_adaugat);
 
+    SERVICE.adaugare_cos_service(nume_de_adaugat);
+
+}
+
+void UI::goleste_cos_ui(){
+    SERVICE.goleste_cos_servcie();
+}
+
+void UI::genereaza_cos_ui(){
+    string nr_elemente_string;
+    int nr_elemente;
+    cout<<" Dati numarul de elemente pe care le adaugam: ";
+    std::getline(std::cin, nr_elemente_string);
+    nr_elemente = stoi(nr_elemente_string);
+
+    SERVICE.genereaza_cos_service(nr_elemente);
 }

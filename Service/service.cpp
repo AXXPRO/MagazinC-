@@ -6,6 +6,7 @@
 #include <iostream>
 #include <algorithm>
 #include "../Lista/lista.h"
+#include <random>
 #include "../Validator/validator.h"
 void Service::adaugare_produs_service(const std::string& nume, const std::string& tip, const std::string& producator, const float& pret) {
 
@@ -109,9 +110,6 @@ void Service::filtrare_service(vector<Produs>& filtrat,int camp_filtrat, string 
     });
 
 
-
-
-
 }
 
 
@@ -125,4 +123,60 @@ REPO.delete_element(nume);
 
     return REPO.cauta_element(nume);
 
+}
+
+void Service::adaugare_cos_service(const string &nume) {
+
+    Produs P =REPO.cauta_element(nume);
+    RepoCos.adaugare_produs(P);
+}
+void Service::goleste_cos_servcie() {
+
+    vector<Produs> temp = RepoCos.get_all();
+    vector<string> temp_string;
+    for(auto const& el : temp)
+    {   temp_string.push_back(el.getNume());
+    }
+    for(auto const& el : temp_string)
+    {
+        RepoCos.delete_element(el);
+    }
+
+}
+
+void Service::genereaza_cos_service(int nr_elemente)
+{
+
+    this->goleste_cos_servcie();
+
+    vector<Produs> elemente = REPO.get_all();
+    vector<string> disponibile;
+    for(auto const& el: elemente)
+    {
+        disponibile.push_back(el.getNume());
+        disponibile.push_back(el.getNume());
+    }
+
+    while(nr_elemente && disponibile.size())
+    {    std::mt19937 mt{ std::random_device{}() };
+        std::uniform_int_distribution<> dist(0, disponibile.size()-1);
+        int rndNr = dist(mt);
+        Produs aux = REPO.cauta_element(disponibile[rndNr]);
+        RepoCos.adaugare_produs(aux);
+
+        disponibile.erase(disponibile.begin() + rndNr);
+        nr_elemente--;
+    }
+
+
+}
+
+float Service::pret_cos_service(){
+    float pret = 0;
+
+    for( auto const& el : RepoCos.get_all())
+    {
+        pret+=el.getPret();
+    }
+    return pret;
 }
