@@ -128,18 +128,18 @@ REPO.delete_element(nume);
 void Service::adaugare_cos_service(const string &nume) {
 
     Produs P =REPO.cauta_element(nume);
-    RepoCos.adaugare_produs(P);
+    REPOCos.adaugare_produs(P);
 }
 void Service::goleste_cos_servcie() {
 
-    vector<Produs> temp = RepoCos.get_all();
+    vector<Produs> temp = REPOCos.get_all();
     vector<string> temp_string;
     for(auto const& el : temp)
     {   temp_string.push_back(el.getNume());
     }
     for(auto const& el : temp_string)
     {
-        RepoCos.delete_element(el);
+        REPOCos.delete_element(el);
     }
 
 }
@@ -162,7 +162,7 @@ void Service::genereaza_cos_service(int nr_elemente)
         std::uniform_int_distribution<> dist(0, disponibile.size()-1);
         int rndNr = dist(mt);
         Produs aux = REPO.cauta_element(disponibile[rndNr]);
-        RepoCos.adaugare_produs(aux);
+        REPOCos.adaugare_produs(aux);
 
         disponibile.erase(disponibile.begin() + rndNr);
         nr_elemente--;
@@ -174,7 +174,7 @@ void Service::genereaza_cos_service(int nr_elemente)
 float Service::pret_cos_service(){
     float pret = 0;
 
-    for( auto const& el : RepoCos.get_all())
+    for( auto const& el : REPOCos.get_all())
     {
         pret+=el.getPret();
     }

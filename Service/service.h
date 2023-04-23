@@ -20,7 +20,7 @@ private:
     bool boolSortare(const Produs& p1 ,const Produs& p2, int& camp_sortat);
     bool boolFilter(const Produs&,const int&, const string&) const;
     Repo<Produs>& REPO;
-    RepoCos<Produs> RepoCos;
+    RepoCos<Produs> REPOCos;
 public:
     Service(Repo<Produs>& REPO):REPO{REPO}/* , RepoCos{Repo<Produs>()} */{};
     void adaugare_produs_service(const std::string& nume, const std::string& tip, const std::string& producator, const float& pret);
