@@ -21,6 +21,7 @@ void UI::show_ui() {
     cout<<"8.Adaugare un produs dupa nume in cos\n";
     cout<<"9.Golire cos\n";
     cout<<"10.Genereaza cos\n";
+    cout<<"11.Export\n";
     cout<<"0.Inchidere\n";
 }
 
@@ -78,6 +79,8 @@ void UI::run_ui(){
                 case 10:
                     genereaza_cos_ui();
                     break;
+                case 11:
+                    export_ui();
                 default:
                     std::cout<<"Varianta inexsitetna!\n";
                    // getchar();
@@ -93,7 +96,14 @@ void UI::run_ui(){
 
 
 }
+void UI::export_ui() {
+    string  nume_fisier;
+    cout<<" Dati numele fisierului unde dam export: ";
+    std::getline(std::cin, nume_fisier);
 
+    SERVICE.export_service(nume_fisier);
+
+}
 void UI::pret_cos_ui()
 {
     float pret_cos = SERVICE.pret_cos_service();

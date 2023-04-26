@@ -5,6 +5,7 @@
 #include "service.h"
 #include <iostream>
 #include <algorithm>
+#include <fstream>
 #include "../Lista/lista.h"
 #include <random>
 #include "../Validator/validator.h"
@@ -123,6 +124,19 @@ REPO.delete_element(nume);
 
     return REPO.cauta_element(nume);
 
+}
+void Service::export_service(const string &nume_fisier)
+{
+    vector<Produs> temp = REPOCos.get_all();
+
+
+    std::ofstream f(nume_fisier);
+    for(const auto& el : temp)
+    {
+        f<<el<<std::endl;
+    }
+
+    f.close();
 }
 
 void Service::adaugare_cos_service(const string &nume) {

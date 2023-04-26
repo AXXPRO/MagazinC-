@@ -28,7 +28,7 @@ public:
     ///Returneaza un vector cu produsele
     vector<Produs>& afisare_produse_service () const;
 
-
+    void export_service (const string&);
     void filtrare_service(vector<Produs>& ,int camp_filtrat, string filtru);
 
     void sortare_service(vector<Produs>& , int camp_sortare);

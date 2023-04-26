@@ -25,6 +25,8 @@ private:
 
     void pret_cos_ui();
 
+    void export_ui();
+
 public:
     UI(Service& SERVICE): SERVICE{SERVICE}{};
     ///Function that runs the aplication
