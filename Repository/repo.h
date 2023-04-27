@@ -25,7 +25,7 @@ public:
     /// \return the number of elements currently in the Repo
     int numar_elemente() const;
     ///Adds an ellement
-    void adaugare_produs(const T& element);
+   virtual void adaugare_produs(const T& element);
     ///Returns an object with the given name, or trows exception if none found
 
    const  T& cauta_element(const string& nume)const;
@@ -152,7 +152,7 @@ vector<T>& Repo<T>::get_all(){
 template <typename T>
 class RepoCos:public Repo<T>{
 public:
-    void adaugare_produs(const T& element);
+    void adaugare_produs(const T& element) override;
 };
 
 template <typename T>

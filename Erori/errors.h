@@ -11,7 +11,7 @@ using std::ostream;
 class RepoError{
     string mesaj;
 public:
-   string get_mesaj() const { return mesaj;}
+   //string get_mesaj() const { return mesaj;}
     RepoError(string err):mesaj{err} {}
 friend ostream& operator<<(ostream& out, const RepoError& msj);
 };
@@ -25,7 +25,7 @@ class ValidatorError{
     string mesaj;
 public:
     ValidatorError(string err):mesaj{err} {}
-     string get_mesaj() const { return mesaj;}
+     //string get_mesaj() const { return mesaj;}
     friend ostream& operator<<(ostream& out, const ValidatorError& msj);
 };
 

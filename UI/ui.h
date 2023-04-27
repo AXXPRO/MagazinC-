@@ -26,6 +26,7 @@ private:
     void pret_cos_ui();
 
     void export_ui();
+    void raport_ui();
 
 public:
     UI(Service& SERVICE): SERVICE{SERVICE}{};

@@ -6,9 +6,11 @@
 #define MAGAZINC___SERVICE_H
 #include "../Repository/repo.h"
 #include "../Lista/lista.h"
+#include <map>
 #include <iostream>
 
 using std::string;
+using std::multimap;
 class Service{
 
 
@@ -50,6 +52,7 @@ public:
     ///Functia va returna pretul actual al elementelor din cos
     float pret_cos_service();
 
+    void raport_service(std::map<string,vector<Produs>>&);
 
 };
 

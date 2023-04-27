@@ -6,9 +6,13 @@
 #include <iostream>
 #include <algorithm>
 #include <fstream>
-#include "../Lista/lista.h"
+
 #include <random>
+
+#include <iterator>
 #include "../Validator/validator.h"
+using std::pair;
+using std::map;
 void Service::adaugare_produs_service(const std::string& nume, const std::string& tip, const std::string& producator, const float& pret) {
 
     Produs produs = Produs(nume, tip,producator,pret);
@@ -129,8 +133,10 @@ void Service::export_service(const string &nume_fisier)
 {
     vector<Produs> temp = REPOCos.get_all();
 
-
-    std::ofstream f(nume_fisier);
+    string true_name;
+    true_name+="../";
+    true_name+=nume_fisier;
+    std::ofstream f(true_name);
     for(const auto& el : temp)
     {
         f<<el<<std::endl;
@@ -193,4 +199,13 @@ float Service::pret_cos_service(){
         pret+=el.getPret();
     }
     return pret;
+}
+
+void Service::raport_service(map<string, vector<Produs>>& dictionar)
+{
+    vector<Produs> v = REPO.get_all();
+    for(auto const& el : v)
+    {
+        dictionar[el.getTip()].push_back(el);
+    }
 }

@@ -2,10 +2,12 @@
 // Created by Gabi on 02.04.2023.
 //
 #include <iostream>
+#include <map>
 #include "ui.h"
 using std::cout;
 using std::cin;
 using std::endl;
+using std::multimap;
 
 void UI::show_ui() {
 
@@ -22,6 +24,8 @@ void UI::show_ui() {
     cout<<"9.Golire cos\n";
     cout<<"10.Genereaza cos\n";
     cout<<"11.Export\n";
+
+    cout<<"12.Raport\n";
     cout<<"0.Inchidere\n";
 }
 
@@ -81,6 +85,10 @@ void UI::run_ui(){
                     break;
                 case 11:
                     export_ui();
+                    break;
+                case 12:
+                    raport_ui();
+                    break;
                 default:
                     std::cout<<"Varianta inexsitetna!\n";
                    // getchar();
@@ -254,4 +262,21 @@ void UI::genereaza_cos_ui(){
     nr_elemente = stoi(nr_elemente_string);
 
     SERVICE.genereaza_cos_service(nr_elemente);
+}
+
+void UI::raport_ui() {
+    std::map<string,vector<Produs>> dictionar;
+    SERVICE.raport_service(dictionar);
+
+    for(auto const& el: dictionar)
+    {
+        cout<<"Elementele de tipul "<<el.first<<" sunt:\n";
+        for(auto const&prod: el.second)
+        {
+            cout<<prod<<endl;
+        }
+
+    }
+
+
 }
