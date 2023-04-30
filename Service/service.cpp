@@ -17,7 +17,6 @@ void Service::adaugare_produs_service(const std::string& nume, const std::string
 
     Produs produs = Produs(nume, tip,producator,pret);
 
-
     ///VALDIARE
     ValidatorProdus::isValid(produs);
     REPO.adaugare_produs(produs);

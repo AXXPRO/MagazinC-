@@ -33,6 +33,8 @@ public:
     ///sets the price of the produs
     void setPret(const float&);
 
+    std::string to_string() const;
+
     bool operator ==(const Produs& o);
 
     friend std:: ostream& operator<<(std::ostream& os, const Produs& produs);

@@ -87,7 +87,7 @@ int main() {
 
 
     run_all_tests();
-    Repo<Produs> repo;
+    RepoFisier<Produs> repo("produse.txt");
     Service service(repo);
     UI aplicatie(service);
     aplicatie.run_ui();

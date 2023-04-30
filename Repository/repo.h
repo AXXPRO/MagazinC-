@@ -4,10 +4,11 @@
 
 #ifndef MAGAZINC___REPO_H
 #define MAGAZINC___REPO_H
-
+#include <sstream>
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <fstream>
 #include "../Domain/domain.h"
 #include "../Erori/errors.h"
 
@@ -28,18 +29,18 @@ public:
    virtual void adaugare_produs(const T& element);
     ///Returns an object with the given name, or trows exception if none found
 
-   const  T& cauta_element(const string& nume)const;
+   virtual const T& cauta_element(const string& nume);
 
     /// Modifies the object's attributes(identified by its name) to the ones of the "other" parameter
     ///Trows exception if no object with said name
-    void modifica_element(const string& nume, const T& other);
+  virtual void modifica_element(const string& nume, const T& other);
 
     ///Functia returneaza un vector cu toate elementele din aplicatie
-     vector<T>&  get_all();
+    virtual vector<T>&  get_all();
 
 
     ///Functia va sterge elementul cu numele dat sau va arunca exceptie
-    void delete_element(const string& nume);
+   virtual void delete_element(const string& nume);
 
 };
 
@@ -65,7 +66,7 @@ int Repo<T>:: numar_elemente() const
     return (int)lista.size();
 }
 template <typename T>
-const T& Repo<T>::cauta_element(const string& nume)const{
+const T& Repo<T>::cauta_element(const string& nume){
 
 
     for(const auto& el:lista)
@@ -169,5 +170,129 @@ void RepoCos<T>::adaugare_produs(const T &element) {
 }
 
 
+template <typename T>
+class RepoFisier:public Repo<T>{
+
+
+    private:
+        string calea;
+    void store();
+    void load();
+
+
+    public:
+   RepoFisier(string cale) {
+       this->calea = cale;
+        load();
+    };
+
+    ~RepoFisier(){
+        store();
+    }
+
+    void adaugare_produs(const T& element) override;
+    const T& cauta_element(const string& nume) override;
+
+    void modifica_element(const string& nume, const T& other) override;
+
+
+    vector<T>& get_all() override;
+
+    void delete_element(const string& nume) override;
+
+
+    };
+
+template <typename T>
+void RepoFisier<T>::adaugare_produs(const T &element)  {
+
+    load();
+    Repo<T>::adaugare_produs(element);
+    store();
+
+}
+template <typename T>
+void RepoFisier<T>::modifica_element(const string& nume, const T& other)  {
+
+    load();
+    Repo<T>::modifica_element(nume, other);
+    store();
+
+}
+template <typename T>
+const T& RepoFisier<T>:: cauta_element(const string& nume)  {
+
+    load();
+   return Repo<T>::cauta_element(nume);
+
+
+}
+template <typename T>
+vector<T>& RepoFisier<T>::get_all()  {
+
+    load();
+   return Repo<T>::get_all();
+
+}
+template <typename T>
+void RepoFisier<T>::delete_element(const string& nume)  {
+
+    load();
+    Repo<T>::delete_element(nume);
+    store();
+
+}
+template <typename T>
+void RepoFisier<T>::load()
+{
+    Repo<T>::lista.clear();
+    std::ifstream f("../"+calea);
+    if (!f.is_open())
+    {
+        throw RepoError("Fisier inexistent!\n");
+    }
+
+    string linie, cuvant;
+    vector<string> cuvinte;
+
+
+    while(!f.eof())
+    { cuvinte.clear();
+        std::getline(f, linie);
+
+
+        if(linie != "")
+        {
+            std::stringstream X(linie);
+
+            while(getline(X, cuvant, ','))
+            {
+                cuvinte.push_back(cuvant);
+            }
+
+            ///nume, tip, producator, pret
+            Produs p(cuvinte[0],cuvinte[1],cuvinte[2] , stof(cuvinte[3]));
+            Repo<T>::adaugare_produs(p);
+        }
+
+
+    }
+    f.close();
+
+}
+template <typename T>
+void RepoFisier<T>::store()
+{
+std::ofstream f("../"+calea);
+    if (!f.is_open()) {
+        throw RepoError("Fisier inexistent!\n");
+
+    }
+    for (auto& p:Repo<T>::get_all()) {
+       f<<p.to_string()<<std::endl;
+    }
+
+    f.close();
+}
 
 #endif //MAGAZINC___REPO_H

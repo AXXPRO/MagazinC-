@@ -26,6 +26,21 @@ Produs::~Produs() {
    // std::cout<<"Produs distrus!\n";
 
 }
+std::string Produs::to_string() const {
+    std::string result;
+
+    result+=this->nume;
+    result+=",";
+    result+=this->tip;
+    result+=",";
+    result+=this->producator;
+    result+=",";
+    result+= std::to_string(this->pret);
+
+    return result;
+
+}
+
 std::string Produs::getNume() const{
     return this->nume;
 }
