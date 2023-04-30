@@ -27,6 +27,7 @@ private:
 
     void export_ui();
     void raport_ui();
+    void undo_ui();
 
 public:
     UI(Service& SERVICE): SERVICE{SERVICE}{};

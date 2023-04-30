@@ -11,6 +11,7 @@
 
 #include <iterator>
 #include "../Validator/validator.h"
+
 using std::pair;
 using std::map;
 void Service::adaugare_produs_service(const std::string& nume, const std::string& tip, const std::string& producator, const float& pret) {
@@ -21,7 +22,32 @@ void Service::adaugare_produs_service(const std::string& nume, const std::string
     ValidatorProdus::isValid(produs);
     REPO.adaugare_produs(produs);
 
+    ActiuneUndo* act = new UndoAdaugare(REPO, produs);
+    lista_undouri.push_back(act);
+
 }
+
+Service::~Service() {
+
+    for(auto el : lista_undouri)
+    {
+        delete el;
+    }
+}
+
+void Service::undo_service()
+{
+    if(lista_undouri.empty())
+    {
+        throw ValidatorError("Lista de undo goala!\n");
+    }
+
+    ActiuneUndo* act = lista_undouri.back();
+    act->undo();
+    lista_undouri.pop_back();
+    delete act;
+}
+
 
 vector<Produs>&  Service::afisare_produse_service() const
 {
@@ -34,6 +60,9 @@ void Service::modifica_service(const string &nume,const std::string& tip, const 
     Produs produs = Produs(nume, tip,producator,pret);
     ValidatorProdus::isValid(produs);
     REPO.modifica_element(nume, produs);
+
+    ActiuneUndo* act = new UndoModificare(REPO, produs);
+    lista_undouri.push_back(act);
 }
 bool Service::boolSortare(const Produs& p1 ,const Produs& p2, int& camp_sortat)
 { string st1, st2;
@@ -119,8 +148,11 @@ void Service::filtrare_service(vector<Produs>& filtrat,int camp_filtrat, string 
 
 void Service::delete_service(const string& nume) {
 
-REPO.delete_element(nume);
 
+    const Produs& p = REPO.cauta_element(nume);
+    REPO.delete_element(nume);
+    ActiuneUndo* act = new UndoStergere(REPO, p);
+    lista_undouri.push_back(act);
 }
 
  const Produs& Service::cauta_service(const string &nume) {

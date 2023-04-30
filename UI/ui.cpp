@@ -26,6 +26,7 @@ void UI::show_ui() {
     cout<<"11.Export\n";
 
     cout<<"12.Raport\n";
+    cout<<"13.Undo\n";
     cout<<"0.Inchidere\n";
 }
 
@@ -89,6 +90,9 @@ void UI::run_ui(){
                 case 12:
                     raport_ui();
                     break;
+                case 13:
+                    undo_ui();
+                    break;
                 default:
                     std::cout<<"Varianta inexsitetna!\n";
                    // getchar();
@@ -96,6 +100,7 @@ void UI::run_ui(){
             }
         }
         catch (RepoError& err){cout<<err;}
+        catch (ValidatorError& err){cout<<err;}
         catch (std::invalid_argument&) {cout<<"Date de intrare invalide!\n";}
         pret_cos_ui();
 
@@ -103,6 +108,11 @@ void UI::run_ui(){
     }
 
 
+}
+
+void UI::undo_ui()
+{
+    SERVICE.undo_service();
 }
 void UI::export_ui() {
     string  nume_fisier;

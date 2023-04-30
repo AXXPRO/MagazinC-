@@ -6,6 +6,7 @@
 #define MAGAZINC___SERVICE_H
 #include "../Repository/repo.h"
 #include "../Lista/lista.h"
+#include "../Undo/undo.h"
 #include <map>
 #include <iostream>
 
@@ -23,8 +24,13 @@ private:
     bool boolFilter(const Produs&,const int&, const string&) const;
     Repo<Produs>& REPO;
     RepoCos<Produs> REPOCos;
+    vector<ActiuneUndo*> lista_undouri;
 public:
     Service(Repo<Produs>& REPO):REPO{REPO}/* , RepoCos{Repo<Produs>()} */{};
+    ~Service();
+
+    void undo_service();
+
     void adaugare_produs_service(const std::string& nume, const std::string& tip, const std::string& producator, const float& pret);
 
     ///Returneaza un vector cu produsele
