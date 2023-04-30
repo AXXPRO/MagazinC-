@@ -31,6 +31,36 @@ void run_all_tests()
     std::cout<<"Teste valdiator trecute!\n";
     teste_cos_service();
     std::cout<<"Teste cos trecute!\n";
+    teste_repo_fisier();
+    std::cout<<"Teste repo fisier trecute!\n";
+    teste_undo();
+    std::cout<<"Teste undo trecute!\n";
+
+}
+
+void teste_undo()
+{
+    Repo<Produs> R;
+    Produs produs_test("a","b","c",1);
+    R.adaugare_produs(produs_test);
+    assert(R.numar_elemente() == 1);
+    ActiuneUndo* act = new UndoAdaugare(R, produs_test);
+    act->undo();
+    delete act;
+    assert(R.numar_elemente() == 0);
+    act = new UndoStergere(R, produs_test);
+    act->undo();
+    delete act;
+    assert(R.numar_elemente() == 1);
+    assert(R.cauta_element("a") == produs_test);
+    R.modifica_element("a", Produs("a","z","z",3));
+
+    act = new UndoModificare(R, produs_test);
+    act->undo();
+    delete act;
+    assert(R.cauta_element("a") == produs_test);
+
+
 
 }
 void teste_validator()
@@ -58,8 +88,21 @@ void teste_service()
     Service SERVICE(REPO);
 
     assert(REPO.numar_elemente() == 0);
+
+    try{
+        SERVICE.undo_service();
+    }
+    catch (ValidatorError& err) {};
+
     SERVICE.adaugare_produs_service("a", "a", "a", 7);
+
     assert(REPO.numar_elemente() == 1);
+    SERVICE.undo_service();
+    assert(REPO.numar_elemente() == 0);
+
+    SERVICE.adaugare_produs_service("a", "a", "a", 7);
+
+
      const Produs& produs_cautat = SERVICE.cauta_service("a");
     assert(produs_cautat ==  Produs("a", "a", "a", 7));
 
@@ -79,6 +122,16 @@ vector<Produs> itr = SERVICE.afisare_produse_service();
     SERVICE.adaugare_produs_service("b", "z", "e", 1);
     SERVICE.adaugare_produs_service("c", "z", "c", 9);
 
+   std::map<string, vector<Produs>>  M;
+   SERVICE.raport_service(M);
+
+   for(const auto& el : M["b"])
+   {
+       assert(el == Produs("a", "b", "c", 7));
+   }
+    for(const auto& el : M["z"]){
+        assert(el == Produs("b", "z", "e", 1) || el == Produs("c", "z", "c", 9));
+    }
 
    vector<Produs> lista_filtrare;
    SERVICE.filtrare_service(lista_filtrare, 1, "7");
@@ -149,6 +202,8 @@ vector<Produs> itr = SERVICE.afisare_produse_service();
     assert( lista_sortata_nume_tip2[1] == Produs("a", "b", "c", 7));
 
 
+
+
 }
 
 void teste_cos_service()
@@ -172,6 +227,19 @@ void teste_cos_service()
 
     SERVICE.genereaza_cos_service(6);
     assert(SERVICE.pret_cos_service() - 222 <= 0.00001);
+
+
+    SERVICE.goleste_cos_servcie();
+    SERVICE.adaugare_cos_service("a");
+    SERVICE.export_service("test_cos.txt");
+
+    string nume_fisier = "../";
+    nume_fisier+="test_cos.txt";
+    std::ifstream f(nume_fisier);
+    assert(f.good() == true);
+    f.close();
+    remove("../test_cos.txt");
+
 
 }
 void teste_repo(){
@@ -269,15 +337,6 @@ void teste_repo(){
     vector<Produs> temp = lista.get_all();
     assert(temp[2] == Produs3);
 
-//
-//    assert(itr.valid() == true);
-//    assert(itr.element() == ProdusModifica1);
-//    itr.urmator();
-//    assert(itr.element() == ProdusModifica2);
-//    itr.urmator();
-//    assert(itr.element() == Produs3);
-//    itr.urmator();
-//    assert(itr.valid() == false);
 
     lista.delete_element("a");
     assert(lista.numar_elemente()==2);
@@ -297,59 +356,32 @@ void teste_repo(){
 
 
 
-    /*
-    Repo<Produs> REPO;
-    assert(REPO.numar_elemente() ==0);
-    Produs produs1("a","b","b",12.5);
 
+}
 
-    cout<<"!\n";
-    REPO.adaugare_produs(produs1);
-    cout<<"!\n";
-    assert(REPO.numar_elemente()==1);
-    Produs produs2("b","c","d",30);
-    REPO.adaugare_produs(produs2);
-    Produs produs_cautat = REPO.cauta_element("b");
-    assert(produs_cautat == produs2);
-    cout<<"!\n";
-    try{
+void teste_repo_fisier()
+{
 
-       REPO.cauta_element("c");
+    try {
+        RepoFisier<Produs> P("produse_inexistente.txt");
         assert(false);
-    }
-    catch (std::exception&){}
-    cout<<"!\n";
+    }catch (RepoError& err) {};
 
-    Produs produs_modifica("a","modificat","modificat",20);
-    try{
-        REPO.modifica_element("z", produs_modifica);
-        assert(false);
-    }
-    catch (std::exception&){}
+    RepoFisier<Produs> P("produse_test.txt");
+    assert(P.numar_elemente() == 3);
+    Produs produs_test{"z", "z", "z", 50.5};
+    P.adaugare_produs(produs_test);
+    assert(P.numar_elemente() == 4);
+    assert(P.cauta_element("z") == produs_test);
 
-    REPO.modifica_element("a", produs_modifica);
-    produs_cautat = REPO.cauta_element("a");
-    assert(produs_cautat == produs_modifica);
-
-
-   const std::vector<Produs>& lista_copie = REPO.get_all();
-
-    assert(lista_copie[0]== Produs("a","modificat","modificat",20));
-
-
-    REPO.delete_element("a");
-    assert(REPO.numar_elemente() ==1);
-
-    try{
-         REPO.delete_element("q");
-        assert(false);
-    }
-    catch (std::exception&){}
-
-
-
-    std::cout<<std::endl;
-    */
+    Produs produs_modificat{"z", "a", "a", 1};
+    P.modifica_element("z", produs_modificat);
+    assert(P.cauta_element("z") == produs_modificat);
+    P.delete_element("z");
+    assert(P.numar_elemente() == 3);
+    vector<Produs> V = P.get_all();
+    assert(V.size() == 3);
+    assert(V[0] == Produs ("a","b","c",1));
 }
 
 void teste_domain()
@@ -361,6 +393,7 @@ void teste_domain()
     const char * nume_test = nume_string.c_str();
 
 
+    assert("Carte,Copii,ABC,50.500000" == produs_test.to_string());
     assert(strcmp(nume_test, "Nume: Carte Producator: ABC Tip: Copii Pret: 50.5")==0);
     assert(produs_test.getTip()== "Copii");
     assert(produs_test.getNume()== "Carte");

@@ -284,10 +284,10 @@ template <typename T>
 void RepoFisier<T>::store()
 {
 std::ofstream f("../"+calea);
-    if (!f.is_open()) {
-        throw RepoError("Fisier inexistent!\n");
+///    if (!f.is_open()) {
+   ///     throw RepoError("Fisier inexistent!\n");
 
-    }
+    ///}
     for (auto& p:Repo<T>::get_all()) {
        f<<p.to_string()<<std::endl;
     }

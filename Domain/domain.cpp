@@ -37,9 +37,7 @@ std::string Produs::to_string() const {
     result+=",";
     result+= std::to_string(this->pret);
 
-    return result;
-
-}
+    return result;}
 
 std::string Produs::getNume() const{
     return this->nume;
