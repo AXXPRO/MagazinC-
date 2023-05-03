@@ -90,6 +90,6 @@ int main() {
     RepoFisier<Produs> repo("produse.txt");
     Service service(repo);
     UI aplicatie(service);
-  // aplicatie.run_ui();
+   aplicatie.run_ui();
     return 0;
 }

@@ -59,9 +59,12 @@ void Service::modifica_service(const string &nume,const std::string& tip, const 
 
     Produs produs = Produs(nume, tip,producator,pret);
     ValidatorProdus::isValid(produs);
+
+    const Produs p = REPO.cauta_element(nume);
     REPO.modifica_element(nume, produs);
 
-    ActiuneUndo* act = new UndoModificare(REPO, produs);
+
+    ActiuneUndo* act = new UndoModificare(REPO, p);
     lista_undouri.push_back(act);
 }
 bool Service::boolSortare(const Produs& p1 ,const Produs& p2, int& camp_sortat)
