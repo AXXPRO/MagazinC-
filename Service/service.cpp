@@ -20,7 +20,7 @@ void Service::adaugare_produs_service(const std::string& nume, const std::string
 
     ///VALDIARE
     ValidatorProdus::isValid(produs);
-    REPO.adaugare_produs(produs);
+    REPO->adaugare_produs(produs);
 
     ActiuneUndo* act = new UndoAdaugare(REPO, produs);
     lista_undouri.push_back(act);
@@ -33,6 +33,9 @@ Service::~Service() {
     {
         delete el;
     }
+    delete REPO;
+
+    delete REPOCos;
 }
 
 void Service::undo_service()
@@ -52,7 +55,7 @@ void Service::undo_service()
 vector<Produs>&  Service::afisare_produse_service() const
 {
 
-    return REPO.get_all();
+    return REPO->get_all();
 }
 
 void Service::modifica_service(const string &nume,const std::string& tip, const std::string& producator, const float& pret) {
@@ -60,8 +63,8 @@ void Service::modifica_service(const string &nume,const std::string& tip, const 
     Produs produs = Produs(nume, tip,producator,pret);
     ValidatorProdus::isValid(produs);
 
-    const Produs p = REPO.cauta_element(nume);
-    REPO.modifica_element(nume, produs);
+    const Produs p = REPO->cauta_element(nume);
+    REPO->modifica_element(nume, produs);
 
 
     ActiuneUndo* act = new UndoModificare(REPO, p);
@@ -103,7 +106,7 @@ void Service::sortare_service(vector<Produs>& filtrat,int camp_sortare)
    // 3.Nume + Tip
 
 
-    vector<Produs> originale = REPO.get_all();
+    vector<Produs> originale = REPO->get_all();
     filtrat = originale;
   std::sort(filtrat.begin(), filtrat.end(),[&](Produs& p1, Produs& p2){
       return boolSortare(p1, p2, camp_sortare);
@@ -139,7 +142,7 @@ void Service::filtrare_service(vector<Produs>& filtrat,int camp_filtrat, string 
    // 2.Nume
    //3.Producator
 
-   vector<Produs> originale = REPO.get_all();
+   vector<Produs> originale = REPO->get_all();
 
     std::copy_if(originale.begin(), originale.end(), std::back_inserter(filtrat), [&](Produs& el){
         return boolFilter(el ,camp_filtrat, filtru);
@@ -152,20 +155,20 @@ void Service::filtrare_service(vector<Produs>& filtrat,int camp_filtrat, string 
 void Service::delete_service(const string& nume) {
 
 
-    const Produs& p = REPO.cauta_element(nume);
-    REPO.delete_element(nume);
+    const Produs& p = REPO->cauta_element(nume);
+    REPO->delete_element(nume);
     ActiuneUndo* act = new UndoStergere(REPO, p);
     lista_undouri.push_back(act);
 }
 
  const Produs& Service::cauta_service(const string &nume) {
 
-    return REPO.cauta_element(nume);
+    return REPO->cauta_element(nume);
 
 }
 void Service::export_service(const string &nume_fisier)
 {
-    vector<Produs> temp = REPOCos.get_all();
+    vector<Produs> temp = REPOCos->get_all();
 
     string true_name;
     true_name+="../";
@@ -181,19 +184,19 @@ void Service::export_service(const string &nume_fisier)
 
 void Service::adaugare_cos_service(const string &nume) {
 
-    Produs P =REPO.cauta_element(nume);
-    REPOCos.adaugare_produs(P);
+    Produs P =REPO->cauta_element(nume);
+    REPOCos->adaugare_produs(P);
 }
 void Service::goleste_cos_servcie() {
 
-    vector<Produs> temp = REPOCos.get_all();
+    vector<Produs> temp = REPOCos->get_all();
     vector<string> temp_string;
     for(auto const& el : temp)
     {   temp_string.push_back(el.getNume());
     }
     for(auto const& el : temp_string)
     {
-        REPOCos.delete_element(el);
+        REPOCos->delete_element(el);
     }
 
 }
@@ -203,7 +206,7 @@ void Service::genereaza_cos_service(int nr_elemente)
 
     this->goleste_cos_servcie();
 
-    vector<Produs> elemente = REPO.get_all();
+    vector<Produs> elemente = REPO->get_all();
     vector<string> disponibile;
     for(auto const& el: elemente)
     {
@@ -215,8 +218,8 @@ void Service::genereaza_cos_service(int nr_elemente)
     {    std::mt19937 mt{ std::random_device{}() };
         std::uniform_int_distribution<> dist(0, disponibile.size()-1);
         int rndNr = dist(mt);
-        Produs aux = REPO.cauta_element(disponibile[rndNr]);
-        REPOCos.adaugare_produs(aux);
+        Produs aux = REPO->cauta_element(disponibile[rndNr]);
+        REPOCos->adaugare_produs(aux);
 
         disponibile.erase(disponibile.begin() + rndNr);
         nr_elemente--;
@@ -228,7 +231,7 @@ void Service::genereaza_cos_service(int nr_elemente)
 float Service::pret_cos_service(){
     float pret = 0;
 
-    for( auto const& el : REPOCos.get_all())
+    for( auto const& el : REPOCos->get_all())
     {
         pret+=el.getPret();
     }
@@ -237,7 +240,7 @@ float Service::pret_cos_service(){
 
 void Service::raport_service(map<string, vector<Produs>>& dictionar)
 {
-    vector<Produs> v = REPO.get_all();
+    vector<Produs> v = REPO->get_all();
     for(auto const& el : v)
     {
         dictionar[el.getTip()].push_back(el);

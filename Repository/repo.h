@@ -16,7 +16,30 @@ using std::string;
 using std::vector;
 
 template <typename T>
-class Repo{
+class RepoAbstract
+{
+public:
+    virtual int numar_elemente() const=0;
+    ///Adds an ellement
+    virtual void adaugare_produs(const T& element)=0;
+    ///Returns an object with the given name, or trows exception if none found
+
+    virtual const T& cauta_element(const string& nume)=0;
+
+    /// Modifies the object's attributes(identified by its name) to the ones of the "other" parameter
+    ///Trows exception if no object with said name
+    virtual void modifica_element(const string& nume, const T& other)=0;
+
+    ///Functia returneaza un vector cu toate elementele din aplicatie
+    virtual vector<T>&  get_all()=0;
+
+
+    ///Functia va sterge elementul cu numele dat sau va arunca exceptie
+    virtual void delete_element(const string& nume)=0;
+};
+
+template <typename T>
+class Repo: public RepoAbstract<T> {
 
 protected:
     vector<T> lista;
@@ -24,23 +47,23 @@ protected:
 public:
     ///
     /// \return the number of elements currently in the Repo
-    int numar_elemente() const;
+   int numar_elemente() const override;
     ///Adds an ellement
-   virtual void adaugare_produs(const T& element);
+ void adaugare_produs(const T& element) override;
     ///Returns an object with the given name, or trows exception if none found
 
-   virtual const T& cauta_element(const string& nume);
+  const  T& cauta_element(const string& nume) override;
 
     /// Modifies the object's attributes(identified by its name) to the ones of the "other" parameter
     ///Trows exception if no object with said name
-  virtual void modifica_element(const string& nume, const T& other);
+  void modifica_element(const string& nume, const T& other)override;
 
     ///Functia returneaza un vector cu toate elementele din aplicatie
-    virtual vector<T>&  get_all();
+   vector<T>&  get_all() override;
 
 
     ///Functia va sterge elementul cu numele dat sau va arunca exceptie
-   virtual void delete_element(const string& nume);
+   void delete_element(const string& nume) override;
 
 };
 

@@ -21,9 +21,9 @@ public:
 class UndoAdaugare:public ActiuneUndo{
 
     Produs produs_adaugat;
-    Repo<Produs>& REPO;
+    RepoAbstract<Produs>* REPO;
 public:
-    UndoAdaugare(Repo<Produs>& R, const Produs& p):REPO(R), produs_adaugat(p) {};
+    UndoAdaugare(RepoAbstract<Produs>* R, const Produs& p): produs_adaugat(p) {REPO = R;};
     void undo() override;
     ~UndoAdaugare() override{};
 };
@@ -32,9 +32,9 @@ public:
 class UndoModificare:public ActiuneUndo{
 
     Produs produs_modificat;
-    Repo<Produs>& REPO;
+    RepoAbstract<Produs>* REPO;
 public:
-    UndoModificare(Repo<Produs>& R, const Produs& p):REPO(R), produs_modificat(p) {};
+    UndoModificare(RepoAbstract<Produs>* R, const Produs& p):REPO(R), produs_modificat(p) {};
     void undo() override;
     ~UndoModificare() override{};
 };
@@ -43,9 +43,9 @@ public:
 class UndoStergere:public ActiuneUndo{
 
     Produs produs_sters;
-    Repo<Produs>& REPO;
+    RepoAbstract<Produs>* REPO;
 public:
-    UndoStergere(Repo<Produs>& R, const Produs& p):REPO(R), produs_sters(p) {};
+    UndoStergere(RepoAbstract<Produs>* R, const Produs& p):REPO(R), produs_sters(p) {};
     void undo() override;
     ~UndoStergere() override{};
 };

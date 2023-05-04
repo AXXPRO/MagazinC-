@@ -22,11 +22,11 @@ private:
 
     bool boolSortare(const Produs& p1 ,const Produs& p2, int& camp_sortat);
     bool boolFilter(const Produs&,const int&, const string&) const;
-    Repo<Produs>& REPO;
-    RepoCos<Produs> REPOCos;
+    RepoAbstract<Produs>* REPO;
+    RepoAbstract<Produs>* REPOCos;
     vector<ActiuneUndo*> lista_undouri;
 public:
-    Service(Repo<Produs>& REPO):REPO{REPO}/* , RepoCos{Repo<Produs>()} */{};
+    Service(RepoAbstract<Produs>* REPO):REPO{REPO}{REPOCos = new RepoCos<Produs>;};
     ~Service();
 
     void undo_service();

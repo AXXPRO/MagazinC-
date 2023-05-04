@@ -31,6 +31,7 @@ private:
 
 public:
     UI(Service& SERVICE): SERVICE{SERVICE}{};
+
     ///Function that runs the aplication
     void run_ui();
     ///Va afisa anumite elemente dupa un criteriu

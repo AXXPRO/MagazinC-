@@ -40,29 +40,33 @@ void run_all_tests()
 
 void teste_undo()
 {
-    Repo<Produs> R;
+    RepoAbstract<Produs>* R = new Repo<Produs>;
     Produs produs_test("a","b","c",1);
-    R.adaugare_produs(produs_test);
-    assert(R.numar_elemente() == 1);
+    R->adaugare_produs(produs_test);
+    assert(R->numar_elemente() == 1);
     ActiuneUndo* act = new UndoAdaugare(R, produs_test);
     act->undo();
     delete act;
-    assert(R.numar_elemente() == 0);
+    assert(R->numar_elemente() == 0);
     act = new UndoStergere(R, produs_test);
     act->undo();
     delete act;
-    assert(R.numar_elemente() == 1);
-    assert(R.cauta_element("a") == produs_test);
-    R.modifica_element("a", Produs("a","z","z",3));
+    assert(R->numar_elemente() == 1);
+    assert(R->cauta_element("a") == produs_test);
+    R->modifica_element("a", Produs("a","z","z",3));
 
     act = new UndoModificare(R, produs_test);
     act->undo();
     delete act;
-    assert(R.cauta_element("a") == produs_test);
+    assert(R->cauta_element("a") == produs_test);
+
+    delete R;
 
 
 
 }
+
+
 void teste_validator()
 {
     Produs valid = Produs("a","b","c",2);
@@ -84,21 +88,22 @@ void teste_service()
 {
 
 
-    Repo<Produs> REPO;
+    RepoAbstract<Produs>* REPO = new Repo<Produs>;
     Service SERVICE(REPO);
 
-    assert(REPO.numar_elemente() == 0);
+    assert(REPO->numar_elemente() == 0);
 
     try{
         SERVICE.undo_service();
     }
     catch (ValidatorError& err) {};
 
+
     SERVICE.adaugare_produs_service("a", "a", "a", 7);
 
-    assert(REPO.numar_elemente() == 1);
+    assert(REPO->numar_elemente() == 1);
     SERVICE.undo_service();
-    assert(REPO.numar_elemente() == 0);
+    assert(REPO->numar_elemente() == 0);
 
     SERVICE.adaugare_produs_service("a", "a", "a", 7);
 
@@ -116,7 +121,7 @@ vector<Produs> itr = SERVICE.afisare_produse_service();
    const Produs& produs_cautat2 = SERVICE.cauta_service("a");
     assert(produs_cautat2 == Produs("a","b","b",1));
     SERVICE.delete_service("a");
-    assert(REPO.numar_elemente() == 0);
+    assert(REPO->numar_elemente() == 0);
 
     SERVICE.adaugare_produs_service("a", "b", "c", 7);
     SERVICE.adaugare_produs_service("b", "z", "e", 1);
@@ -207,14 +212,14 @@ vector<Produs> itr = SERVICE.afisare_produse_service();
 }
 
 void teste_cos_service()
-{    Repo<Produs> REPO;
+{    RepoAbstract<Produs>*  REPO = new Repo<Produs>;
     Service SERVICE(REPO);
     Produs Produs1("a","a","a",20);
     Produs Produs2("b","b","b",90);
     Produs Produs3("c","c","c",1);
-    REPO.adaugare_produs(Produs1);
-    REPO.adaugare_produs(Produs2);
-    REPO.adaugare_produs(Produs3);
+    REPO->adaugare_produs(Produs1);
+    REPO->adaugare_produs(Produs2);
+    REPO->adaugare_produs(Produs3);
 
     SERVICE.adaugare_cos_service("a");
     assert(SERVICE.pret_cos_service() - 20 <= 0.00001);

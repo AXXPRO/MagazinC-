@@ -87,9 +87,9 @@ int main() {
 
 
     run_all_tests();
-    RepoFisier<Produs> repo("produse.txt");
+    RepoAbstract<Produs>*repo = new RepoFisier<Produs>("produse.txt");
     Service service(repo);
     UI aplicatie(service);
-   aplicatie.run_ui();
+  // aplicatie.run_ui();
     return 0;
 }
