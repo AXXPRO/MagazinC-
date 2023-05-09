@@ -14,6 +14,7 @@
 #include <QHBoxLayout>
 #include <QWidget>
 #include <QFormLayout>
+#include <QCheckBox>
 
 class GUI: public QWidget{
 private:
@@ -31,6 +32,14 @@ Q_OBJECT
     QLineEdit* tipEdit;
     QLineEdit* producatorEdit;
     QLineEdit* pretEdit;
+    QCheckBox* sortedCheckBox;
+    QCheckBox* filteredCheckBox;
+    QPushButton* filtersButton;
+    QPushButton* sortersButton;
+    std::string filteredField;
+    int sortType;
+    int filterType;
+
 
     QListWidget* lista;
     ///Needed to check if an item disappeared

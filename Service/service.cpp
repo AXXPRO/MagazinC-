@@ -118,8 +118,9 @@ bool Service::boolFilter(const Produs& el ,const int& camp_filtrat,const string&
 {
     switch (camp_filtrat) {
         case 1:
-            if(el.getPret() - stof(filtru) < 0.0001)
+            if(abs(el.getPret() - stof(filtru) ) < 0.0001) {
                 return true;
+            }
             return false;
 
         case 2:
@@ -150,6 +151,40 @@ void Service::filtrare_service(vector<Produs>& filtrat,int camp_filtrat, string 
 
 
 }
+vector<Produs> Service::sortare_service_GUI(vector<Produs>& inputVector , int camp_sortare)
+{
+    vector<Produs> originale = inputVector;
+    vector<Produs> returnat;
+
+    returnat = originale;
+    std::sort(returnat.begin(), returnat.end(),[&](Produs& p1, Produs& p2){
+        return boolSortare(p1, p2, camp_sortare);
+    });
+
+    return returnat;
+
+}
+vector<Produs> Service::filtrare_service_GUI(vector<Produs>& inputVector,int camp_filtrat, string filtru)
+{
+    // 1.Pret
+    // 2.Nume
+    //3.Producator
+   // std::cout<<camp_filtrat<<filtru<<std::endl;
+    vector<Produs> originale = inputVector;
+    vector<Produs> returnat;
+    std::copy_if(originale.begin(), originale.end(), std::back_inserter(returnat), [&](Produs& el){
+        return boolFilter(el ,camp_filtrat, filtru);
+    });
+
+  //  for(auto el : returnat)
+   // {
+    //    std::cout<<el<<" ";
+   // }
+  //  std::cout<<std::endl;
+    return returnat;
+
+}
+
 
 
 void Service::delete_service(const string& nume) {

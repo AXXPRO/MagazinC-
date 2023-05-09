@@ -37,9 +37,12 @@ public:
     vector<Produs>& afisare_produse_service () const;
 
     void export_service (const string&);
-    void filtrare_service(vector<Produs>& ,int camp_filtrat, string filtru);
 
+    void filtrare_service(vector<Produs>& ,int camp_filtrat, string filtru);
     void sortare_service(vector<Produs>& , int camp_sortare);
+
+    vector<Produs> filtrare_service_GUI(vector<Produs>& ,int camp_filtrat, string filtru);
+    vector<Produs> sortare_service_GUI(vector<Produs>& , int camp_sortare);
 
     ///Functia sterge produsul cu numele dat prin parametru, sau arunca exceptie
     void delete_service(const string&);

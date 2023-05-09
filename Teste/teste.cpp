@@ -398,7 +398,7 @@ void teste_domain()
     const char * nume_test = nume_string.c_str();
 
 
-    assert("Carte,Copii,ABC,50.500000" == produs_test.to_string());
+    assert("Carte,Copii,ABC,50.5" == produs_test.to_string());
     assert(strcmp(nume_test, "Nume: Carte Producator: ABC Tip: Copii Pret: 50.5")==0);
     assert(produs_test.getTip()== "Copii");
     assert(produs_test.getNume()== "Carte");

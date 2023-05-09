@@ -99,7 +99,32 @@ GUI::GUI(Service& SERVICE):SERVICE(SERVICE){
 
     layoutMain->addLayout(searchLayout);
 
+    filteredCheckBox = new QCheckBox("Filtrate");
+    filteredCheckBox->setFont(this->font);
+    sortedCheckBox =  new QCheckBox("Sortate");
+    sortedCheckBox->setFont(this->font);
+    auto layoutCheckBox = new QHBoxLayout;
+    layoutCheckBox->addWidget(filteredCheckBox);
+    layoutCheckBox->addWidget(sortedCheckBox);
+
+    filtersButton = new QPushButton("Filtre");
+    filtersButton->setFont(font);
+    sortersButton = new QPushButton("Sortari");
+    sortersButton->setFont(font);
+    layoutCheckBox->addWidget(filtersButton);
+    layoutCheckBox->addWidget(sortersButton);
+
+
+    sortedCheckBox->setCheckState(Qt::Unchecked);
+    filteredCheckBox->setCheckState(Qt::Unchecked);
+
+    filterType=2;
+    filteredField="";
+    sortType=1;
+
+    layoutMain->addLayout(layoutCheckBox);
     this->setLayout(layoutMain);
+
 
 
     LoadElements(this->lista, SERVICE.afisare_produse_service());
@@ -134,7 +159,7 @@ void GUI::connect() {
     QObject::connect(this->DeleteButton, &QPushButton::clicked,[this](){
 
 
-       std::cout<<"INDE:ETE"<<this->curretProdus<<std::endl;
+
         try {
             ValidatorProdus::isValid(this->curretProdus);
         }
@@ -251,12 +276,163 @@ void GUI::connect() {
 
       //  std::cout<<this->curretProdus<<std::endl;
     });
+
+    QObject::connect(this->filteredCheckBox, &QCheckBox::stateChanged, [this](const int state){
+
+        LoadElements(this->lista, SERVICE.afisare_produse_service());
+    });
+
+    QObject::connect(this->sortedCheckBox, &QCheckBox::stateChanged, [this](const int state){
+
+        LoadElements(this->lista, SERVICE.afisare_produse_service());
+    });
+
+    QObject::connect(this->filtersButton, &QPushButton::clicked, [this](){
+        QWidget* filtersScreen = new QWidget;
+
+        auto layout = new QVBoxLayout;
+        auto label = new QLabel("Introduceti filrtrul, si apoi apasati butonul specific campului dupa care filtrati");
+        label->setFont(this->font);
+        layout->addWidget(label);
+        auto inputFilter = new QLineEdit;
+        inputFilter->setFixedHeight(40);
+        //inputFilter->setFixedWidth(200);
+        inputFilter->setFont(this->font);
+        layout->addWidget(inputFilter);
+
+
+        auto pret_button = new QPushButton("Pret");
+        pret_button->setFont(this->font);
+        auto name_button = new QPushButton("Nume");
+        name_button->setFont(this->font);
+        auto producator_button = new QPushButton("Producator");
+        producator_button->setFont(this->font);
+
+
+        // 1.Pret
+        // 2.Nume
+        //3.Producator
+
+
+
+        auto buttonLayout = new QHBoxLayout;
+        buttonLayout->addWidget(name_button);
+        buttonLayout->addWidget(pret_button);
+        buttonLayout->addWidget(producator_button);
+
+        layout->addLayout(buttonLayout);
+        filtersScreen->setLayout(layout);
+
+        QObject::connect(name_button, &QPushButton::clicked, [filtersScreen,inputFilter,this](){
+            this->filterType = 2;
+            this->filteredField = inputFilter->text().toStdString();
+
+            std::cout<<this->filteredField<<std::endl;
+            filtersScreen->hide();
+        });
+
+        QObject::connect(pret_button, &QPushButton::clicked, [filtersScreen,inputFilter,this](){
+            this->filterType = 1;
+            this->filteredField = inputFilter->text().toStdString();
+            std::cout<<this->filteredField<<std::endl;
+            filtersScreen->hide();
+        });
+
+        QObject::connect(producator_button, &QPushButton::clicked, [filtersScreen,inputFilter,this](){
+            this->filterType = 3;
+            this->filteredField = inputFilter->text().toStdString();
+            std::cout<<this->filteredField<<std::endl;
+            filtersScreen->hide();
+        });
+
+
+        filtersScreen->show();
+/*
+
+
+        QObject::connect(pret_button, &QPushButton::clicked, [sortersScreen,this](){
+            this->sortType = 2;
+            sortersScreen->hide();
+        });
+        QObject::connect(tip_button, &QPushButton::clicked, [sortersScreen,this](){
+            this->sortType = 3;
+            sortersScreen->hide();
+        });
+        sortersScreen->show();
+
+
+        */
+    });
+
+    QObject::connect(this->sortersButton, &QPushButton::clicked, [this]() {
+        auto sortersScreen = new QWidget;
+        auto layout = new QVBoxLayout;
+        auto label = new QLabel("Selectati dupa ce doriti sa sortam elementele");
+        label->setFont(this->font);
+
+        layout->addWidget(label);
+
+        auto name_button = new QPushButton("Nume");
+        name_button->setFont(this->font);
+
+        auto pret_button = new QPushButton("Pret");
+        pret_button->setFont(this->font);
+
+        auto tip_button = new QPushButton("Nume + Tip");
+        tip_button->setFont(this->font);
+
+        auto buttonLayout = new QHBoxLayout;
+        buttonLayout->addWidget(name_button);
+        buttonLayout->addWidget(pret_button);
+        buttonLayout->addWidget(tip_button);
+
+        layout->addLayout(buttonLayout);
+        // 1.Nume
+        // 2.Pret
+        // 3.Nume + Tip
+        sortersScreen->setLayout(layout);
+
+        QObject::connect(name_button, &QPushButton::clicked, [sortersScreen,this](){
+         this->sortType = 1;
+            sortersScreen->hide();
+        });
+
+        QObject::connect(pret_button, &QPushButton::clicked, [sortersScreen,this](){
+            this->sortType = 2;
+            sortersScreen->hide();
+        });
+        QObject::connect(tip_button, &QPushButton::clicked, [sortersScreen,this](){
+            this->sortType = 3;
+            sortersScreen->hide();
+        });
+        sortersScreen->show();
+
+    });
 }
 
 
-void GUI::LoadElements(QListWidget* listToPopulate, vector<Produs> vector) {
+void GUI::LoadElements(QListWidget* listToPopulate, vector<Produs> vectorInitial) {
 
+
+    ///2 is on, 0 is off
+    ///if filtrate
+
+    vector<Produs> vector = vectorInitial;
     listToPopulate->clear();
+    if(this->sortedCheckBox->checkState() == Qt::Checked)
+    {
+        vector =  SERVICE.sortare_service_GUI(vector, this->sortType);
+    }
+
+    if(this->filteredCheckBox->checkState() == Qt::Checked)
+    {
+
+       vector = SERVICE.filtrare_service_GUI(vector,this->filterType, this->filteredField);
+    }
+
+
+    ///if sortate
+
    for(auto const el : vector)
     {
      auto Item = new QListWidgetItem( QString::fromStdString( el.to_string()));
