@@ -21,17 +21,29 @@ Q_OBJECT
     Service& SERVICE;
     //Prints a UI interface
 
-
+    Produs curretProdus = Produs("","","",-1);
     QVBoxLayout* layoutMain;
     QHBoxLayout* layoutHorizonalList;
-    QWidget* menu_and_buttons;
+    QFormLayout* formLauyout;
+    QFormLayout* searchLayout;
+    QLineEdit* searchBar;
+    QLineEdit* numeEdit;
+    QLineEdit* tipEdit;
+    QLineEdit* producatorEdit;
+    QLineEdit* pretEdit;
+
     QListWidget* lista;
+    ///Needed to check if an item disappeared
+    int lastRow;
     QPushButton* AddButton;
     QPushButton* DeleteButton;
     QFont font;
     QVBoxLayout* LayoutMenuButtons;
     QWidget* MenuButtons;
-    void LoadElements(vector<Produs>);
+    void LoadElements(QListWidget* ,vector<Produs>);
+
+    void connect();
+
     static void show_ui() ;
     ///Function for adding a Produs to the aplication
     void add_produs_ui();

@@ -1,5 +1,6 @@
-b,c,d,2.000000
-a,z,z,1.000000
-c,z,z,3.000000
-z,d,e,11.000000
-tt,zz,dd,2.000000
+clor,a,a,111
+a,z,z,1
+Alex,Handicapat,Peste,150.3
+clo,a,a,111
+tt,zz,dd,2
+Fosfor,Plecat,Graltis,70000

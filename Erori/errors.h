@@ -9,8 +9,9 @@
 using std::string;
 using std::ostream;
 class RepoError{
-    string mesaj;
+
 public:
+    string mesaj;
    //string get_mesaj() const { return mesaj;}
     RepoError(string err):mesaj{err} {}
 friend ostream& operator<<(ostream& out, const RepoError& msj);
@@ -22,8 +23,9 @@ inline ostream& operator<<(ostream& out, const RepoError& error)
 }
 
 class ValidatorError{
-    string mesaj;
+
 public:
+    string mesaj;
     ValidatorError(string err):mesaj{err} {}
      //string get_mesaj() const { return mesaj;}
     friend ostream& operator<<(ostream& out, const ValidatorError& msj);

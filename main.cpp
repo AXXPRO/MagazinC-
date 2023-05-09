@@ -100,9 +100,6 @@ int main(int argc, char* argv[]) {
     RepoAbstract<Produs>*repo = new RepoFisier<Produs>("produse.txt");
     Service service(repo);
     auto main = new GUI(service);
-
-
-    QPushButton * butt = new QPushButton("Click!");
     main->show();
 
     Aplicatie.exec();
