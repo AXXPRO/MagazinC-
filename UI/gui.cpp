@@ -329,6 +329,7 @@ void GUI::connect() {
 
             std::cout<<this->filteredField<<std::endl;
             filtersScreen->hide();
+            LoadElements(this->lista, SERVICE.afisare_produse_service());
         });
 
         QObject::connect(pret_button, &QPushButton::clicked, [filtersScreen,inputFilter,this](){
@@ -336,6 +337,7 @@ void GUI::connect() {
             this->filteredField = inputFilter->text().toStdString();
             std::cout<<this->filteredField<<std::endl;
             filtersScreen->hide();
+            LoadElements(this->lista, SERVICE.afisare_produse_service());
         });
 
         QObject::connect(producator_button, &QPushButton::clicked, [filtersScreen,inputFilter,this](){
@@ -343,6 +345,7 @@ void GUI::connect() {
             this->filteredField = inputFilter->text().toStdString();
             std::cout<<this->filteredField<<std::endl;
             filtersScreen->hide();
+            LoadElements(this->lista, SERVICE.afisare_produse_service());
         });
 
 
@@ -395,15 +398,18 @@ void GUI::connect() {
         QObject::connect(name_button, &QPushButton::clicked, [sortersScreen,this](){
          this->sortType = 1;
             sortersScreen->hide();
+            LoadElements(this->lista, SERVICE.afisare_produse_service());
         });
 
         QObject::connect(pret_button, &QPushButton::clicked, [sortersScreen,this](){
             this->sortType = 2;
             sortersScreen->hide();
+            LoadElements(this->lista, SERVICE.afisare_produse_service());
         });
         QObject::connect(tip_button, &QPushButton::clicked, [sortersScreen,this](){
             this->sortType = 3;
             sortersScreen->hide();
+            LoadElements(this->lista, SERVICE.afisare_produse_service());
         });
         sortersScreen->show();
 
