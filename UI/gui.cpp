@@ -25,14 +25,20 @@ GUI::GUI(Service& SERVICE):SERVICE(SERVICE){
 
     AddButton = new QPushButton("Adauga");
     DeleteButton = new QPushButton("Sterge");
+    ModifyButton = new QPushButton("Modifica");
+    UndoButton = new QPushButton("Undo");
     font = QFont("Times new Roman", 16);
     DeleteButton->setFont(font);
     AddButton->setFont(font);
+    ModifyButton->setFont(font);
+    UndoButton->setFont(font);
     LayoutMenuButtons =  new QVBoxLayout;
     MenuButtons = new QWidget;
     MenuButtons->setLayout(LayoutMenuButtons);
     LayoutMenuButtons->addWidget(AddButton);
     LayoutMenuButtons->addWidget(DeleteButton);
+    LayoutMenuButtons->addWidget(ModifyButton);
+    LayoutMenuButtons->addWidget(UndoButton);
     layoutHorizonalList->addWidget(MenuButtons);
 
     layoutMain->addLayout(layoutHorizonalList);
@@ -96,7 +102,6 @@ GUI::GUI(Service& SERVICE):SERVICE(SERVICE){
     this->setLayout(layoutMain);
 
 
-
     LoadElements(this->lista, SERVICE.afisare_produse_service());
     connect();
 }
@@ -129,7 +134,7 @@ void GUI::connect() {
     QObject::connect(this->DeleteButton, &QPushButton::clicked,[this](){
 
 
-
+       std::cout<<"INDE:ETE"<<this->curretProdus<<std::endl;
         try {
             ValidatorProdus::isValid(this->curretProdus);
         }
@@ -142,37 +147,7 @@ void GUI::connect() {
         LoadElements(this->lista, SERVICE.afisare_produse_service());
 
     } );
-    QObject::connect(this->lista, &QListWidget::itemSelectionChanged, [this](){
-    if(this->lista->selectionModel()->currentIndex().row() == this->lastRow)
-    {   ///Invalidate it
-        this->curretProdus = Produs("","","",-1);
-        return;
-    }
-    this->lastRow = this->lista->selectionModel()->currentIndex().row();
-      auto textWidgetItem = this->lista->item(this->lista->selectionModel()->currentIndex().row());
 
-
-     auto textItem = textWidgetItem->text().toStdString();
-
-
-     std::stringstream X(textItem);
-        string cuvant;
-        vector<string> cuvinte;
-        while(getline(X, cuvant, ','))
-        {
-            cuvinte.push_back(cuvant);
-        }
-
-        ///nume, tip, producator, pret
-       /// Produs p(cuvinte[0],cuvinte[1],cuvinte[2] , stof(cuvinte[3]));
-       this->numeEdit->setText(QString::fromStdString(cuvinte[0]));
-        this->tipEdit->setText(QString::fromStdString(cuvinte[1]));
-        this->producatorEdit->setText(QString::fromStdString(cuvinte[2]));
-        this->pretEdit->setText(QString::fromStdString(cuvinte[3]));
-        this->curretProdus = Produs(cuvinte[0],cuvinte[1],cuvinte[2] , stof(cuvinte[3]));
-
-
-    });
     QObject::connect(this->searchBar, &QLineEdit::textChanged, [this](const QString& text){
 
 
@@ -195,8 +170,87 @@ void GUI::connect() {
         LoadElements(this->lista, vectorSearch);
 
     });
+    QObject::connect(this->ModifyButton, &QPushButton::clicked,[this](){
 
 
+        std::string nume = numeEdit->text().toStdString();
+        std::string tip = tipEdit->text().toStdString();
+        std::string producator = producatorEdit->text().toStdString();
+        std::string pret_string =pretEdit->text().toStdString();
+        float pret;
+        try
+        {
+            pret = std::stof(pret_string);
+        }
+        catch (std::invalid_argument&) {pret = -1;} ///Invalid price
+
+        try {
+            SERVICE.modifica_service(nume,tip,producator,pret);
+            LoadElements(this->lista, SERVICE.afisare_produse_service());
+        }
+        catch (RepoError& err){QMessageBox::warning(this,"Something went wrong!",QString::fromStdString(err.mesaj) );}
+        catch (ValidatorError& err){QMessageBox::warning(this,"Something went wrong!",QString::fromStdString(err.mesaj) );}
+
+
+    } );
+    QObject::connect(this->UndoButton, &QPushButton::clicked,[this](){
+
+
+
+    try {
+        SERVICE.undo_service();
+    }
+    catch(ValidatorError &err) {
+        QMessageBox::warning(this,"Something went wrong!",QString::fromStdString(err.mesaj) );
+        return;
+    }
+    catch(RepoError&err)
+    { QMessageBox::warning(this,"Something went wrong!",QString::fromStdString(err.mesaj) );
+        return;
+
+    }
+        LoadElements(this->lista, SERVICE.afisare_produse_service());
+
+    });
+
+    QObject::connect(this->lista, &QListWidget::itemSelectionChanged, [this](){
+
+
+    //    std::cout<<this->lista->selectionModel()->currentIndex().row()<<std::endl;
+
+
+        if(this->lista->selectedItems().size() == 0)
+        {   ///Invalidate it
+            this->curretProdus = Produs("","","",-1);
+            return;
+        }
+
+
+       // this->lastRow = this->lista->selectionModel()->currentIndex().row();
+        auto textWidgetItem = this->lista->item(this->lista->selectionModel()->currentIndex().row());
+
+
+        auto textItem = textWidgetItem->text().toStdString();
+
+
+        std::stringstream X(textItem);
+        string cuvant;
+        vector<string> cuvinte;
+        while(getline(X, cuvant, ','))
+        {
+            cuvinte.push_back(cuvant);
+        }
+
+        ///nume, tip, producator, pret
+        /// Produs p(cuvinte[0],cuvinte[1],cuvinte[2] , stof(cuvinte[3]));
+        this->numeEdit->setText(QString::fromStdString(cuvinte[0]));
+        this->tipEdit->setText(QString::fromStdString(cuvinte[1]));
+        this->producatorEdit->setText(QString::fromStdString(cuvinte[2]));
+        this->pretEdit->setText(QString::fromStdString(cuvinte[3]));
+        this->curretProdus = Produs(cuvinte[0],cuvinte[1],cuvinte[2] , stof(cuvinte[3]));
+
+      //  std::cout<<this->curretProdus<<std::endl;
+    });
 }
 
 

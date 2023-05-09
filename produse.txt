@@ -1,6 +1,5 @@
-clor,a,a,111
-a,z,z,1
-Alex,Handicapat,Peste,150.3
-clo,a,a,111
-tt,zz,dd,2
-Fosfor,Plecat,Graltis,70000
+a1,a,a,1
+a2,a,a,1
+a3,a,a,1
+a4,a,a,1
+a5,a,a,1

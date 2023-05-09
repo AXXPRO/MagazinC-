@@ -155,7 +155,7 @@ void Service::filtrare_service(vector<Produs>& filtrat,int camp_filtrat, string 
 void Service::delete_service(const string& nume) {
 
 
-    const Produs& p = REPO->cauta_element(nume);
+    const Produs p = REPO->cauta_element(nume);
     REPO->delete_element(nume);
     ActiuneUndo* act = new UndoStergere(REPO, p);
     lista_undouri.push_back(act);

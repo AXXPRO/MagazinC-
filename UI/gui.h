@@ -37,6 +37,8 @@ Q_OBJECT
     int lastRow;
     QPushButton* AddButton;
     QPushButton* DeleteButton;
+    QPushButton* ModifyButton;
+    QPushButton* UndoButton;
     QFont font;
     QVBoxLayout* LayoutMenuButtons;
     QWidget* MenuButtons;

@@ -9,7 +9,6 @@ void UndoAdaugare::undo() {
 }
 
 void UndoModificare::undo() {
-
     REPO->modifica_element(produs_modificat.getNume(), produs_modificat);
 }
 
