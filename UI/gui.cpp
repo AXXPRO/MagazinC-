@@ -95,7 +95,7 @@ GUI::GUI(Service& SERVICE):SERVICE(SERVICE){
     QLabel *searchString = new QLabel("Cauta: ");
     searchString->setFont(this->font);
     searchLayout->addRow( searchString, this->searchBar);
-
+    this->currentTextSearched="";
 
     layoutMain->addLayout(searchLayout);
 
@@ -176,23 +176,9 @@ void GUI::connect() {
     QObject::connect(this->searchBar, &QLineEdit::textChanged, [this](const QString& text){
 
 
-        std::string currentText = text.toStdString();
+       this->currentTextSearched = text.toStdString();
 
-        vector<Produs> vectorService = SERVICE.afisare_produse_service();
-        vector<Produs> vectorSearch;
-
-        for(const auto& el : vectorService)
-        {
-        auto pos = el.getNume().find(currentText);
-        if (pos == 0)
-        {
-            vectorSearch.push_back(el);
-        }
-     //
-
-        }
-
-        LoadElements(this->lista, vectorSearch);
+        LoadElements(this->lista, SERVICE.afisare_produse_service());
 
     });
     QObject::connect(this->ModifyButton, &QPushButton::clicked,[this](){
@@ -423,8 +409,15 @@ void GUI::LoadElements(QListWidget* listToPopulate, vector<Produs> vectorInitial
     ///2 is on, 0 is off
     ///if filtrate
 
-    vector<Produs> vector = vectorInitial;
+    vector<Produs> vector;
     listToPopulate->clear();
+
+    std::copy_if(vectorInitial.begin(), vectorInitial.end(), std::back_inserter(vector), [this](const Produs& p){
+
+        auto pos = p.getNume().find(this->currentTextSearched);
+        return  pos == 0;
+    });
+
     if(this->sortedCheckBox->checkState() == Qt::Checked)
     {
         vector =  SERVICE.sortare_service_GUI(vector, this->sortType);

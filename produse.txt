@@ -3,6 +3,7 @@ a2,a,a,1
 a3,a,a,1
 a4,a,a,1
 a,a,a,3
-b,a,c,3
+b,alt,c,3
 a6,a,b,3
 a5,a,a,1
+a7,a,a,1

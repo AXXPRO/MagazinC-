@@ -39,7 +39,7 @@ Q_OBJECT
     std::string filteredField;
     int sortType;
     int filterType;
-
+    std::string currentTextSearched;
 
     QListWidget* lista;
     ///Needed to check if an item disappeared
