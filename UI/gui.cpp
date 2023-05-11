@@ -18,6 +18,10 @@
 GUI::GUI(Service &SERVICE) : SERVICE(SERVICE) {
 
     layoutMain = new QVBoxLayout;
+
+    this->mainTab = new QWidget;
+    this->mainTab->setLayout(layoutMain);
+
     layoutHorizonalList = new QHBoxLayout;
     ///adaugam un widget, meniul si 2 butoane
     ///meniu si 2 butone orizonatl
@@ -131,21 +135,22 @@ GUI::GUI(Service &SERVICE) : SERVICE(SERVICE) {
 
     this->currentShownVector=SERVICE.afisare_produse_service();
     loadButoane(layoutRaportButtons);
-    this->setLayout(layoutMain);
 
-    auto tabs = new QTabWidget();
-    tabs->addTab(this, "main");
+
+    //this->setLayout(layoutMain);
+   // auto tabs = new QTabWidget();
+    this->addTab(this->mainTab, "main");
     this->cosTab = new QWidget;
 
-    tabs->addTab(this->cosTab, "Cos");
+    this->addTab(this->cosTab, "Cos");
 
     auto l = new QLabel("AICI E COS");
     l->setFont(font);
     cosVLayout = new QVBoxLayout;
     cosVLayout->addWidget(l);
     cosTab->setLayout(cosVLayout);
-    
-    tabs->show();
+
+    //tabs->show();
     LoadElements(this->lista, SERVICE.afisare_produse_service());
     connect();
 }

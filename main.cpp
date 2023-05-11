@@ -106,7 +106,8 @@ int main(int argc, char* argv[]) {
 
 
     /*
-    run_all_tests();
+
+     run_all_tests();
     RepoAbstract<Produs>*repo = new RepoFisier<Produs>("produse.txt");
     Service service(repo);
     UI aplicatie(service);

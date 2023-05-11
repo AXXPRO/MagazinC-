@@ -16,11 +16,12 @@
 #include <QFormLayout>
 #include <QCheckBox>
 
-class GUI: public QWidget{
+class GUI: public QTabWidget{
 private:
 Q_OBJECT
     Service& SERVICE;
     //Prints a UI interface
+    QWidget* mainTab;
     QWidget* cosTab;
     QVBoxLayout* cosVLayout;
     vector<Produs> currentShownVector;
