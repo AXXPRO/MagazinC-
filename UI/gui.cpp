@@ -6,6 +6,8 @@
 #include <QApplication>
 #include <QPushButton>
 #include <QLabel>
+#include <QTabBar>
+#include <QTabWidget>
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QLineEdit>
@@ -130,6 +132,20 @@ GUI::GUI(Service &SERVICE) : SERVICE(SERVICE) {
     this->currentShownVector=SERVICE.afisare_produse_service();
     loadButoane(layoutRaportButtons);
     this->setLayout(layoutMain);
+
+    auto tabs = new QTabWidget();
+    tabs->addTab(this, "main");
+    this->cosTab = new QWidget;
+
+    tabs->addTab(this->cosTab, "Cos");
+
+    auto l = new QLabel("AICI E COS");
+    l->setFont(font);
+    cosVLayout = new QVBoxLayout;
+    cosVLayout->addWidget(l);
+    cosTab->setLayout(cosVLayout);
+    
+    tabs->show();
     LoadElements(this->lista, SERVICE.afisare_produse_service());
     connect();
 }

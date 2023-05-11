@@ -21,7 +21,8 @@ private:
 Q_OBJECT
     Service& SERVICE;
     //Prints a UI interface
-
+    QWidget* cosTab;
+    QVBoxLayout* cosVLayout;
     vector<Produs> currentShownVector;
     Produs curretProdus = Produs("","","",-1);
     QVBoxLayout* layoutMain;
