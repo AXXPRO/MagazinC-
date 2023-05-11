@@ -281,3 +281,12 @@ void Service::raport_service(map<string, vector<Produs>>& dictionar)
         dictionar[el.getTip()].push_back(el);
     }
 }
+
+void Service::raport_service_GUI(map<string, vector<Produs>>& dictionar, vector<Produs> initial)
+{
+    vector<Produs> v =initial;
+    for(auto const& el : v)
+    {
+        dictionar[el.getTip()].push_back(el);
+    }
+}

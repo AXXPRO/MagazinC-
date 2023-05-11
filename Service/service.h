@@ -30,7 +30,7 @@ public:
     ~Service();
 
     void undo_service();
-
+    void raport_service_GUI(std::map<string, vector<Produs>>& dictionar, vector<Produs> initial);
     void adaugare_produs_service(const std::string& nume, const std::string& tip, const std::string& producator, const float& pret);
 
     ///Returneaza un vector cu produsele
