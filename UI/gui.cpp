@@ -14,9 +14,9 @@
 #include <QHBoxLayout>
 #include <QFormLayout>
 #include <QMessageBox>
+#include <QMouseEvent>
 
 GUI::GUI(Service &SERVICE) : SERVICE(SERVICE) {
-
     layoutMain = new QVBoxLayout;
 
     this->mainTab = new QWidget;
@@ -34,11 +34,13 @@ GUI::GUI(Service &SERVICE) : SERVICE(SERVICE) {
     DeleteButton = new QPushButton("Sterge");
     ModifyButton = new QPushButton("Modifica");
     UndoButton = new QPushButton("Undo");
+    AdaugaCosButton = new QPushButton("Adauga in Cos");
     font = QFont("Times new Roman", 16);
     DeleteButton->setFont(font);
     AddButton->setFont(font);
     ModifyButton->setFont(font);
     UndoButton->setFont(font);
+    AdaugaCosButton->setFont(font);
     LayoutMenuButtons = new QVBoxLayout;
     MenuButtons = new QWidget;
     MenuButtons->setLayout(LayoutMenuButtons);
@@ -46,6 +48,7 @@ GUI::GUI(Service &SERVICE) : SERVICE(SERVICE) {
     LayoutMenuButtons->addWidget(DeleteButton);
     LayoutMenuButtons->addWidget(ModifyButton);
     LayoutMenuButtons->addWidget(UndoButton);
+    LayoutMenuButtons->addWidget(AdaugaCosButton);
     layoutHorizonalList->addWidget(MenuButtons);
 
     layoutMain->addLayout(layoutHorizonalList);
@@ -84,7 +87,6 @@ GUI::GUI(Service &SERVICE) : SERVICE(SERVICE) {
 
     QLabel *pretString = new QLabel("Pret: ");
     pretString->setFont(this->font);
-
     formLauyout->addRow(numeString, this->numeEdit);
     formLauyout->addRow(tipString, this->tipEdit);
     formLauyout->addRow(producatorString, this->producatorEdit);
@@ -141,17 +143,58 @@ GUI::GUI(Service &SERVICE) : SERVICE(SERVICE) {
    // auto tabs = new QTabWidget();
     this->addTab(this->mainTab, "main");
     this->cosTab = new QWidget;
-
     this->addTab(this->cosTab, "Cos");
 
-    auto l = new QLabel("AICI E COS");
-    l->setFont(font);
+    elementeCosLabel = new QLabel("Pretul elementelor din Cos este 0!");
+    elementeCosLabel->setFont(font);
     cosVLayout = new QVBoxLayout;
-    cosVLayout->addWidget(l);
+    cosVLayout->addWidget(elementeCosLabel);
+
+    EmptyCosButton = new QPushButton("Empty Cos");
+    EmptyCosButton->setFont(font);
+
+    QLabel* textGenerare = new QLabel("Cate elemente aleatorii generam: ");
+    textGenerare->setFont(font);
+    QLabel* textExport = new QLabel("Cu ce nume dam export la cos: ");
+    textExport->setFont(font);
+
+
+    GenerateCosButton = new QPushButton("Genereaza elemente aleator");
+    GenerateCosButton->setFont(font);
+    ExportCosButton = new QPushButton("Export");
+    ExportCosButton->setFont(font);
+
+    exportTextEdit = new QLineEdit;
+    exportTextEdit->setFont(font);
+    numarGenerateTextEdit = new QLineEdit;
+    numarGenerateTextEdit->setFont(font);
+
+    ///Adaugam 2 layouturi orizontale, unu pentru export, altu pentru generare de elemente
+
+    auto generateLayout = new QHBoxLayout;
+    auto exportLayout = new QHBoxLayout;
+
+    generateLayout->addWidget(textGenerare);
+    generateLayout->addWidget(numarGenerateTextEdit);
+    generateLayout->addWidget(GenerateCosButton);
+
+    exportLayout->addWidget(textExport);
+    exportLayout->addWidget(exportTextEdit);
+    exportLayout->addWidget(ExportCosButton);
+
+    cosVLayout->addLayout(generateLayout);
+
+
+    cosVLayout->addLayout(exportLayout);
+
+    cosVLayout->addWidget(EmptyCosButton);
+
     cosTab->setLayout(cosVLayout);
 
     //tabs->show();
-    LoadElements(this->lista, SERVICE.afisare_produse_service());
+
+
+    update();
     connect();
 }
 
@@ -196,6 +239,45 @@ void GUI::loadButoane(QHBoxLayout *layout) {
 
 void GUI::connect() {
 
+
+    QObject::connect(this->ExportCosButton, &QPushButton::clicked, [this]() {
+
+        auto text = this->exportTextEdit->text();
+
+
+        if(text.isEmpty())
+        {
+            QMessageBox::warning(this, "Something went wrong!", "Dati un nume de export!");
+            return;
+        }
+    SERVICE.export_service(text.toStdString());
+
+    });
+
+
+    QObject::connect(this->GenerateCosButton, &QPushButton::clicked, [this]() {
+
+        auto text = this->numarGenerateTextEdit->text();
+
+        try {
+            int numar = stoi(text.toStdString());
+            SERVICE.genereaza_cos_service(numar);
+            update();
+
+        }
+        catch (std::invalid_argument) {
+            QMessageBox::warning(this, "Something went wrong!", "Numar de elemente invalid!");
+            return;
+        }
+
+    });
+
+    QObject::connect(this->EmptyCosButton, &QPushButton::clicked, [this]() {
+
+        SERVICE.goleste_cos_servcie();
+        update();
+
+    });
     QObject::connect(this->AddButton, &QPushButton::clicked, [this]() {
 
         std::string nume = numeEdit->text().toStdString();
@@ -210,7 +292,7 @@ void GUI::connect() {
 
         try {
             SERVICE.adaugare_produs_service(nume, tip, producator, pret);
-            LoadElements(this->lista, SERVICE.afisare_produse_service());
+
         }
         catch (RepoError &err) {
             QMessageBox::warning(this, "Something went wrong!", QString::fromStdString(err.mesaj));
@@ -219,7 +301,7 @@ void GUI::connect() {
             QMessageBox::warning(this, "Something went wrong!", QString::fromStdString(err.mesaj));
         }
 
-        this->loadButoane(this->layoutRaportButtons);
+        update();
 
     });
     QObject::connect(this->DeleteButton, &QPushButton::clicked, [this]() {
@@ -234,9 +316,22 @@ void GUI::connect() {
         }
         string numeDeSters = this->curretProdus.getNume();
         this->SERVICE.delete_service(numeDeSters);
-        LoadElements(this->lista, SERVICE.afisare_produse_service());
+        update();
+    });
 
-        this->loadButoane(this->layoutRaportButtons);
+    QObject::connect(this->AdaugaCosButton, &QPushButton::clicked, [this]() {
+
+
+        try {
+            ValidatorProdus::isValid(this->curretProdus);
+        }
+        catch (ValidatorError &err) {
+            QMessageBox::warning(this, "Please select!", "Click the item from the list you want to add to the Cos.");
+            return;
+        }
+        string numeProdus = this->curretProdus.getNume();
+        this->SERVICE.adaugare_cos_service(numeProdus);
+        update();
     });
 
     QObject::connect(this->searchBar, &QLineEdit::textChanged, [this](const QString &text) {
@@ -244,9 +339,7 @@ void GUI::connect() {
 
         this->currentTextSearched = text.toStdString();
 
-        LoadElements(this->lista, SERVICE.afisare_produse_service());
-
-        this->loadButoane(this->layoutRaportButtons);
+        update();
 
     });
     QObject::connect(this->ModifyButton, &QPushButton::clicked, [this]() {
@@ -264,7 +357,7 @@ void GUI::connect() {
 
         try {
             SERVICE.modifica_service(nume, tip, producator, pret);
-            LoadElements(this->lista, SERVICE.afisare_produse_service());
+
         }
         catch (RepoError &err) {
             QMessageBox::warning(this, "Something went wrong!", QString::fromStdString(err.mesaj));
@@ -273,7 +366,7 @@ void GUI::connect() {
             QMessageBox::warning(this, "Something went wrong!", QString::fromStdString(err.mesaj));
         }
 
-        this->loadButoane(this->layoutRaportButtons);
+        update();
 
     });
     QObject::connect(this->UndoButton, &QPushButton::clicked, [this]() {
@@ -291,11 +384,7 @@ void GUI::connect() {
             return;
 
         }
-        LoadElements(this->lista, SERVICE.afisare_produse_service());
-
-
-
-        this->loadButoane(this->layoutRaportButtons);
+        update();
 
     });
 
@@ -338,16 +427,12 @@ void GUI::connect() {
 
     QObject::connect(this->filteredCheckBox, &QCheckBox::stateChanged, [this](const int state) {
 
-        LoadElements(this->lista, SERVICE.afisare_produse_service());
-
-        this->loadButoane(this->layoutRaportButtons);
+        update();
     });
 
     QObject::connect(this->sortedCheckBox, &QCheckBox::stateChanged, [this](const int state) {
 
-        LoadElements(this->lista, SERVICE.afisare_produse_service());
-
-        this->loadButoane(this->layoutRaportButtons);
+        update();
     });
 
     QObject::connect(this->filtersButton, &QPushButton::clicked, [this]() {
@@ -392,9 +477,7 @@ void GUI::connect() {
 
             std::cout << this->filteredField << std::endl;
             filtersScreen->hide();
-            LoadElements(this->lista, SERVICE.afisare_produse_service());
-
-            this->loadButoane(this->layoutRaportButtons);
+            update();
         });
 
         QObject::connect(pret_button, &QPushButton::clicked, [filtersScreen, inputFilter, this]() {
@@ -402,9 +485,7 @@ void GUI::connect() {
             this->filteredField = inputFilter->text().toStdString();
             std::cout << this->filteredField << std::endl;
             filtersScreen->hide();
-            LoadElements(this->lista, SERVICE.afisare_produse_service());
-
-            this->loadButoane(this->layoutRaportButtons);
+            update();
         });
 
         QObject::connect(producator_button, &QPushButton::clicked, [filtersScreen, inputFilter, this]() {
@@ -412,9 +493,7 @@ void GUI::connect() {
             this->filteredField = inputFilter->text().toStdString();
             std::cout << this->filteredField << std::endl;
             filtersScreen->hide();
-            LoadElements(this->lista, SERVICE.afisare_produse_service());
-
-            this->loadButoane(this->layoutRaportButtons);
+            update();
         });
 
 
@@ -467,24 +546,18 @@ void GUI::connect() {
         QObject::connect(name_button, &QPushButton::clicked, [sortersScreen, this]() {
             this->sortType = 1;
             sortersScreen->hide();
-            LoadElements(this->lista, SERVICE.afisare_produse_service());
-
-            this->loadButoane(this->layoutRaportButtons);
+            update();
         });
 
         QObject::connect(pret_button, &QPushButton::clicked, [sortersScreen, this]() {
             this->sortType = 2;
             sortersScreen->hide();
-            LoadElements(this->lista, SERVICE.afisare_produse_service());
-
-            this->loadButoane(this->layoutRaportButtons);
+       update();
         });
         QObject::connect(tip_button, &QPushButton::clicked, [sortersScreen, this]() {
             this->sortType = 3;
             sortersScreen->hide();
-            LoadElements(this->lista, SERVICE.afisare_produse_service());
-
-            this->loadButoane(this->layoutRaportButtons);
+        update();
         });
         sortersScreen->show();
 
@@ -492,8 +565,28 @@ void GUI::connect() {
 }
 
 
+void GUI::update() {
+
+    LoadElements(this->lista, SERVICE.afisare_produse_service());
+    this->loadButoane(this->layoutRaportButtons);
+    this->changeCosPrice();
+}
+void GUI::changeCosPrice(){
+
+    auto pretCos = SERVICE.pret_cos_service();
+    QLabel("Pretul elementelor din Cos este 0!");
+    QString text("Pretul elementelor din Cos este ");
+
+    std::stringstream pretStringStream;
+    pretStringStream<<pretCos;
+    std::string pretString = pretStringStream.str();
 
 
+    text.push_back( QString::fromStdString(pretString));
+    text.push_back("!");
+    elementeCosLabel->setText(text);
+
+}
 void GUI::LoadElements(QListWidget *listToPopulate, vector<Produs> vectorInitial) {
 
 
@@ -501,14 +594,15 @@ void GUI::LoadElements(QListWidget *listToPopulate, vector<Produs> vectorInitial
     ///if filtrate
 
     currentShownVector.clear();
-   // vector<Produs> vector;
+    // vector<Produs> vector;
 
 
-    std::copy_if(vectorInitial.begin(), vectorInitial.end(), std::back_inserter(currentShownVector), [this](const Produs &p) {
+    std::copy_if(vectorInitial.begin(), vectorInitial.end(), std::back_inserter(currentShownVector),
+                 [this](const Produs &p) {
 
-        auto pos = p.getNume().find(this->currentTextSearched);
-        return pos == 0;
-    });
+                     auto pos = p.getNume().find(this->currentTextSearched);
+                     return pos == 0;
+                 });
 
     if (this->sortedCheckBox->checkState() == Qt::Checked) {
         currentShownVector = SERVICE.sortare_service_GUI(currentShownVector, this->sortType);

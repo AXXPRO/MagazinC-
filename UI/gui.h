@@ -23,6 +23,7 @@ Q_OBJECT
     //Prints a UI interface
     QWidget* mainTab;
     QWidget* cosTab;
+    QLabel* elementeCosLabel;
     QVBoxLayout* cosVLayout;
     vector<Produs> currentShownVector;
     Produs curretProdus = Produs("","","",-1);
@@ -52,6 +53,12 @@ Q_OBJECT
     QPushButton* DeleteButton;
     QPushButton* ModifyButton;
     QPushButton* UndoButton;
+    QPushButton* AdaugaCosButton;
+    QPushButton* EmptyCosButton;
+    QPushButton* GenerateCosButton;
+    QPushButton* ExportCosButton;
+    QLineEdit* numarGenerateTextEdit;
+    QLineEdit* exportTextEdit;
     QFont font;
     QVBoxLayout* LayoutMenuButtons;
     QWidget* MenuButtons;
@@ -62,6 +69,8 @@ Q_OBJECT
     vector<QPushButton* > vectorButoaneDinamice;
     vector<int> numarInstante;
     void loadButoane(QHBoxLayout* );
+    void changeCosPrice();
+    void update();
 
 
 public:
