@@ -15,6 +15,7 @@
 #include <QWidget>
 #include <QFormLayout>
 #include <QCheckBox>
+#include <QTableWidget>
 
 class GUI: public QTabWidget{
 private:
@@ -47,6 +48,7 @@ Q_OBJECT
     std::string currentTextSearched;
 
     QListWidget* lista;
+    QTableWidget* tableCos;
     ///Needed to check if an item disappeared
     int lastRow;
     QPushButton* AddButton;
@@ -62,6 +64,7 @@ Q_OBJECT
     QFont font;
     QVBoxLayout* LayoutMenuButtons;
     QWidget* MenuButtons;
+    void LoadCosElements();
     void LoadElements(QListWidget* ,vector<Produs>);
 
     void connect();

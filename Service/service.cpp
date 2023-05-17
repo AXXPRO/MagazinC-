@@ -216,7 +216,10 @@ void Service::export_service(const string &nume_fisier)
 
     f.close();
 }
+vector<Produs>& Service::get_all_cos() const{
 
+    return REPOCos->get_all();
+}
 void Service::adaugare_cos_service(const string &nume) {
 
     Produs P =REPO->cauta_element(nume);
