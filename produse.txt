@@ -9,3 +9,4 @@ a2,b,a,1
 ba,alt,c,3
 a7,a,a,1
 bar,alt,c,3.5
+Lau,Filthy league player,masa,12

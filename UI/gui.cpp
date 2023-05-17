@@ -475,7 +475,7 @@ void GUI::connect() {
             this->filterType = 2;
             this->filteredField = inputFilter->text().toStdString();
 
-            std::cout << this->filteredField << std::endl;
+            //std::cout << this->filteredField << std::endl;
             filtersScreen->hide();
             update();
         });
@@ -483,7 +483,7 @@ void GUI::connect() {
         QObject::connect(pret_button, &QPushButton::clicked, [filtersScreen, inputFilter, this]() {
             this->filterType = 1;
             this->filteredField = inputFilter->text().toStdString();
-            std::cout << this->filteredField << std::endl;
+           // std::cout << this->filteredField << std::endl;
             filtersScreen->hide();
             update();
         });

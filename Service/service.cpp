@@ -211,7 +211,7 @@ void Service::export_service(const string &nume_fisier)
     std::ofstream f(true_name);
     for(const auto& el : temp)
     {
-        f<<el<<std::endl;
+        f<<el.to_string()<<std::endl;
     }
 
     f.close();
