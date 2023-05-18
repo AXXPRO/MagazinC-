@@ -586,8 +586,9 @@ void GUI::update() {
 void GUI::LoadCosElements()
 {
    // this->tableCos->clear();
+   // this->tableCos->setRowCount(0);
+    this->tableCos->clearContents();
     this->tableCos->setRowCount(0);
-
     vector<Produs> vect = SERVICE.get_all_cos();
 
     for(const auto& el: vect)
