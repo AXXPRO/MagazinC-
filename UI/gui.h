@@ -22,6 +22,7 @@ private:
 Q_OBJECT
     Service& SERVICE;
     //Prints a UI interface
+    QSlider* slider;
     QWidget* mainTab;
     QWidget* cosTab;
     QLabel* elementeCosLabel;

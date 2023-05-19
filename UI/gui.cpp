@@ -135,6 +135,16 @@ GUI::GUI(Service &SERVICE) : SERVICE(SERVICE) {
     layoutRaportButtons = new QHBoxLayout;
     layoutMain->addLayout(layoutRaportButtons);
 
+//     slider = new QSlider(Qt::Horizontal);
+//
+//
+//    slider->setRange(0,2);
+//    slider->setValue(0);
+//    slider->setFixedWidth(200);
+//  //  slider->setFixedHeight(100);
+//
+//    layoutMain->addWidget(slider);
+
     this->currentShownVector=SERVICE.afisare_produse_service();
     loadButoane(layoutRaportButtons);
 
@@ -581,6 +591,7 @@ void GUI::update() {
     this->loadButoane(this->layoutRaportButtons);
     this->changeCosPrice();
     LoadCosElements();
+   // std::cout<<slider->value()<<std::endl;
 
 }
 void GUI::LoadCosElements()
