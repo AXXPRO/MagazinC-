@@ -64,6 +64,9 @@ public:
 
     void raport_service(std::map<string,vector<Produs>>&);
 
+    void addInteresat(Observer* el);
+    void removeInteresat(Observer* el);
+
 };
 
 

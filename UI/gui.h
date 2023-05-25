@@ -16,6 +16,7 @@
 #include <QFormLayout>
 #include <QCheckBox>
 #include <QTableWidget>
+#include "../observers.h"
 
 class GUI: public QTabWidget{
 private:
@@ -65,6 +66,11 @@ Q_OBJECT
     QFont font;
     QVBoxLayout* LayoutMenuButtons;
     QWidget* MenuButtons;
+    vector<Observer*> elementeObserver;
+
+    QPushButton* CosCRUDGUIButton;
+    QPushButton* CosReadOnlyGUIButton;
+
     void LoadCosElements();
     void LoadElements(QListWidget* ,vector<Produs>);
 
@@ -82,4 +88,26 @@ public:
 
 };
 
+class CosCRUDGUI:public Observer{
+    void update() override;
+Q_OBJECT
+
+protected:
+   inline void closeEvent(QCloseEvent* event) override{
+
+        emit removeObserverIndexed(idInVector);
+    }
+public:
+    CosCRUDGUI();
+    ~CosCRUDGUI() override;
+
+
+
+};
+
+
+
+class CosReadOnlyGUI:public Observer{
+
+};
 #endif //MAGAZINC___GUI_H

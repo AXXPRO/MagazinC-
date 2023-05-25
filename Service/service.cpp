@@ -185,7 +185,14 @@ vector<Produs> Service::filtrare_service_GUI(vector<Produs>& inputVector,int cam
 
 }
 
+void Service::addInteresat(Observer *el) {
+    REPOCos->addInteresat(el);
 
+}
+
+void Service::removeInteresat(Observer *el) {
+    REPOCos->removeInteresat(el);
+}
 
 void Service::delete_service(const string& nume) {
 

@@ -15,6 +15,7 @@
 #include <QFormLayout>
 #include <QMessageBox>
 #include <QMouseEvent>
+#include <unistd.h>
 
 GUI::GUI(Service &SERVICE) : SERVICE(SERVICE) {
     layoutMain = new QVBoxLayout;
@@ -155,19 +156,26 @@ GUI::GUI(Service &SERVICE) : SERVICE(SERVICE) {
     this->cosTab = new QWidget;
     this->addTab(this->cosTab, "Cos");
 
-    this->tableCos = new QTableWidget;
-    this->tableCos->setFont(this->font);
-    this->tableCos->setColumnCount(4);
+  //  this->tableCos = new QTableWidget;
+  //  this->tableCos->setFont(this->font);
+   // this->tableCos->setColumnCount(4);
 
-    QStringList headers;
-    headers<<"Nume"<<"Producator"<<"Tip"<<"Pret";
-    this->tableCos->setHorizontalHeaderLabels(headers);
+   // QStringList headers;
+    //headers<<"Nume"<<"Producator"<<"Tip"<<"Pret";
+    //this->tableCos->setHorizontalHeaderLabels(headers);
+    cosVLayout = new QVBoxLayout;
+    CosCRUDGUIButton = new QPushButton("CosCRUDGUI");
+    CosCRUDGUIButton->setFont(font);
+     CosReadOnlyGUIButton = new QPushButton("CosReadOnlyGUI");
+     CosReadOnlyGUIButton->setFont(font);
+    cosVLayout->addWidget(CosCRUDGUIButton);
+   cosVLayout->addWidget(CosReadOnlyGUIButton);
 
     elementeCosLabel = new QLabel("Pretul elementelor din Cos este 0!");
     elementeCosLabel->setFont(font);
-    cosVLayout = new QVBoxLayout;
 
-    cosVLayout->addWidget(this->tableCos);
+
+   // cosVLayout->addWidget(this->tableCos);
     cosVLayout->addWidget(elementeCosLabel);
 
     EmptyCosButton = new QPushButton("Empty Cos");
@@ -258,8 +266,24 @@ void GUI::loadButoane(QHBoxLayout *layout) {
 }
 
 void GUI::connect() {
+   // for(auto const taburiCos: this->elementeObserver)
 
+    QObject::connect(this->CosCRUDGUIButton, &QPushButton::clicked, [this](){
 
+        Observer* tabNou = new CosCRUDGUI();
+
+        this->elementeObserver.push_back(tabNou);
+        SERVICE.addInteresat(tabNou);
+        tabNou->idInVector = elementeObserver.size() - 1;
+        QObject::connect(tabNou,&Observer::removeObserverIndexed , [this,tabNou](){
+
+           SERVICE.removeInteresat(tabNou);
+        });
+
+     //   sleep(2);
+       // delete elementeObserver[0];
+
+    });
     QObject::connect(this->ExportCosButton, &QPushButton::clicked, [this]() {
 
         auto text = this->exportTextEdit->text();
@@ -586,7 +610,6 @@ void GUI::connect() {
 
 
 void GUI::update() {
-
     LoadElements(this->lista, SERVICE.afisare_produse_service());
     this->loadButoane(this->layoutRaportButtons);
     this->changeCosPrice();
@@ -595,7 +618,7 @@ void GUI::update() {
 
 }
 void GUI::LoadCosElements()
-{
+{   /*
    // this->tableCos->clear();
    // this->tableCos->setRowCount(0);
     this->tableCos->clearContents();
@@ -628,7 +651,7 @@ void GUI::LoadCosElements()
         this->tableCos->setItem(tableCos->rowCount() -1, 3, pret);
     }
 
-
+*/
 }
 void GUI::changeCosPrice(){
 
@@ -684,3 +707,17 @@ void GUI::LoadElements(QListWidget *listToPopulate, vector<Produs> vectorInitial
 
 
 }
+
+CosCRUDGUI::CosCRUDGUI() {
+
+    this->show();
+}
+void CosCRUDGUI::update() {
+   // std::cout<<"UPDATED";
+}
+CosCRUDGUI::~CosCRUDGUI() {
+
+ //   std::cout<<"Destructor\n";
+    this->destroy();
+}
+

@@ -14,7 +14,7 @@ find_package(Qt6 COMPONENTS
         Widgets
         REQUIRED)
 
-add_executable(MagazinC__ main.cpp Domain/domain.h Domain/domain.cpp Teste/teste.h Teste/teste.cpp UI/ui.h UI/ui.cpp Service/service.h Service/service.cpp Repository/repo.h Repository/repo.cpp Lista/lista.h Erori/errors.h Validator/validator.h Validator/validator.cpp Undo/undo.h Undo/undo.cpp Undo/undo.cpp UI/gui.h UI/gui.cpp)
+add_executable(MagazinC__ main.cpp Domain/domain.h Domain/domain.cpp Teste/teste.h Teste/teste.cpp UI/ui.h UI/ui.cpp Service/service.h Service/service.cpp Repository/repo.h Repository/repo.cpp Lista/lista.h Erori/errors.h Validator/validator.h Validator/validator.cpp Undo/undo.h Undo/undo.cpp Undo/undo.cpp UI/gui.h UI/gui.cpp observers.h observers.h observers.h observers.cpp)
 
 target_link_libraries(MagazinC__
         Qt::Core
