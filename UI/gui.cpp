@@ -267,6 +267,22 @@ void GUI::loadButoane(QHBoxLayout *layout) {
 void GUI::connect() {
    // for(auto const taburiCos: this->elementeObserver)
 
+    QObject::connect(this->CosReadOnlyGUIButton, &QPushButton::clicked, [this](){
+
+        Observer* tabNou = new CosReadOnlyGUI(this->SERVICE);
+
+        this->elementeObserver.push_back(tabNou);
+        SERVICE.addInteresat(tabNou);
+        tabNou->idInVector = elementeObserver.size() - 1;
+        QObject::connect(tabNou,&Observer::removeObserverIndexed , [this,tabNou](){
+
+            SERVICE.removeInteresat(tabNou);
+        });
+
+        //   sleep(2);
+        // delete elementeObserver[0];
+    });
+
     QObject::connect(this->CosCRUDGUIButton, &QPushButton::clicked, [this](){
 
         Observer* tabNou = new CosCRUDGUI(this->SERVICE);
@@ -656,7 +672,24 @@ void GUI::LoadElements(QListWidget *listToPopulate, vector<Produs> vectorInitial
 
 
 }
+void CosReadOnlyGUI::update() {
+    this->nrElements=SERVICE.get_all_cos().size();
+    this->repaint();
 
+}
+CosReadOnlyGUI::CosReadOnlyGUI(Service &S):SERVICE(S) {
+
+this->nrElements=SERVICE.get_all_cos().size();
+
+//this->repaint();
+this->resize(this->WidgetWidth,this->WidgetHeight);
+this->repaint();
+    this->show();
+}
+
+void CosReadOnlyGUI::populate() {
+
+}
 CosCRUDGUI::CosCRUDGUI(Service& S):SERVICE(S){
     this->setFont(QFont("Arial",15));
       tableCos = new QTableWidget;

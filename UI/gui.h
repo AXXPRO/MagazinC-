@@ -16,6 +16,10 @@
 #include <QFormLayout>
 #include <QCheckBox>
 #include <QTableWidget>
+#include <QPainter>
+#include <QImage>
+#include <QPaintEvent>
+#include <QGraphicsView>
 #include "../observers.h"
 
 class GUI: public QTabWidget{
@@ -119,6 +123,47 @@ public:
 
 
 class CosReadOnlyGUI:public Observer{
+    Service& SERVICE;
+    vector<std::pair<int,int>> coordonates;
+    int nrElements;
+    int knownNrElements=-1;
+    const int WidgetWidth = 500;
+    const int WidgetHeight = 500;
+    void update() override;
+    void populate();
+    void connect();
+    void paintEvent(QPaintEvent* ev) override{
+        QPainter p{ this };
+        if(knownNrElements !=nrElements) {
+            coordonates.clear();
+            for (int i = 0; i < nrElements; i++) {
+                int XCord, YCord;
+                const int Width = 10;
+                const int Height = 10;
+                XCord = rand() % WidgetHeight;
+                YCord = rand() % WidgetWidth;
+                coordonates.emplace_back(XCord, YCord);
+            }
+        }
+        for(int i =0; i<coordonates.size(); i++)
+        {
+            p.drawEllipse(coordonates[i].first,coordonates[i].second,20, 20);
+        }
+
+        knownNrElements = nrElements;
+        //QImage imagine;
+       //auto e = imagine.load("C:/Users/Gabi/Desktop/MagazinC-/download.jpg");
+
+      // p.drawImage(30,0,imagine);
+    }
+public:
+    CosReadOnlyGUI(Service& S);
+protected:
+    inline void closeEvent(QCloseEvent* event) override{
+
+        emit removeObserverIndexed(idInVector);
+
+    }
 
 };
 #endif //MAGAZINC___GUI_H
