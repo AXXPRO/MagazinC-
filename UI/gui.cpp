@@ -616,44 +616,7 @@ void GUI::update() {
    // std::cout<<slider->value()<<std::endl;
 
 }
-/*
-void GUI::LoadCosElements()
-{
-   // this->tableCos->clear();
-   // this->tableCos->setRowCount(0);
-    this->tableCos->clearContents();
-    this->tableCos->setRowCount(0);
-    vector<Produs> vect = SERVICE.get_all_cos();
 
-    for(const auto& el: vect)
-    {
-        auto  nume = new QTableWidgetItem;
-        auto  producator = new QTableWidgetItem;
-        auto  tip = new QTableWidgetItem;
-        auto  pret = new QTableWidgetItem;
-        this->tableCos->setRowCount(tableCos->rowCount() + 1);
-
-        nume->setText(QString::fromStdString( el.getNume()));
-        producator->setText(QString::fromStdString( el.getProducator()));
-        tip->setText(QString::fromStdString( el.getTip()));
-
-        ///float to std
-        std::stringstream pretStringStream;
-        pretStringStream<<el.getPret();
-        std::string pretString = pretStringStream.str();
-
-        pret->setText(QString::fromStdString( pretString));
-
-
-        this->tableCos->setItem(tableCos->rowCount() -1, 0, nume);
-        this->tableCos->setItem(tableCos->rowCount() -1, 1, producator);
-        this->tableCos->setItem(tableCos->rowCount() -1, 2, tip);
-        this->tableCos->setItem(tableCos->rowCount() -1, 3, pret);
-    }
-
-
-}
- */
 
 void GUI::LoadElements(QListWidget *listToPopulate, vector<Produs> vectorInitial) {
 
