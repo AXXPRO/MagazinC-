@@ -7,15 +7,24 @@
 
 #include <vector>
 #include <iostream>
+#include <QPushButton>
+#include <QLineEdit>
+#include <QTableWidget>
+#include <QTableWidgetItem>
 #include <QWidget>
+
 using std::vector;
 class Observer:public QWidget{
     Q_OBJECT
+protected:
+
+
 public:
     virtual void update() = 0;
-
+  // explicit Observer(Service* S):SERVICE(S){};
     virtual ~Observer() = default;
     int idInVector;
+
  signals:
     void removeObserverIndexed(int index);
 };

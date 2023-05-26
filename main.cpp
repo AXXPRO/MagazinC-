@@ -24,6 +24,7 @@ int main(int argc, char* argv[]) {
     QApplication Aplicatie(argc, argv);
 
     RepoAbstract<Produs>*repo = new RepoFisier<Produs>("produse.txt");
+
     Service service(repo);
     auto main = new GUI(service);
     main->show();

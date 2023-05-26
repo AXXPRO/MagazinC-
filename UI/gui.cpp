@@ -171,12 +171,11 @@ GUI::GUI(Service &SERVICE) : SERVICE(SERVICE) {
     cosVLayout->addWidget(CosCRUDGUIButton);
    cosVLayout->addWidget(CosReadOnlyGUIButton);
 
-    elementeCosLabel = new QLabel("Pretul elementelor din Cos este 0!");
-    elementeCosLabel->setFont(font);
+
 
 
    // cosVLayout->addWidget(this->tableCos);
-    cosVLayout->addWidget(elementeCosLabel);
+
 
     EmptyCosButton = new QPushButton("Empty Cos");
     EmptyCosButton->setFont(font);
@@ -270,7 +269,7 @@ void GUI::connect() {
 
     QObject::connect(this->CosCRUDGUIButton, &QPushButton::clicked, [this](){
 
-        Observer* tabNou = new CosCRUDGUI();
+        Observer* tabNou = new CosCRUDGUI(this->SERVICE);
 
         this->elementeObserver.push_back(tabNou);
         SERVICE.addInteresat(tabNou);
@@ -282,8 +281,8 @@ void GUI::connect() {
 
      //   sleep(2);
        // delete elementeObserver[0];
-
     });
+
     QObject::connect(this->ExportCosButton, &QPushButton::clicked, [this]() {
 
         auto text = this->exportTextEdit->text();
@@ -612,13 +611,14 @@ void GUI::connect() {
 void GUI::update() {
     LoadElements(this->lista, SERVICE.afisare_produse_service());
     this->loadButoane(this->layoutRaportButtons);
-    this->changeCosPrice();
-    LoadCosElements();
+   // this->changeCosPrice();
+   // LoadCosElements();
    // std::cout<<slider->value()<<std::endl;
 
 }
+/*
 void GUI::LoadCosElements()
-{   /*
+{
    // this->tableCos->clear();
    // this->tableCos->setRowCount(0);
     this->tableCos->clearContents();
@@ -651,24 +651,10 @@ void GUI::LoadCosElements()
         this->tableCos->setItem(tableCos->rowCount() -1, 3, pret);
     }
 
-*/
-}
-void GUI::changeCosPrice(){
-
-    auto pretCos = SERVICE.pret_cos_service();
-    QLabel("Pretul elementelor din Cos este 0!");
-    QString text("Pretul elementelor din Cos este ");
-
-    std::stringstream pretStringStream;
-    pretStringStream<<pretCos;
-    std::string pretString = pretStringStream.str();
-
-
-    text.push_back( QString::fromStdString(pretString));
-    text.push_back("!");
-    elementeCosLabel->setText(text);
 
 }
+ */
+
 void GUI::LoadElements(QListWidget *listToPopulate, vector<Produs> vectorInitial) {
 
 
@@ -708,12 +694,110 @@ void GUI::LoadElements(QListWidget *listToPopulate, vector<Produs> vectorInitial
 
 }
 
-CosCRUDGUI::CosCRUDGUI() {
+CosCRUDGUI::CosCRUDGUI(Service& S):SERVICE(S){
+    this->setFont(QFont("Arial",15));
+      tableCos = new QTableWidget;
+     this->tableCos->setColumnCount(4);
+     QStringList headers;
+    headers<<"Nume"<<"Producator"<<"Tip"<<"Pret";
+    tableCos->setHorizontalHeaderLabels(headers);
+
+    auto cosCrudLayout = new QVBoxLayout;
+    this->setLayout(cosCrudLayout);
+    cosCrudLayout->addWidget(tableCos);
+
+    auto formLayout = new QFormLayout;
+    cosCrudLayout->addLayout(formLayout);
+    this->GenerateCosButton = new QPushButton("Generare");
+    cosCrudLineEdit = new QLineEdit;
+    formLayout->addRow(this->GenerateCosButton, cosCrudLineEdit);
+
+    this->EmptyCosButton = new QPushButton("Empty");
+    cosCrudLayout->addWidget(EmptyCosButton);
+    pretLabel = new QLabel;
+    setPretLabel();
+
+    cosCrudLayout->addWidget(pretLabel);
+    connect();
+   populate();
+
+
 
     this->show();
 }
+void CosCRUDGUI::setPretLabel() {
+    auto pretCos = SERVICE.pret_cos_service();
+    QLabel("Pretul elementelor din Cos este 0!");
+    QString text("Pretul elementelor din Cos este ");
+
+    std::stringstream pretStringStream;
+    pretStringStream<<pretCos;
+    std::string pretString = pretStringStream.str();
+
+
+    text.push_back( QString::fromStdString(pretString));
+    text.push_back("!");
+    pretLabel->setText(text);
+}
+void CosCRUDGUI::connect() {
+    QObject::connect(this->EmptyCosButton, &QPushButton::clicked,[this](){
+        SERVICE.goleste_cos_servcie();
+
+    });
+    QObject::connect(this->GenerateCosButton, &QPushButton::clicked, [this]() {
+
+        auto text = this->cosCrudLineEdit->text();
+
+        try {
+            int numar = stoi(text.toStdString());
+            SERVICE.genereaza_cos_service(numar);
+
+
+        }
+        catch (std::invalid_argument) {
+            QMessageBox::warning(this, "Something went wrong!", "Numar de elemente invalid!");
+            return;
+        }
+
+    });
+}
+void CosCRUDGUI::populate() {
+
+
+    // this->tableCos->setRowCount(0);
+    this->tableCos->clearContents();
+    this->tableCos->setRowCount(0);
+    vector<Produs> vect = SERVICE.get_all_cos();
+
+    for(const auto& el: vect)
+    {
+        auto  nume = new QTableWidgetItem;
+        auto  producator = new QTableWidgetItem;
+        auto  tip = new QTableWidgetItem;
+        auto  pret = new QTableWidgetItem;
+        this->tableCos->setRowCount(tableCos->rowCount() + 1);
+
+        nume->setText(QString::fromStdString( el.getNume()));
+        producator->setText(QString::fromStdString( el.getProducator()));
+        tip->setText(QString::fromStdString( el.getTip()));
+
+        ///float to std
+        std::stringstream pretStringStream;
+        pretStringStream<<el.getPret();
+        std::string pretString = pretStringStream.str();
+
+        pret->setText(QString::fromStdString( pretString));
+
+
+        this->tableCos->setItem(tableCos->rowCount() -1, 0, nume);
+        this->tableCos->setItem(tableCos->rowCount() -1, 1, producator);
+        this->tableCos->setItem(tableCos->rowCount() -1, 2, tip);
+        this->tableCos->setItem(tableCos->rowCount() -1, 3, pret);
+    }
+}
 void CosCRUDGUI::update() {
-   // std::cout<<"UPDATED";
+    this->setPretLabel();
+   this->populate();
 }
 CosCRUDGUI::~CosCRUDGUI() {
 

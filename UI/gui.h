@@ -70,8 +70,7 @@ Q_OBJECT
 
     QPushButton* CosCRUDGUIButton;
     QPushButton* CosReadOnlyGUIButton;
-
-    void LoadCosElements();
+    //void LoadCosElements();
     void LoadElements(QListWidget* ,vector<Produs>);
 
     void connect();
@@ -79,7 +78,7 @@ Q_OBJECT
     vector<QPushButton* > vectorButoaneDinamice;
     vector<int> numarInstante;
     void loadButoane(QHBoxLayout* );
-    void changeCosPrice();
+
     void update();
 
 
@@ -89,16 +88,28 @@ public:
 };
 
 class CosCRUDGUI:public Observer{
+    Service& SERVICE;
+    QTableWidget* tableCos;
+    QPushButton* EmptyCosButton;
+    QPushButton* GenerateCosButton;
+    QLineEdit* cosCrudLineEdit;
+    QLabel* pretLabel;
     void update() override;
+    void populate();
+    void connect();
+    void setPretLabel();
 Q_OBJECT
 
 protected:
    inline void closeEvent(QCloseEvent* event) override{
 
         emit removeObserverIndexed(idInVector);
+
     }
 public:
-    CosCRUDGUI();
+    CosCRUDGUI(Service& S);
+
+
     ~CosCRUDGUI() override;
 
 
