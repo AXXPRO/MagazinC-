@@ -88,7 +88,13 @@ Q_OBJECT
 
 public:
     GUI(Service& SERVICE);
-
+protected:
+    inline void closeEvent(QCloseEvent* event) override{
+        for(const auto& el:elementeObserver)
+        {
+            delete el;
+        }
+    }
 };
 
 class CosCRUDGUI:public Observer{
