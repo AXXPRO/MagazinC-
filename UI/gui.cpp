@@ -27,7 +27,9 @@ GUI::GUI(Service &SERVICE) : SERVICE(SERVICE) {
     ///adaugam un widget, meniul si 2 butoane
     ///meniu si 2 butone orizonatl
 
-    lista = new QListWidget;
+    lista = new QListView(this);
+    modelLista = new MyListModel(this);
+    lista->setModel(modelLista);
 
     layoutHorizonalList->addWidget(lista);
 
@@ -367,9 +369,10 @@ void GUI::connect() {
 
 
         try {
-            ValidatorProdus::isValid(this->curretProdus);
+           // ValidatorProdus::isValid(this->curretProdus);
+           auto temp = SERVICE.cauta_service(curretProdus.getNume());
         }
-        catch (ValidatorError &err) {
+        catch (RepoError &err) {
             QMessageBox::warning(this, "Please select!", "Click the item from the list you want to delete.");
             return;
         }
@@ -382,9 +385,10 @@ void GUI::connect() {
 
 
         try {
-            ValidatorProdus::isValid(this->curretProdus);
+           // ValidatorProdus::isValid(this->curretProdus);
+            auto temp = SERVICE.cauta_service(curretProdus.getNume());
         }
-        catch (ValidatorError &err) {
+        catch (RepoError &err) {
             QMessageBox::warning(this, "Please select!", "Click the item from the list you want to add to the Cos.");
             return;
         }
@@ -447,23 +451,27 @@ void GUI::connect() {
 
     });
 
-    QObject::connect(this->lista, &QListWidget::itemSelectionChanged, [this]() {
 
 
+
+
+    QObject::connect(lista->selectionModel(), &QItemSelectionModel::selectionChanged, [this]() {
+
+        std::cout<<this->lista->selectionModel()->selectedIndexes().size()<<std::endl;
         //    std::cout<<this->lista->selectionModel()->currentIndex().row()<<std::endl;
 
 
-        if (this->lista->selectedItems().size() == 0) {   ///Invalidate it
+        if (this->lista->selectionModel()->selectedIndexes().isEmpty()) {   ///Invalidate it
             this->curretProdus = Produs("", "", "", -1);
             return;
         }
 
 
         // this->lastRow = this->lista->selectionModel()->currentIndex().row();
-        auto textWidgetItem = this->lista->item(this->lista->selectionModel()->currentIndex().row());
+        auto ViewItem = this->lista->selectionModel()->selectedIndexes().at(0);
 
 
-        auto textItem = textWidgetItem->text().toStdString();
+        auto textItem = ViewItem.data(Qt::DisplayRole).toString().toStdString();
 
 
         std::stringstream X(textItem);
@@ -483,6 +491,8 @@ void GUI::connect() {
 
         //  std::cout<<this->curretProdus<<std::endl;
     });
+
+
 
     QObject::connect(this->filteredCheckBox, &QCheckBox::stateChanged, [this](const int state) {
 
@@ -634,7 +644,7 @@ void GUI::update() {
 }
 
 
-void GUI::LoadElements(QListWidget *listToPopulate, vector<Produs> vectorInitial) {
+void GUI::LoadElements(QListView *listToPopulate, vector<Produs> vectorInitial) {
 
 
     ///2 is on, 0 is off
@@ -642,6 +652,7 @@ void GUI::LoadElements(QListWidget *listToPopulate, vector<Produs> vectorInitial
 
     currentShownVector.clear();
     // vector<Produs> vector;
+
 
 
     std::copy_if(vectorInitial.begin(), vectorInitial.end(), std::back_inserter(currentShownVector),
@@ -661,15 +672,18 @@ void GUI::LoadElements(QListWidget *listToPopulate, vector<Produs> vectorInitial
     }
 
 
+    modelLista->emitDataChanged();
+
+    /*
     ///if sortate
-    listToPopulate->clear();
+    listToPopulate->selectionModel()->clear();
     for (auto const el: currentShownVector) {
         auto Item = new QListWidgetItem(QString::fromStdString(el.to_string()));
         Item->setFont(this->font);
-        listToPopulate->addItem(Item);
+        listToPopulate->selectionModel().   addItem(Item);
 
     }
-
+*/
 
 }
 void CosReadOnlyGUI::update() {
@@ -801,3 +815,33 @@ CosCRUDGUI::~CosCRUDGUI() {
     this->destroy();
 }
 
+MyListModel::MyListModel(QObject* parent, GUI* S) : gui(S){
+
+}
+
+
+int MyListModel::rowCount(const QModelIndex &parent) const {
+    return  gui->SERVICE.afisare_produse_service().size();
+
+}
+
+QVariant MyListModel::data(const QModelIndex &index, int role) const {
+
+   // if(gui->currentShownVector.empty())
+     //   return QVariant();
+    if (role == Qt::DisplayRole) {
+        ///Return a string containing the product
+if(gui->currentShownVector.size() <= index.row())
+    return QVariant();
+
+     auto Produs = gui->currentShownVector.at(index.row());
+        return QString(QString::fromStdString(Produs.to_string()));
+    }
+    return QVariant();
+
+}
+
+bool MyListModel::setData(const QModelIndex &index, const QVariant &value, int role) {
+
+
+}

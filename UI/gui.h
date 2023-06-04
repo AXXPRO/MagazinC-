@@ -6,6 +6,7 @@
 #define MAGAZINC___GUI_H
 #include "../Service/service.h"
 #include <QApplication>
+#include <QListView>
 #include <QPushButton>
 #include <QLabel>
 #include <QListWidget>
@@ -22,8 +23,34 @@
 #include <QGraphicsView>
 #include "../observers.h"
 
+class GUI;
+class MyListModel:public QAbstractListModel{
+    Q_OBJECT
+public:
+
+    GUI* gui;
+    vector<Produs> currentShownVector;
+
+    MyListModel(QObject* parent, GUI* S);
+    MyListModel(GUI* S): gui(S){};
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    bool setData(const QModelIndex & index, const QVariant & value, int role) override;
+    void emitDataChanged(){
+
+        QModelIndex topLeft = createIndex(0, 0);
+        QModelIndex bottomRight = createIndex(rowCount(), 0);
+
+        emit dataChanged(topLeft, bottomRight);
+
+
+    }
+
+};
+
 class GUI: public QTabWidget{
 private:
+    friend class MyListModel;
 Q_OBJECT
     Service& SERVICE;
     //Prints a UI interface
@@ -53,7 +80,8 @@ Q_OBJECT
     int filterType;
     std::string currentTextSearched;
 
-    QListWidget* lista;
+    QListView* lista;
+    MyListModel* modelLista;
     QTableWidget* tableCos;
     ///Needed to check if an item disappeared
     int lastRow;
@@ -75,7 +103,7 @@ Q_OBJECT
     QPushButton* CosCRUDGUIButton;
     QPushButton* CosReadOnlyGUIButton;
     //void LoadCosElements();
-    void LoadElements(QListWidget* ,vector<Produs>);
+    void LoadElements(QListView* ,vector<Produs>);
 
     void connect();
 
@@ -88,6 +116,7 @@ Q_OBJECT
 
 public:
     GUI(Service& SERVICE);
+
 protected:
     inline void closeEvent(QCloseEvent* event) override{
         for(const auto& el:elementeObserver)
