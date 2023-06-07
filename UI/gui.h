@@ -188,8 +188,10 @@ class CosReadOnlyGUI:public Observer{
         knownNrElements = nrElements;
         //QImage imagine;
        //auto e = imagine.load("C:/Users/Gabi/Desktop/MagazinC-/download.jpg");
+        //QImage imagine;
+        //imagine.load("../stea.png");
+        //p.drawImage(30,0,imagine);
 
-      // p.drawImage(30,0,imagine);
     }
 public:
     CosReadOnlyGUI(Service& S);
