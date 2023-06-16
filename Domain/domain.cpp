@@ -3,7 +3,7 @@
 //
 
 #include "domain.h"
-
+#include <bits/stdc++.h>
 Produs::Produs(const std::string& nume, const std::string& tip, const std::string& producator, const float& pret) {
     this->nume = nume;
     this->tip = tip;
@@ -35,7 +35,10 @@ std::string Produs::to_string() const {
     result+=",";
     result+=this->producator;
     result+=",";
-    result+= std::to_string(this->pret);
+    std::stringstream pretStringStream;
+    pretStringStream<<pret;
+    std::string pretString = pretStringStream.str();
+    result+= pretString;
 
     return result;}
 

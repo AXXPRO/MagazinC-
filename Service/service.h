@@ -30,16 +30,20 @@ public:
     ~Service();
 
     void undo_service();
-
+    void raport_service_GUI(std::map<string, vector<Produs>>& dictionar, vector<Produs> initial);
     void adaugare_produs_service(const std::string& nume, const std::string& tip, const std::string& producator, const float& pret);
 
     ///Returneaza un vector cu produsele
     vector<Produs>& afisare_produse_service () const;
-
+    vector<Produs>& get_all_cos() const;
     void export_service (const string&);
-    void filtrare_service(vector<Produs>& ,int camp_filtrat, string filtru);
 
+    void filtrare_service(vector<Produs>& ,int camp_filtrat, string filtru);
     void sortare_service(vector<Produs>& , int camp_sortare);
+
+    vector<Produs> filtrare_service_GUI(vector<Produs>& ,int camp_filtrat, string filtru);
+    vector<Produs> sortare_service_GUI(vector<Produs>& , int camp_sortare);
+
 
     ///Functia sterge produsul cu numele dat prin parametru, sau arunca exceptie
     void delete_service(const string&);
@@ -59,6 +63,9 @@ public:
     float pret_cos_service();
 
     void raport_service(std::map<string,vector<Produs>>&);
+
+    void addInteresat(Observer* el);
+    void removeInteresat(Observer* el);
 
 };
 

@@ -118,8 +118,9 @@ bool Service::boolFilter(const Produs& el ,const int& camp_filtrat,const string&
 {
     switch (camp_filtrat) {
         case 1:
-            if(el.getPret() - stof(filtru) < 0.0001)
+            if(abs(el.getPret() - stof(filtru) ) < 0.0001) {
                 return true;
+            }
             return false;
 
         case 2:
@@ -150,12 +151,53 @@ void Service::filtrare_service(vector<Produs>& filtrat,int camp_filtrat, string 
 
 
 }
+vector<Produs> Service::sortare_service_GUI(vector<Produs>& inputVector , int camp_sortare)
+{
+    vector<Produs> originale = inputVector;
+    vector<Produs> returnat;
 
+    returnat = originale;
+    std::sort(returnat.begin(), returnat.end(),[&](Produs& p1, Produs& p2){
+        return boolSortare(p1, p2, camp_sortare);
+    });
+
+    return returnat;
+
+}
+vector<Produs> Service::filtrare_service_GUI(vector<Produs>& inputVector,int camp_filtrat, string filtru)
+{
+    // 1.Pret
+    // 2.Nume
+    //3.Producator
+   // std::cout<<camp_filtrat<<filtru<<std::endl;
+    vector<Produs> originale = inputVector;
+    vector<Produs> returnat;
+    std::copy_if(originale.begin(), originale.end(), std::back_inserter(returnat), [&](Produs& el){
+        return boolFilter(el ,camp_filtrat, filtru);
+    });
+
+  //  for(auto el : returnat)
+   // {
+    //    std::cout<<el<<" ";
+   // }
+  //  std::cout<<std::endl;
+    return returnat;
+
+}
+
+void Service::addInteresat(Observer *el) {
+    REPOCos->addInteresat(el);
+
+}
+
+void Service::removeInteresat(Observer *el) {
+    REPOCos->removeInteresat(el);
+}
 
 void Service::delete_service(const string& nume) {
 
 
-    const Produs& p = REPO->cauta_element(nume);
+    const Produs p = REPO->cauta_element(nume);
     REPO->delete_element(nume);
     ActiuneUndo* act = new UndoStergere(REPO, p);
     lista_undouri.push_back(act);
@@ -176,12 +218,15 @@ void Service::export_service(const string &nume_fisier)
     std::ofstream f(true_name);
     for(const auto& el : temp)
     {
-        f<<el<<std::endl;
+        f<<el.to_string()<<std::endl;
     }
 
     f.close();
 }
+vector<Produs>& Service::get_all_cos() const{
 
+    return REPOCos->get_all();
+}
 void Service::adaugare_cos_service(const string &nume) {
 
     Produs P =REPO->cauta_element(nume);
@@ -241,6 +286,15 @@ float Service::pret_cos_service(){
 void Service::raport_service(map<string, vector<Produs>>& dictionar)
 {
     vector<Produs> v = REPO->get_all();
+    for(auto const& el : v)
+    {
+        dictionar[el.getTip()].push_back(el);
+    }
+}
+
+void Service::raport_service_GUI(map<string, vector<Produs>>& dictionar, vector<Produs> initial)
+{
+    vector<Produs> v =initial;
     for(auto const& el : v)
     {
         dictionar[el.getTip()].push_back(el);

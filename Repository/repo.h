@@ -11,6 +11,7 @@
 #include <fstream>
 #include "../Domain/domain.h"
 #include "../Erori/errors.h"
+#include "../observers.h"
 
 using std::string;
 using std::vector;
@@ -19,6 +20,9 @@ template <typename T>
 class RepoAbstract
 {
 public:
+    virtual void addInteresat(Observer* el);
+    virtual void removeInteresat(Observer* el);
+
     virtual int numar_elemente() const=0;
     ///Adds an ellement
     virtual void adaugare_produs(const T& element)=0;
@@ -37,7 +41,14 @@ public:
     ///Functia va sterge elementul cu numele dat sau va arunca exceptie
     virtual void delete_element(const string& nume)=0;
 };
+template <typename T>
+void RepoAbstract<T>::addInteresat(Observer *el) {
 
+}
+template <typename T>
+void RepoAbstract<T>::removeInteresat(Observer *el) {
+
+}
 template <typename T>
 class Repo: public RepoAbstract<T> {
 
@@ -174,22 +185,35 @@ vector<T>& Repo<T>::get_all(){
 
 
 template <typename T>
-class RepoCos:public Repo<T>{
+class RepoCos:public Repo<T>,public Observable{
 public:
     void adaugare_produs(const T& element) override;
+    void delete_element(const std::string&) override;
+    void addInteresat(Observer* el) override;
+    void removeInteresat(Observer* el) override;
+
 };
+template <typename T>
+void RepoCos<T>::addInteresat(Observer *el) {
+    Observable::addInteresat(el);
+}
+template <typename T>
+void RepoCos<T>::removeInteresat(Observer *el) {
+    Observable::removeInteresat(el);
+}
+
 
 template <typename T>
 void RepoCos<T>::adaugare_produs(const T &element) {
 
-//    int nr_elemente = std::count_if(Repo<T>::lista.begin(),Repo<T>::lista.end(), [&](T& el){
-//        return el.getNume()==element.getNume();
-//    });
-//    if(nr_elemente == 2)
-//    {
-//        throw RepoError("Maxim 2 elemente cu acelasi nume!");
-//    }
     Repo<T>::lista.push_back(element);
+    notify();
+}
+template <typename T>
+void RepoCos<T>::delete_element(const std::string &nume) {
+    Repo<T>::delete_element(nume);
+    notify();
+
 }
 
 
